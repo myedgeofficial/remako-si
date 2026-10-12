@@ -201,8 +201,8 @@
           <div class="cap">
             <span class="k on" data-k="0"><span data-sl>Razvijamo aplikacije za iPhone.</span><span data-en>We build iPhone apps.</span></span>
             <span class="k" data-k="1"><span data-sl>Od ideje do App Stora:<br>oblikovanje, koda, strežniki.</span><span data-en>From idea to App Store:<br>design, code, servers.</span></span>
-            <span class="k" data-k="2"><span data-sl><span class="grad">Nakupko</span>: seznam, ki se sam odpre v trgovini.</span><span data-en><span class="grad">Nakupko</span>: the list that opens itself in the store.</span></span>
-            <span class="k" data-k="3"><span data-sl><span class="grad">Lumora Manifest</span>: luna, kartice in tvoj dnevnik.</span><span data-en><span class="grad">Lumora Manifest</span>: the moon, daily cards and your journal.</span></span>
+            <span class="k" data-k="2"><span data-sl><span class="grad">Lokacija v ozadju</span>: aplikacija ve, kdaj si v trgovini.</span><span data-en><span class="grad">Background location</span>: the app knows when you're at the store.</span></span>
+            <span class="k" data-k="3"><span data-sl><span class="grad">Koda in strežniki</span>, ki tečejo noč in dan.</span><span data-en><span class="grad">Code and servers</span> running day and night.</span></span>
             <span class="k" data-k="4"><span data-sl>Za uporabnike v <span class="grad">177 državah</span>.</span><span data-en>For people in <span class="grad">177 countries</span>.</span></span>
           </div>
           <div class="meter" id="meter"><i></i><i></i><i></i><i></i><i></i></div>
@@ -430,23 +430,19 @@
           for (var r = 0; r < 5; r++) for (var c = 0; c < cols; c++) { g.beginPath(); g.roundRect(x + gap + c * (sz + gap), y + ph * .13 + r * (sz + gap * 1.2), sz, sz, sz * .26); g.fill(); }
           g.beginPath(); g.roundRect(x + gap, y + ph * .86, pw - gap * 2, sz * 1.05, sz * .3); g.fill();
         });
-        var basket = sampleShape(N, W, H, function (g, w, h) {
-          var s = h * .5, cx = w / 2, cy = h * .5, lw = Math.max(6, s * .065);
-          g.lineWidth = lw; g.lineJoin = "round"; g.lineCap = "round";
-          g.beginPath(); g.arc(cx, cy - s * .2, s * .28, Math.PI * 1.05, Math.PI * 1.95); g.stroke(); // ročaj
-          g.beginPath(); g.moveTo(cx - s * .5, cy - s * .16); g.lineTo(cx + s * .5, cy - s * .16); g.lineTo(cx + s * .38, cy + s * .42); g.lineTo(cx - s * .38, cy + s * .42); g.closePath(); g.stroke();
-          for (var i = 1; i < 3; i++) { var yy = cy - s * .16 + i * s * .19, dx = s * .5 - (s * .12) * (i * .19 / .58); g.beginPath(); g.moveTo(cx - dx + lw, yy); g.lineTo(cx + dx - lw, yy); g.stroke(); }
-          for (i = -1; i <= 1; i++) { g.beginPath(); g.moveTo(cx + i * s * .2, cy - s * .16); g.lineTo(cx + i * s * .155, cy + s * .42); g.stroke(); }
+        var pin = sampleShape(N, W, H, function (g, w, h) {
+          var R = h * .17, cx = w / 2, cy = h * .4, lw = Math.max(6, R * .2);
+          g.lineWidth = lw; g.lineJoin = "round";
+          g.beginPath(); g.arc(cx, cy, R, Math.PI * .82, Math.PI * .18); g.lineTo(cx, cy + R * 2.05); g.closePath(); g.stroke();
+          g.beginPath(); g.arc(cx, cy, R * .38, 0, 7); g.fill();
+          g.lineWidth = lw * .55; g.beginPath(); g.ellipse(cx, cy + R * 2.15, R * 1.25, R * .3, 0, 0, 7); g.stroke();
         });
-        var moon = sampleShape(N, W, H, function (g, w, h) {
-          var R = h * .27, cx = w / 2 - R * .15, cy = h * .47;
-          g.beginPath(); g.arc(cx, cy, R, 0, 7); g.fill();
-          g.globalCompositeOperation = "destination-out"; g.beginPath(); g.arc(cx + R * .48, cy - R * .2, R * .86, 0, 7); g.fill();
-          g.globalCompositeOperation = "source-over";
-          function star(x, y, r) { g.beginPath(); for (var k = 0; k < 8; k++) { var a = k * Math.PI / 4, rr = k % 2 ? r * .28 : r; g.lineTo(x + Math.cos(a) * rr, y + Math.sin(a) * rr); } g.closePath(); g.fill(); }
-          star(cx + R * 1.05, cy - R * .55, R * .26); star(cx + R * .7, cy + R * .25, R * .12);
+        var code = sampleShape(N, W, H, function (g, w, h) {
+          var size = h * .34; g.font = "900 " + size + "px 'Inter Tight', sans-serif"; g.textAlign = "center"; g.textBaseline = "middle";
+          var tw = g.measureText("</>").width, max = w * .8; if (tw > max) { size *= max / tw; g.font = "900 " + size + "px 'Inter Tight', sans-serif"; }
+          g.fillText("</>", w / 2, h * .47);
         });
-        shapes = [txt, phone, basket, moon, sphere(N, Math.min(W, H) * .34)];
+        shapes = [txt, phone, pin, code, sphere(N, Math.min(W, H) * .34)];
       }
       function progress() { var r = hero.getBoundingClientRect(); return clamp(-r.top / Math.max(1, hero.offsetHeight - innerHeight), 0, 1); }
       function frame(now) {
