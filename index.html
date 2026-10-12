@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="sl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>REMAKO d.o.o.</title>
+  <meta name="description" content="REMAKO d.o.o. izdeluje aplikacije za iPhone: Nakupko in Lumora Manifest. Ustanoviteljica Urška Repušič.">
+  <link rel="icon" href="img/nakupko.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg: #f3efff; --card: #ffffff; --ink: #1d1530; --muted: #4f4466; --accent: #6d3fe0; --accent2: #e0457b; --line: #ddd3f7; }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font: 500 19px/1.6 Manrope, system-ui, -apple-system, sans-serif; }
+    a { color: var(--accent); font-weight: 700; }
+    .wrap { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
+    header { display: flex; align-items: center; justify-content: space-between; padding: 22px 0; }
+    .logo { font-weight: 800; font-size: 26px; letter-spacing: .02em; text-decoration: none; color: var(--ink); }
+    .logo span { color: var(--accent); }
+    nav { display: flex; gap: 22px; align-items: center; flex-wrap: wrap; }
+    nav a { color: var(--ink); text-decoration: none; font-size: 17px; }
+    .lang { border: 2px solid var(--ink); border-radius: 999px; padding: 4px 14px; background: none; font: 800 15px Manrope, sans-serif; cursor: pointer; color: var(--ink); }
+    .hero { padding: 56px 0 40px; }
+    .hero h1 { font-size: clamp(40px, 6vw, 76px); line-height: 1.05; margin: 0 0 18px; font-weight: 800; }
+    .hero h1 em { font-style: normal; color: var(--accent); }
+    .hero p { font-size: clamp(19px, 2vw, 24px); color: var(--muted); max-width: 760px; margin: 0; }
+    section { padding: 36px 0; }
+    h2 { font-size: clamp(30px, 3.6vw, 44px); margin: 0 0 22px; font-weight: 800; }
+    .apps { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 22px; }
+    .card { background: var(--card); border: 2px solid var(--line); border-radius: 24px; padding: 28px; }
+    .app-head { display: flex; gap: 18px; align-items: center; margin-bottom: 12px; }
+    .app-head img, .app-icon { width: 76px; height: 76px; border-radius: 18px; flex: none; }
+    .app-icon { display: grid; place-items: center; background: linear-gradient(135deg, #2b1d55, #6d3fe0 60%, #e0b45b); color: #fff; font-size: 36px; font-weight: 800; }
+    .app-head h3 { margin: 0; font-size: 28px; font-weight: 800; }
+    .tag { display: inline-block; font-size: 14px; font-weight: 800; padding: 3px 10px; border-radius: 999px; background: #e7defd; color: var(--accent); }
+    .tag.soon { background: #fde3ec; color: var(--accent2); }
+    .card p { margin: 10px 0; color: var(--muted); }
+    .links { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 14px; font-size: 17px; }
+    .btn { display: inline-block; background: var(--ink); color: #fff; text-decoration: none; padding: 10px 18px; border-radius: 14px; }
+    .about { display: grid; grid-template-columns: minmax(260px, 420px) 1fr; gap: 36px; align-items: center; }
+    .about img { width: 100%; border-radius: 24px; display: block; }
+    .about ul { padding-left: 22px; margin: 14px 0; }
+    .about li { margin: 4px 0; font-weight: 700; }
+    .company dl { display: grid; grid-template-columns: max-content 1fr; gap: 8px 22px; margin: 0; }
+    .company dt { color: var(--muted); }
+    .company dd { margin: 0; font-weight: 700; }
+    footer { padding: 34px 0 48px; color: var(--muted); font-size: 16px; border-top: 2px solid var(--line); margin-top: 30px; }
+    [data-en] { display: none; }
+    html[lang="en"] [data-sl] { display: none; }
+    html[lang="en"] [data-en] { display: revert; }
+    @media (max-width: 760px) {
+      body { font-size: 18px; }
+      .wrap { padding: 0 16px; }
+      header { flex-wrap: wrap; gap: 10px; }
+      nav { gap: 14px; }
+      .about { grid-template-columns: 1fr; }
+      .company dl { grid-template-columns: 1fr; gap: 2px; }
+      .company dd { margin-bottom: 10px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <a class="logo" href="/">REMAKO<span>.</span></a>
+      <nav>
+        <a href="#aplikacije"><span data-sl>Aplikacije</span><span data-en>Apps</span></a>
+        <a href="#urska"><span data-sl>O nas</span><span data-en>About</span></a>
+        <a href="#kontakt"><span data-sl>Kontakt</span><span data-en>Contact</span></a>
+        <button class="lang" id="lang" type="button">EN</button>
+      </nav>
+    </header>
+
+    <div class="hero">
+      <h1 data-sl>Aplikacije, ki ti <em>olajšajo dan</em>.</h1>
+      <h1 data-en>Apps that make <em>your day easier</em>.</h1>
+      <p data-sl>REMAKO d.o.o. je slovensko podjetje, ki izdeluje preproste aplikacije za iPhone, za nakupovanje in za mir v glavi.</p>
+      <p data-en>REMAKO d.o.o. is a Slovenian company making simple iPhone apps: for shopping and for peace of mind.</p>
+    </div>
+
+    <section id="aplikacije">
+      <h2><span data-sl>Naše aplikacije</span><span data-en>Our apps</span></h2>
+      <div class="apps">
+        <div class="card">
+          <div class="app-head">
+            <img src="img/nakupko.png" alt="Nakupko">
+            <div><h3>Nakupko</h3><span class="tag"><span data-sl>V App Storu</span><span data-en>On the App Store</span></span></div>
+          </div>
+          <p data-sl>Nakupovalni seznam, ki se sam odpre, ko prideš v trgovino, in ga pokaže na zaklenjenem zaslonu. Skupen seznam za vso družino, cene v slovenskih trgovinah.</p>
+          <p data-en>A shopping list that opens by itself when you walk into a store and shows on your lock screen. One shared list for the whole household.</p>
+          <div class="links">
+            <a class="btn" href="https://apps.apple.com/si/app/nakupko-shopping-list/id6818745132">App Store</a>
+            <a href="nakupko/podpora.html"><span data-sl>Podpora</span><span data-en>Support</span></a>
+            <a href="nakupko/zasebnost.html"><span data-sl>Zasebnost</span><span data-en>Privacy</span></a>
+          </div>
+        </div>
+        <div class="card">
+          <div class="app-head">
+            <div class="app-icon">✦</div>
+            <div><h3>Lumora Manifest</h3><span class="tag soon"><span data-sl>Kmalu v App Storu</span><span data-en>Coming soon</span></span></div>
+          </div>
+          <p data-sl>Tri minute na dan: kartica vsako jutro, vprašanje vsak večer, tvoje želje in lunini rituali. Dnevnik ostane samo na tvojem telefonu.</p>
+          <p data-en>Three minutes a day: a card every morning, a question every evening, your wishes and moon rituals. Your journal stays only on your phone.</p>
+          <div class="links">
+            <a href="https://byurska.com/lumora"><span data-sl>Več o aplikaciji</span><span data-en>Learn more</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="urska">
+      <h2><span data-sl>Ustanoviteljica</span><span data-en>Founder</span></h2>
+      <div class="about">
+        <img src="img/urska.jpg" alt="Urška Repušič" width="800" height="1200" loading="lazy">
+        <div>
+          <h3 style="font-size:32px;margin:0 0 8px;font-weight:800">Urška Repušič</h3>
+          <p data-sl>Urška je bila dolga leta profesionalna tekmovalna plezalka na najvišji mednarodni ravni. Plezanje jo je naučilo discipline, vztrajnosti in zaupanja v lasten občutek. Danes je slikarka in pesnica, z diplomo iz financ, in vodi REMAKO.</p>
+          <p data-en>For years Urška was a professional competition climber at the highest international level. Climbing taught her discipline, resilience and trust in her instincts. Today she is a painter and poet with a degree in finance, and she runs REMAKO.</p>
+          <ul>
+            <li data-sl>Evropska prvakinja v balvanskem plezanju</li><li data-en>European Champion in bouldering</li>
+            <li data-sl>Državna prvakinja v balvanih in hitrostnem plezanju</li><li data-en>National Champion in bouldering and speed</li>
+            <li data-sl>Svetovna mladinska podprvakinja</li><li data-en>World Youth Vice Champion</li>
+            <li data-sl>Stopničke na World Beach Games</li><li data-en>Podium at the World Beach Games</li>
+          </ul>
+          <p data-sl>Njeno umetnost in zgodbo najdeš na <a href="https://byurska.com">byurska.com</a>.</p>
+          <p data-en>Her art and story: <a href="https://byurska.com">byurska.com</a>.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="kontakt" class="company">
+      <h2><span data-sl>Podjetje in kontakt</span><span data-en>Company and contact</span></h2>
+      <div class="card">
+        <dl>
+          <dt><span data-sl>Naziv</span><span data-en>Company</span></dt><dd>REMAKO d.o.o.</dd>
+          <dt><span data-sl>Naslov</span><span data-en>Address</span></dt><dd>Ljubljanska cesta 63, 2327 Rače, <span data-sl>Slovenija</span><span data-en>Slovenia</span></dd>
+          <dt><span data-sl>ID za DDV</span><span data-en>VAT ID</span></dt><dd>SI45736901</dd>
+          <dt><span data-sl>Zastopnica</span><span data-en>Director</span></dt><dd>Urška Repušič</dd>
+          <dt>E-mail</dt><dd><a href="mailto:urska.repusic@gmail.com">urska.repusic@gmail.com</a></dd>
+        </dl>
+      </div>
+    </section>
+
+    <footer>© <span id="y">2026</span> REMAKO d.o.o.</footer>
+  </div>
+  <script>
+    (function () {
+      var root = document.documentElement, btn = document.getElementById("lang"), saved = null;
+      try { saved = localStorage.getItem("remako-lang"); } catch (e) {}
+      var lang = saved || ((navigator.language || "sl").slice(0, 2) === "sl" ? "sl" : "en");
+      function set(l) { root.lang = l; btn.textContent = l === "sl" ? "EN" : "SL"; try { localStorage.setItem("remako-lang", l); } catch (e) {} }
+      set(lang);
+      btn.onclick = function () { set(root.lang === "sl" ? "en" : "sl"); };
+      document.getElementById("y").textContent = new Date().getFullYear();
+    })();
+  </script>
+</body>
+</html>
