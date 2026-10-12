@@ -703,7 +703,7 @@
         if (T0 === null) { T0 = now; for (var z = 0; z < N * 3; z++) pos[z] = HID[z]; }
         var LAST = shapes.length - 1, eRaw = (now - T0) / 1000, e = Math.min(eRaw, total()), intro = e < HOLD0;
         // na koncu puščica miške potegne vodoravno skozi logotip
-        var swp = (eRaw - total() - .6) / .75, sweeping = swp > 0 && swp < 1, svx = (-.62 + 1.24 * swp) * W, svy = Math.sin(swp * Math.PI * 2) * H * .012, SR = Math.min(W, H) * .1, SR2 = SR * SR;
+        var swp = (eRaw - total() - .6) / .75, sweeping = swp > 0 && swp < 1, svx = (-.62 + 1.24 * swp) * W, svy = Math.sin(swp * Math.PI * 2) * H * .012, SR = Math.min(W, H) * .035, SR2 = SR * SR;
         if (e >= total() && !ended) { ended = true; skipB.hidden = true; replayB.hidden = false; down.classList.add("on"); }
         var a, b, f = 0, k = 0;
         if (intro) {
