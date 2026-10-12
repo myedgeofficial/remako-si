@@ -46,7 +46,7 @@
     .lang { border: 1px solid rgba(255,255,255,.28); border-radius: 999px; padding: 6px 14px; background: none; font: 800 14px "Inter Tight", sans-serif; letter-spacing: .08em; cursor: pointer; color: var(--ink); }
 
     /* 01 Uvod */
-    #hero { position: relative; height: 1300vh; }
+    #hero { position: relative; height: 100vh; height: 100svh; }
     .stage { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; background: radial-gradient(ellipse at 50% 46%, #120f22 0%, var(--bg) 64%); }
     #heroCv { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: pan-y; }
     .hud { position: absolute; inset: 88px clamp(16px, 4vw, 72px) clamp(24px, 5vh, 56px); pointer-events: none; display: flex; flex-direction: column; justify-content: space-between; }
@@ -56,6 +56,13 @@
     .cap .k { position: absolute; left: 0; bottom: 0; opacity: 0; transform: translateY(16px); transition: opacity .5s, transform .5s; }
     .cap .k.on { opacity: 1; transform: none; }
     .meter { display: flex; gap: 6px; }
+    .ctrl { display: flex; flex-direction: column; align-items: flex-end; gap: 14px; pointer-events: auto; }
+    .ibtn { background: none; border: 1px solid rgba(255,255,255,.3); color: var(--ink); border-radius: 999px; padding: 8px 16px; font: 800 13px "Inter Tight", sans-serif; letter-spacing: .14em; text-transform: uppercase; cursor: pointer; transition: opacity .4s, background .2s; }
+    .ibtn:hover { background: rgba(255,255,255,.08); }
+    .ibtn[hidden] { display: none; }
+    .down { position: absolute; left: 50%; bottom: clamp(20px, 4vh, 40px); transform: translateX(-50%); font-size: 13px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; color: var(--dim); opacity: 0; transition: opacity .8s; pointer-events: none; }
+    .down.on { opacity: 1; animation: bob 1.8s ease-in-out infinite; }
+    @keyframes bob { 50% { transform: translate(-50%, 6px); } }
     .meter i { width: 30px; height: 3px; background: rgba(255,255,255,.14); position: relative; overflow: hidden; }
     .meter i::after { content: ""; position: absolute; inset: 0; background: var(--ink); transform: scaleX(var(--f, 0)); transform-origin: left; }
 
@@ -130,6 +137,50 @@
     .titles div:nth-child(even) { padding-left: 18px; }
     .titles small { display: block; color: var(--dim); font-size: 12px; letter-spacing: .16em; text-transform: uppercase; margin-bottom: 4px; }
 
+    /* Portfelj */
+    .works { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; margin-top: 44px; }
+    .work { border: 1px solid var(--line); border-radius: 28px; padding: clamp(22px, 2.6vw, 40px); background: rgba(255, 255, 255, .03); display: flex; flex-direction: column; gap: 16px; }
+    .work header { display: flex; gap: 18px; align-items: center; }
+    .work header img, .work .mono { width: 64px; height: 64px; border-radius: 16px; flex: none; }
+    .work .mono { display: grid; place-items: center; font-size: 30px; color: #fcd38a; background: linear-gradient(140deg, #2a1d52, #120c24); border: 1px solid rgba(245, 158, 11, .35); }
+    .work h3 { margin: 0 0 6px; font-size: clamp(26px, 2.2vw, 36px); font-weight: 900; letter-spacing: -.02em; }
+    .state { display: inline-block; font-size: 13px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; padding: 4px 12px; border-radius: 999px; }
+    .state.live { background: rgba(34, 197, 94, .14); color: #86efac; }
+    .state.dev { background: rgba(245, 158, 11, .14); color: #fcd38a; }
+    .work p { margin: 0; color: var(--muted); font-weight: 600; }
+    .work dl { display: grid; grid-template-columns: max-content 1fr; gap: 0 20px; margin: 4px 0 0; border-top: 1px solid var(--line); }
+    .work dt, .work dd { margin: 0; padding: 11px 0; border-bottom: 1px solid var(--line); }
+    .work dt { color: var(--dim); font-weight: 700; font-size: 15px; }
+    .work dd { font-weight: 800; }
+    .work footer { margin-top: auto; display: flex; gap: 22px; flex-wrap: wrap; padding-top: 8px; }
+    .work footer a { font-weight: 800; text-decoration: none; color: #c4b5fd; }
+
+    /* Ideja: obrazec */
+    .idea { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(30px, 6vw, 110px); align-items: start; }
+    .howto { list-style: none; padding: 0; margin: 36px 0 0; display: grid; gap: 14px; }
+    .howto li { display: flex; align-items: center; gap: 16px; font-weight: 800; font-size: clamp(18px, 1.5vw, 22px); }
+    .howto b { flex: none; width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; background: rgba(139, 92, 246, .16); color: #c4b5fd; }
+    .form { display: grid; gap: 18px; background: rgba(255, 255, 255, .035); border: 1px solid var(--line); border-radius: 28px; padding: clamp(22px, 3vw, 44px); }
+    .form label { display: grid; gap: 8px; font-weight: 800; font-size: 15px; letter-spacing: .04em; color: var(--muted); }
+    .form input, .form textarea { font: 600 18px "Inter Tight", sans-serif; color: var(--ink); background: rgba(var(--bgrgb), .7); border: 1px solid rgba(255,255,255,.18); border-radius: 14px; padding: 14px 16px; outline: none; resize: vertical; transition: border-color .2s; }
+    .form input:focus, .form textarea:focus { border-color: var(--v); }
+    .form fieldset { border: 0; padding: 0; margin: 0; }
+    .form legend { font-weight: 800; font-size: 15px; letter-spacing: .04em; color: var(--muted); margin-bottom: 10px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 10px; }
+    .form label.chip { display: inline-flex; }
+    .chip input { position: absolute; opacity: 0; pointer-events: none; }
+    .chip > span { padding: 10px 18px; border-radius: 999px; border: 1px solid rgba(255,255,255,.2); color: var(--ink); font-size: 16px; cursor: pointer; transition: background .2s, border-color .2s; }
+    .chip input:checked ~ span { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+    .chip input:focus-visible ~ span { outline: 2px solid var(--v); outline-offset: 2px; }
+    .hp { position: absolute; left: -9999px; width: 1px; height: 1px; }
+    .send { justify-self: start; background: linear-gradient(95deg, #8b5cf6, var(--p)); color: #fff; border: 0; border-radius: 999px; padding: 16px 30px; font: 800 18px "Inter Tight", sans-serif; cursor: pointer; transition: transform .2s, opacity .2s; }
+    .send:hover { transform: translateY(-2px); }
+    .send:disabled { opacity: .5; cursor: wait; }
+    .note { margin: 0; font-size: 14px; color: var(--dim); }
+    .msg { margin: 0; font-weight: 800; min-height: 1.4em; }
+    .msg.ok { color: #86efac; } .msg.err { color: #fca5a5; }
+    .nav nav a.nav-cta { color: var(--bg); background: var(--ink); padding: 8px 16px; border-radius: 999px; font-weight: 800; }
+
     /* Kontakt */
     #kontakt { overflow: hidden; }
     .contact { display: grid; grid-template-columns: 1.3fr 1fr; gap: 40px; align-items: end; }
@@ -154,7 +205,6 @@
       .night { background: radial-gradient(ellipse at 50% 80%, #2a1d52, #120c24 75%); }
       .photo { background: #120c24; }
       .nav nav a.hide-m { display: none; }
-      #hero { height: 1050vh; }
       .hud-top { display: none; } .hud { justify-content: flex-end; }
       .meter i { width: 14px; }
       #nakupko { height: 420vh; }
@@ -168,7 +218,9 @@
       .stats { grid-template-columns: repeat(2, 1fr); }
       .stat:nth-child(2) { border-right: 0; }
       .stat:nth-child(3) { padding-left: 0; }
-      .night, .urska, .contact { grid-template-columns: 1fr; }
+      .night, .urska, .contact, .idea, .works { grid-template-columns: 1fr; }
+      .nav nav a.nav-cta { padding: 7px 12px; font-size: 14px; }
+      .work dl { grid-template-columns: 1fr; } .work dt { border-bottom: 0; padding-bottom: 0; }
       .night { min-height: 0; }
       .night .moon-space { height: 80vw; }
       .skills { grid-template-columns: 1fr; }
@@ -188,9 +240,9 @@
     <div class="wrap">
       <a class="logo" href="#" aria-label="REMAKO"><canvas class="rlogo" data-h="26"></canvas></a>
       <nav>
-        <a class="hide-m" href="#nakupko"><span data-sl>Aplikacije</span><span data-en>Apps</span></a>
-        <a class="hide-m" href="#urska"><span data-sl>Urška</span><span data-en>Urška</span></a>
-        <a href="#kontakt"><span data-sl>Kontakt</span><span data-en>Contact</span></a>
+                <a class="hide-m" href="#urska"><span data-sl>Urška</span><span data-en>Urška</span></a>
+        <a class="hide-m" href="#portfelj"><span data-sl>Portfelj</span><span data-en>Portfolio</span></a>
+        <a class="nav-cta" href="#ideja"><span data-sl>Pošlji idejo</span><span data-en>Send an idea</span></a>
         <button class="lang" id="lang" type="button">EN</button>
       </nav>
     </div>
@@ -213,9 +265,10 @@
             <span class="k" data-k="6"><span data-sl><span class="grad">Podatki in cene</span> v realnem času.</span><span data-en><span class="grad">Data and prices</span> in real time.</span></span>
             <span class="k" data-k="7"><span data-sl>Naslednja aplikacija je lahko <span class="grad">tvoja</span>.</span><span data-en>The next app could be <span class="grad">yours</span>.</span></span>
           </div>
-          <div class="meter" id="meter"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="ctrl"><div class="meter" id="meter"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><button class="ibtn" id="skip" type="button"><span data-sl>Preskoči ›</span><span data-en>Skip ›</span></button><button class="ibtn" id="replay" type="button" hidden><span data-sl>↺ Ponovi</span><span data-en>↺ Replay</span></button></div>
         </div>
       </div>
+      <div class="down" id="down"><span data-sl>Pomakni navzdol ↓</span><span data-en>Scroll down ↓</span></div>
     </div>
   </div>
 
@@ -325,13 +378,80 @@
     </div>
   </section>
 
+  <!-- Portfelj: izdelane aplikacije -->
+  <section id="portfelj">
+    <div class="wrap">
+      <p class="eyebrow reveal"><b>05</b><span data-sl>Portfelj</span><span data-en>Portfolio</span></p>
+      <h2 class="h reveal"><span data-sl>Aplikacije, ki smo jih <span class="grad">izdelali</span>.</span><span data-en>Apps we have <span class="grad">built</span>.</span></h2>
+      <div class="works">
+        <article class="work reveal">
+          <header><img src="img/nakupko.png" alt="" width="64" height="64"><div><h3>Nakupko</h3><span class="state live"><span data-sl>Objavljeno v App Storu</span><span data-en>Live on the App Store</span></span></div></header>
+          <p data-sl>Nakupovalni seznam, ki zazna, kdaj vstopiš v trgovino, in ti seznam pokaže na zaklenjenem zaslonu. Skupen seznam za gospodinjstvo in primerjava cen v slovenskih trgovinah.</p>
+          <p data-en>A shopping list that detects when you walk into a store and shows the list on your Lock Screen. A shared household list and price comparison across Slovenian stores.</p>
+          <dl>
+            <dt><span data-sl>Platforme</span><span data-en>Platforms</span></dt><dd>iPhone · CarPlay · <span data-sl>Android (v razvoju)</span><span data-en>Android (in development)</span></dd>
+            <dt><span data-sl>Jeziki</span><span data-en>Languages</span></dt><dd>8</dd>
+            <dt><span data-sl>Države</span><span data-en>Countries</span></dt><dd>177 <span data-sl>(zaznava trgovin)</span><span data-en>(store detection)</span></dd>
+            <dt><span data-sl>Tehnologija</span><span data-en>Technology</span></dt><dd>Swift, Live Activities, WidgetKit, Core Location, Firebase (EU), StoreKit 2</dd>
+            <dt><span data-sl>Model</span><span data-en>Model</span></dt><dd><span data-sl>Brezplačno z oglasi, naročnina Nakupko Plus</span><span data-en>Free with ads, Nakupko Plus subscription</span></dd>
+          </dl>
+          <footer><a href="https://apps.apple.com/si/app/nakupko-shopping-list/id6818745132">App Store →</a><a href="nakupko/podpora.html"><span data-sl>Podpora</span><span data-en>Support</span></a><a href="nakupko/zasebnost.html"><span data-sl>Zasebnost</span><span data-en>Privacy</span></a></footer>
+        </article>
+        <article class="work reveal">
+          <header><div class="mono">✦</div><div><h3>Lumora Manifest</h3><span class="state dev"><span data-sl>V razvoju · kmalu v App Storu</span><span data-en>In development · coming soon</span></span></div></header>
+          <p data-sl>Dnevni ritual za iPhone: kartica z afirmacijo vsako jutro, vprašanje vsak večer, seznam želja in lunini rituali. Dnevnik ostane samo na telefonu.</p>
+          <p data-en>A daily ritual for iPhone: an affirmation card every morning, a question every evening, wishes and moon rituals. The journal stays only on the phone.</p>
+          <dl>
+            <dt><span data-sl>Platforme</span><span data-en>Platforms</span></dt><dd>iPhone</dd>
+            <dt><span data-sl>Zasebnost</span><span data-en>Privacy</span></dt><dd><span data-sl>Podatki samo na napravi</span><span data-en>Data stays on the device</span></dd>
+            <dt><span data-sl>Model</span><span data-en>Model</span></dt><dd><span data-sl>Naročnina Lumora Premium (7 dni brezplačno)</span><span data-en>Lumora Premium subscription (7-day free trial)</span></dd>
+          </dl>
+          <footer><a href="https://byurska.com/lumora"><span data-sl>Več o aplikaciji →</span><span data-en>More about the app →</span></a></footer>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ideja: obrazec za oceno cene -->
+  <section id="ideja">
+    <div class="wrap idea">
+      <div>
+        <p class="eyebrow reveal"><b>06</b><span data-sl>Tvoja aplikacija</span><span data-en>Your app</span></p>
+        <h2 class="h reveal"><span data-sl>Imaš idejo za <span class="grad">aplikacijo</span>?</span><span data-en>Got an idea for an <span class="grad">app</span>?</span></h2>
+        <p class="lead reveal"><span data-sl>Opiši jo v nekaj stavkih. V dveh delovnih dneh ti pošljemo oceno, koliko bi izdelava stala in koliko časa bi trajala. Brezplačno in brez obveznosti.</span><span data-en>Describe it in a few sentences. Within two working days we send you an estimate of what it would cost and how long it would take. Free and with no obligation.</span></p>
+        <ol class="howto reveal">
+          <li><b>1</b><span data-sl>Opišeš idejo</span><span data-en>You describe the idea</span></li>
+          <li><b>2</b><span data-sl>Pošljemo oceno cene in roka</span><span data-en>We send a price and time estimate</span></li>
+          <li><b>3</b><span data-sl>Izdelamo in objavimo v App Storu</span><span data-en>We build it and publish it on the App Store</span></li>
+        </ol>
+      </div>
+      <form class="form reveal" id="ideaForm" novalidate>
+        <label><span data-sl>Ime</span><span data-en>Name</span><input name="ime" autocomplete="name" required></label>
+        <label><span data-sl>E-pošta</span><span data-en>Email</span><input name="email" type="email" autocomplete="email" required></label>
+        <label><span data-sl>Tvoja ideja</span><span data-en>Your idea</span><textarea name="ideja" rows="5" required data-ph-sl="Kaj naj aplikacija dela in za koga je?" data-ph-en="What should the app do, and who is it for?"></textarea></label>
+        <fieldset><legend><span data-sl>Za katere naprave?</span><span data-en>Which devices?</span></legend>
+          <div class="chips">
+            <label class="chip"><input type="radio" name="naprave" value="iPhone" checked><span>iPhone</span></label>
+            <label class="chip"><input type="radio" name="naprave" value="Android"><span>Android</span></label>
+            <label class="chip"><input type="radio" name="naprave" value="iPhone in Android"><span data-sl>Oboje</span><span data-en>Both</span></label>
+            <label class="chip"><input type="radio" name="naprave" value="Ne vem še"><span data-sl>Ne vem še</span><span data-en>Not sure yet</span></label>
+          </div>
+        </fieldset>
+        <input type="text" name="_honey" tabindex="-1" autocomplete="off" class="hp" aria-hidden="true">
+        <button class="send" type="submit"><span data-sl>Pošlji idejo</span><span data-en>Send my idea</span> →</button>
+        <p class="note"><span data-sl>Podatke uporabimo samo za odgovor na tvoje povpraševanje.</span><span data-en>We only use your details to reply to your request.</span></p>
+        <p class="msg" id="ideaMsg" role="status"></p>
+      </form>
+    </div>
+  </section>
+
   <!-- Kontakt -->
   <section id="kontakt">
     <div class="wrap over">
-      <p class="eyebrow reveal"><b>05</b><span data-sl>Kontakt</span><span data-en>Contact</span></p>
+      <p class="eyebrow reveal"><b>07</b><span data-sl>Kontakt</span><span data-en>Contact</span></p>
       <div class="contact">
         <div>
-          <h2 class="h reveal"><span data-sl>Imaš idejo za aplikacijo?</span><span data-en>Got an app idea?</span></h2>
+          <h2 class="h reveal"><span data-sl>Piši nam.</span><span data-en>Write to us.</span></h2>
           <a class="big-mail grad reveal" href="mailto:support@remako.si">support@remako.si</a>
         </div>
         <div class="company reveal">
@@ -442,7 +562,9 @@
       var hero = document.getElementById("hero"), cv = document.getElementById("heroCv"), ctx = cv.getContext("2d");
       var caps = document.querySelectorAll(".cap .k"), meter = document.querySelectorAll("#meter i");
       var SPR = [sprite("244,241,255"), sprite("167,139,250"), sprite("236,72,153"), sprite("245,158,11")], HEX = ["#f4f1ff", "#b9a3ff", "#f472b6", "#fbbf24"];
-      var W = 0, H = 0, N = 0, pos, vel, col, shapes = [], lastK = -1, rotY = 0, rotX = 0;
+      var W = 0, H = 0, N = 0, pos, vel, col, shapes = [], lastK = -1, rotY = 0, rotX = 0, LET, HID;
+      var T0 = null, ended = false, shake = 0, flash = 0, lastLetter = -1, L0 = .35, LSTEP = .24, HOLD0 = 3.2, SEG = 2.0, TRANS = .85;
+      var skipB = document.getElementById("skip"), replayB = document.getElementById("replay"), down = document.getElementById("down");
       function sphere(n, R) {
         var out = new Float32Array(n * 3), ga = Math.PI * (3 - Math.sqrt(5));
         for (var i = 0; i < n; i++) { var y = 1 - (i / (n - 1)) * 2, r = Math.sqrt(1 - y * y), t = ga * i; out[i * 3] = Math.cos(t) * r * R; out[i * 3 + 1] = y * R; out[i * 3 + 2] = Math.sin(t) * r * R; }
@@ -455,16 +577,27 @@
           N = want; pos = new Float32Array(N * 3); vel = new Float32Array(N * 3); col = new Uint8Array(N);
           for (var i = 0; i < N; i++) { pos[i * 3] = rnd(-W, W); pos[i * 3 + 1] = rnd(-H, H); pos[i * 3 + 2] = rnd(-900, 900); var r = Math.random(); col[i] = r < .6 ? 0 : r < .84 ? 1 : r < .95 ? 2 : 3; }
         }
+        var TG = null, ss = Math.min(1, 1000 / Math.max(W, H));
         var txt = sampleShape(N, W, H, function (g, w, h) {
+          function geo(lines, size, ys) { g.font = "900 " + size + "px 'Inter Tight', sans-serif"; TG = lines.map(function (t, li) { var tw = g.measureText(t).width, x = w / 2 - tw / 2, b = [x]; for (var k = 1; k <= t.length; k++) b.push(x + g.measureText(t.slice(0, k)).width); return { b: b, y: ys[li] }; }); }
           if (w < h) {
             var sz = w * .5; g.font = "900 " + sz + "px 'Inter Tight', sans-serif"; g.textAlign = "center"; g.textBaseline = "middle";
             var mw = Math.max(g.measureText("REM").width, g.measureText("AKO").width); if (mw > w * .9) { sz *= w * .9 / mw; g.font = "900 " + sz + "px 'Inter Tight', sans-serif"; }
-            g.fillText("REM", w / 2, h * .47 - sz * .5); g.fillText("AKO", w / 2, h * .47 + sz * .5); return;
+            g.fillText("REM", w / 2, h * .47 - sz * .5); g.fillText("AKO", w / 2, h * .47 + sz * .5); geo(["REM", "AKO"], sz, [h * .47 - sz * .5, h * .47 + sz * .5]); return;
           }
           var size = h * .3; g.font = "900 " + size + "px 'Inter Tight', sans-serif"; g.textAlign = "center"; g.textBaseline = "middle";
           var tw = g.measureText("REMAKO").width, max = w * (w < h ? .92 : .8); if (tw > max) { size *= max / tw; g.font = "900 " + size + "px 'Inter Tight', sans-serif"; }
-          g.fillText("REMAKO", w / 2, h * .47);
+          g.fillText("REMAKO", w / 2, h * .47); geo(["REMAKO"], size, [h * .47]);
         });
+        // vsaki pikici napisa določi črko (0–5) in skrito izhodišče globoko v prostoru
+        LET = new Uint8Array(N); HID = new Float32Array(N * 3);
+        for (var q = 0; q < N; q++) {
+          var X = (txt[q * 3] + W / 2) * ss, Y = (txt[q * 3 + 1] + H * .47) * ss, line = 0, off = 0;
+          if (TG && TG.length > 1 && Y > (TG[0].y + TG[1].y) / 2) { line = 1; off = 3; }
+          var bb = TG ? TG[line].b : [0, 1e9], li = 0; for (var k2 = 1; k2 < bb.length - 1; k2++) if (X >= bb[k2]) li = k2;
+          LET[q] = li + off;
+          HID[q * 3] = txt[q * 3] * .25 + rnd(-40, 40); HID[q * 3 + 1] = txt[q * 3 + 1] * .25 + rnd(-40, 40); HID[q * 3 + 2] = rnd(2400, 3600);
+        }
         var phone = sampleShape(N, W, H, function (g, w, h) {
           var ph = Math.min(h * .64, w * 1.6), pw = ph * .47, x = (w - pw) / 2, y = h * .47 - ph / 2;
           g.lineWidth = Math.max(5, pw * .055); g.beginPath(); g.roundRect(x, y, pw, ph, pw * .17); g.stroke();
@@ -517,38 +650,51 @@
         });
         shapes = [txt, phone, pin, bell, lock, code, chart, icon];
       }
-      function progress() { var r = hero.getBoundingClientRect(); return clamp(-r.top / Math.max(1, hero.offsetHeight - innerHeight), 0, 1); }
+      function total() { return HOLD0 + (shapes.length - 1) * SEG; }
+      function skip() { if (T0 !== null && !ended) T0 = performance.now() - total() * 1000; }
+      function replay() { T0 = null; ended = false; lastLetter = -1; for (var i = 0; i < N * 3; i++) { pos[i] = HID[i]; vel[i] = 0; } replayB.hidden = true; skipB.hidden = false; down.classList.remove("on"); }
+      skipB.addEventListener("click", skip); replayB.addEventListener("click", replay);
+      addEventListener("scroll", function () { if (scrollY > 40) skip(); }, { passive: true });
       function frame(now) {
         if (!visible(hero) || !shapes.length) return;
         var a2 = fit(cv); if (a2[0] !== W || Math.abs(a2[1] - H) > 160) build();
-        var LAST = shapes.length - 1, pr = progress() * (LAST + .2), a = Math.min(LAST, Math.floor(pr)), b = Math.min(LAST, a + 1), f = smooth((pr - a - .44) / .46);
-        var k = Math.min(LAST, Math.floor(pr + .34));
+        if (T0 === null) { T0 = now; for (var z = 0; z < N * 3; z++) pos[z] = HID[z]; }
+        var LAST = shapes.length - 1, e = Math.min((now - T0) / 1000, total()), intro = e < HOLD0;
+        if (e >= total() && !ended) { ended = true; skipB.hidden = true; replayB.hidden = false; down.classList.add("on"); }
+        var a, b, f = 0, k = 0;
+        if (intro) { a = b = 0; var li = Math.floor((e - L0) / LSTEP); if (li > lastLetter && li >= 0 && li <= 5) { lastLetter = li; shake = 1; flash = 1; } }
+        else { var seg = Math.floor((e - HOLD0) / SEG), loc = e - HOLD0 - seg * SEG; a = Math.min(seg, LAST); b = Math.min(seg + 1, LAST); f = a === b ? 0 : smooth(loc / TRANS); k = f > .5 ? b : a; }
         if (k !== lastK) { caps.forEach(function (c) { c.classList.toggle("on", +c.dataset.k === k); }); lastK = k; }
-        meter.forEach(function (m, i) { m.style.setProperty("--f", clamp(pr - i, 0, 1)); });
+        var pe = e / total() * (LAST + 1); meter.forEach(function (m, i) { m.style.setProperty("--f", clamp(pe - i, 0, 1)); });
         var t = now / 1000, globe = false;
         rotY += (M.nx * .5 + (globe ? t * .25 : Math.sin(t * .3) * .14) - rotY) * .05; rotX += (-M.ny * .3 - rotX) * .05;
         var cy = Math.cos(rotY), sy = Math.sin(rotY), cx = Math.cos(rotX), sx = Math.sin(rotX);
         // med prehodom se oblika stisne v vrtinec in se razpre v novo
         var sq = Math.sin(Math.PI * f), sqS = 1 - sq * .58, sqC = Math.cos(sq * 1.6), sqN = Math.sin(sq * 1.6);
-        var A = shapes[a], B = shapes[b], fl = 900, ox = W / 2, oy = H * .47, mx = M.x - ox, my = M.y - oy, R = Math.min(W, H) * .12, R2 = R * R;
+        var A = shapes[a], B = shapes[b], fl = 900, mx = M.x - W / 2, my = M.y - H * .47, R = Math.min(W, H) * .12, R2 = R * R;
+        var ox = W / 2 + (Math.random() - .5) * 22 * shake, oy = H * .47 + (Math.random() - .5) * 22 * shake; shake *= .84;
+        var kS = intro ? .11 : .05, dmp = intro ? .72 : .8, revealT = e - L0;
         ctx.setTransform(DPR, 0, 0, DPR, 0, 0); ctx.globalCompositeOperation = "source-over"; ctx.clearRect(0, 0, W, H);
         ctx.globalCompositeOperation = "lighter";
         var base = small ? 3.6 : 4.4;
         for (var i = 0; i < N; i++) {
           var j = i * 3;
           var tx = A[j] + (B[j] - A[j]) * f, ty = A[j + 1] + (B[j + 1] - A[j + 1]) * f, tz = A[j + 2] + (B[j + 2] - A[j + 2]) * f;
+          if (intro && revealT < LET[i] * LSTEP) { tx = HID[j]; ty = HID[j + 1]; tz = HID[j + 2]; }
           if (sq > .001) { var qx = tx * sqS, qy = ty * sqS; tx = qx * sqC - qy * sqN; ty = qx * sqN + qy * sqC; tz *= sqS; }
-          vel[j] += (tx - pos[j]) * .05; vel[j + 1] += (ty - pos[j + 1]) * .05; vel[j + 2] += (tz - pos[j + 2]) * .05;
+          vel[j] += (tx - pos[j]) * kS; vel[j + 1] += (ty - pos[j + 1]) * kS; vel[j + 2] += (tz - pos[j + 2]) * kS;
           var x1 = pos[j] * cy - pos[j + 2] * sy, z1 = pos[j] * sy + pos[j + 2] * cy, y1 = pos[j + 1] * cx - z1 * sx, z2 = pos[j + 1] * sx + z1 * cx;
           var sc = fl / (fl + z2), px = x1 * sc, py = y1 * sc;
           if (M.on) { var dx = px - mx, dy = py - my, d2 = dx * dx + dy * dy; if (d2 < R2) { var fo = (1 - d2 / R2) * 7 / (Math.sqrt(d2) + 1); vel[j] += dx * fo; vel[j + 1] += dy * fo; vel[j + 2] += 60 * fo; } }
-          vel[j] *= .8; vel[j + 1] *= .8; vel[j + 2] *= .8;
+          vel[j] *= dmp; vel[j + 1] *= dmp; vel[j + 2] *= dmp;
           pos[j] += vel[j]; pos[j + 1] += vel[j + 1]; pos[j + 2] += vel[j + 2];
           if (sc <= 0.05) continue;
           var dof = Math.max(0, Math.abs(z2) - 30) / 260;
           if (dof > .08) { var s = (base + dof * 9) * sc; ctx.globalAlpha = clamp(1 / (1 + dof * 2.2), .05, .9); ctx.drawImage(SPR[col[i]], ox + px - s / 2, oy + py - s / 2, s, s); }
           else { var d0 = (small ? 2.1 : 2.3) * sc; ctx.globalAlpha = 1; ctx.fillStyle = HEX[col[i]]; ctx.fillRect(ox + px - d0 / 2, oy + py - d0 / 2, d0, d0); }
         }
+        // blisk ob udarcu črke
+        if (flash > .02) { ctx.globalAlpha = flash * .16; ctx.fillStyle = "#c4b5fd"; ctx.fillRect(0, 0, W, H); flash *= .8; }
         ctx.globalAlpha = 1; ctx.globalCompositeOperation = "source-over";
       }
       function start() { build(); loop(frame); }
@@ -725,6 +871,30 @@
         ctx.strokeStyle = "rgba(167,139,250,.3)"; ctx.lineWidth = 1; ctx.stroke(hot);
         ctx.fillStyle = "rgba(244,241,255,.25)";
         for (i = 0; i < n; i++) { var jj = i * 2, dd = Math.abs(P[jj] - O[jj]) + Math.abs(P[jj + 1] - O[jj + 1]); if (dd > 4) { var s = Math.min(4, 1 + dd / 12); ctx.fillRect(P[jj] - s / 2, P[jj + 1] - s / 2, s, s); } }
+      });
+    })();
+
+    // Obrazec za idejo: pošlje na support@remako.si prek FormSubmit
+    (function () {
+      var form = document.getElementById("ideaForm"), msg = document.getElementById("ideaMsg"), ta = form.querySelector("textarea");
+      function ph() { ta.placeholder = root.lang === "sl" ? ta.dataset.phSl : ta.dataset.phEn; }
+      ph(); btn.addEventListener("click", ph);
+      function say(sl, en, cls) { msg.textContent = root.lang === "sl" ? sl : en; msg.className = "msg " + (cls || ""); }
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var d = new FormData(form);
+        if (d.get("_honey")) return;
+        if (!d.get("ime") || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(d.get("email") || "") || String(d.get("ideja") || "").trim().length < 10) {
+          say("Izpolni ime, veljaven e-naslov in nekaj stavkov o ideji.", "Please add your name, a valid email and a few sentences about your idea.", "err"); return;
+        }
+        var b = form.querySelector(".send"); b.disabled = true; say("Pošiljam …", "Sending …");
+        var body = { "Ime": d.get("ime"), "E-pošta": d.get("email"), "Naprave": d.get("naprave"), "Ideja": d.get("ideja"), "Jezik": root.lang,
+          "_subject": "Nova ideja za aplikacijo: " + d.get("ime"), "_replyto": d.get("email"), "_template": "table", "_captcha": "false" };
+        fetch("https://formsubmit.co/ajax/support@remako.si", { method: "POST", headers: { "Content-Type": "application/json", "Accept": "application/json" }, body: JSON.stringify(body) })
+          .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { if (!r.ok || j.success === "false" || j.success === false) throw new Error(j.message || r.status); }); })
+          .then(function () { form.reset(); say("Hvala! V dveh delovnih dneh ti pošljemo oceno.", "Thank you! We will send you an estimate within two working days.", "ok"); })
+          .catch(function () { say("Pošiljanje ni uspelo. Piši nam na support@remako.si.", "Sending failed. Please email support@remako.si.", "err"); })
+          .then(function () { b.disabled = false; });
       });
     })();
 
