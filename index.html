@@ -9,10 +9,11 @@
   <meta property="og:title" content="REMAKO d.o.o.">
   <meta property="og:description" content="Aplikacije za iPhone, ki jih ljudje odprejo vsak dan.">
   <meta property="og:image" content="https://remako.si/img/urska-portret.webp">
-  <link rel="icon" href="img/nakupko.png">
+  <link rel="icon" href="img/favicon.png">
+  <link rel="apple-touch-icon" href="img/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700;800;900&family=Archivo+Black&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #07060b; --ink: #f4f1ff; --muted: #b4adc9; --dim: #7d7694;
@@ -38,7 +39,7 @@
     .nav.solid { background: rgba(7, 6, 11, .72); backdrop-filter: blur(16px) saturate(140%); -webkit-backdrop-filter: blur(16px) saturate(140%); border-color: var(--line); }
     .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 72px; }
     .logo { font-weight: 900; font-size: 22px; letter-spacing: .14em; text-decoration: none; }
-    .logo i { font-style: normal; color: var(--p); }
+    .logo { display: flex; align-items: center; height: 40px; } .rlogo { display: block; }
     .nav nav { display: flex; gap: clamp(14px, 2.6vw, 40px); align-items: center; }
     .nav nav a { text-decoration: none; font-size: 16px; font-weight: 700; color: var(--muted); transition: color .2s; }
     .nav nav a:hover { color: var(--ink); }
@@ -181,7 +182,7 @@
 <body>
   <header class="nav" id="nav">
     <div class="wrap">
-      <a class="logo" href="#">REMAKO<i>.</i></a>
+      <a class="logo" href="#" aria-label="REMAKO"><canvas class="rlogo" data-h="26"></canvas></a>
       <nav>
         <a class="hide-m" href="#nakupko"><span data-sl>Aplikacije</span><span data-en>Apps</span></a>
         <a class="hide-m" href="#urska"><span data-sl>Urška</span><span data-en>Urška</span></a>
@@ -339,7 +340,7 @@
           </dl>
         </div>
       </div>
-      <footer><span>© <span id="y">2026</span> REMAKO d.o.o.</span><span>Rače, <span data-sl>Slovenija</span><span data-en>Slovenia</span></span></footer>
+      <footer><span style="display:flex;align-items:center;gap:16px"><canvas class="rlogo" data-h="20"></canvas>© <span id="y">2026</span> REMAKO d.o.o.</span><span>Rače, <span data-sl>Slovenija</span><span data-en>Slovenia</span></span></footer>
     </div>
   </section>
 
@@ -383,6 +384,34 @@
       var b1 = h(X, Y, Z + 1) + (h(X + 1, Y, Z + 1) - h(X, Y, Z + 1)) * u, b2 = h(X, Y + 1, Z + 1) + (h(X + 1, Y + 1, Z + 1) - h(X, Y + 1, Z + 1)) * u;
       var a = a1 + (a2 - a1) * v, b = b1 + (b2 - b1) * v; return a + (b - a) * w;
     }
+    // Logotip [R]EMAKO: oklepaja in vodoravni rez z zamikom
+    function drawLogo(g, cx, cy, h, ink, accent) {
+      var F = "400 " + h + "px 'Archivo Black', 'Inter Tight', sans-serif"; g.save(); g.font = F; g.textBaseline = "alphabetic";
+      var rw = g.measureText("R").width, ew = g.measureText("EMAKO").width, cap = h * .74;
+      var bw = h * .22, t = h * .1, gap = h * .07, tot = bw + gap + rw + gap + bw + gap * .8 + ew, x0 = cx - tot / 2, base = cy + cap / 2;
+      var bh = cap * 1.32, by = cy - bh / 2, slit = Math.max(1.5, h * .045), sh = h * .055;
+      g.fillStyle = accent;
+      g.fillRect(x0, by, t, bh); g.fillRect(x0, by, bw, t); g.fillRect(x0, by + bh - t, bw, t);
+      var xr = x0 + bw + gap, xb = xr + rw + gap;
+      g.fillRect(xb + bw - t, by, t, bh); g.fillRect(xb, by, bw, t); g.fillRect(xb, by + bh - t, bw, t);
+      var xe = xb + bw + gap * .8;
+      function letters(dx) { g.fillText("R", xr + dx, base); g.fillText("EMAKO", xe + dx, base); }
+      g.fillStyle = ink;
+      g.save(); g.beginPath(); g.rect(x0 - h, cy - h * 2, tot + h * 2, h * 2 - slit / 2); g.clip(); letters(-sh); g.restore();
+      g.save(); g.beginPath(); g.rect(x0 - h, cy + slit / 2, tot + h * 2, h * 2); g.clip(); letters(sh); g.restore();
+      g.fillStyle = accent; g.fillRect(xr - gap * .4, cy - slit / 2, xe + ew - xr + gap * .4 + sh, slit);
+      g.restore(); return tot;
+    }
+    function paintLogos() {
+      document.querySelectorAll("canvas.rlogo").forEach(function (c) {
+        var h = +c.dataset.h, g = c.getContext("2d"); g.font = "400 " + h + "px 'Archivo Black'";
+        var w = Math.ceil((h * .22 * 2 + h * .07 * 2.8 + g.measureText("R").width + g.measureText("EMAKO").width) + h * .3), ht = Math.ceil(h * 1.25);
+        c.width = w * DPR; c.height = ht * DPR; c.style.width = w + "px"; c.style.height = ht + "px";
+        g.setTransform(DPR, 0, 0, DPR, 0, 0); drawLogo(g, w / 2, ht / 2, h, "#f4f1ff", "#ec4899");
+      });
+    }
+    document.fonts && document.fonts.load ? document.fonts.load("400 40px 'Archivo Black'").then(paintLogos, paintLogos) : paintLogos();
+
     // Mehka svetleča pika za delce
     function sprite(rgb) {
       var c = document.createElement("canvas"); c.width = c.height = 64; var g = c.getContext("2d"), gr = g.createRadialGradient(32, 32, 0, 32, 32, 32);
@@ -471,10 +500,9 @@
           g.beginPath(); for (i = 0; i < 5; i++) { var px = x0 + s * .1 + i * s * .175 + bw / 2, py = y0 - s * hs[i] - s * .14; i ? g.lineTo(px, py) : g.moveTo(px, py); } g.stroke();
         });
         var icon = sampleShape(N, W, H, function (g, w, h) {
-          var s = h * .3, cx = w / 2, cy = h * .47, lw = Math.max(5, s * .06);
-          g.lineWidth = lw; g.beginPath(); g.roundRect(cx - s / 2, cy - s / 2, s, s, s * .23); g.stroke();
-          g.font = "900 " + (s * .58) + "px 'Inter Tight', sans-serif"; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText("R", cx - s * .03, cy + s * .03);
-          g.beginPath(); g.arc(cx + s * .27, cy + s * .2, s * .055, 0, 7); g.fill();
+          var size = h * .22; g.font = "400 " + size + "px 'Archivo Black'"; var tw = drawLogo(document.createElement("canvas").getContext("2d"), 0, 0, size, "#000", "#000");
+          var max = w * (w < h ? .9 : .7); if (tw > max) size *= max / tw;
+          drawLogo(g, w / 2, h * .47, size, "#000", "#000");
         });
         shapes = [txt, phone, pin, bell, lock, code, chart, icon];
       }
@@ -513,7 +541,7 @@
         ctx.globalAlpha = 1; ctx.globalCompositeOperation = "source-over";
       }
       function start() { build(); loop(frame); }
-      document.fonts && document.fonts.load ? document.fonts.load("900 80px 'Inter Tight'").then(start, start) : start();
+      document.fonts && document.fonts.load ? Promise.all([document.fonts.load("900 80px 'Inter Tight'"), document.fonts.load("400 80px 'Archivo Black'")]).then(start, start) : start();
       addEventListener("resize", function () { if (W) build(); });
     })();
 
