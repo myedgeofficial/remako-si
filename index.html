@@ -190,7 +190,7 @@
     .note { margin: 0; font-size: 14px; color: var(--dim); }
     .msg { margin: 0; font-weight: 800; min-height: 1.4em; }
     .msg.ok { color: #86efac; } .msg.err { color: #fca5a5; }
-    .nav nav a.nav-cta { color: var(--bg); background: var(--ink); padding: 8px 16px; border-radius: 999px; font-weight: 800; }
+    .nav nav a.nav-cta { color: var(--bg); background: var(--ink); padding: 8px 16px; border-radius: 999px; font-weight: 800; white-space: nowrap; }
 
     /* Kontakt */
     #kontakt { overflow: hidden; }
@@ -214,7 +214,8 @@
       body { font-size: 18px; }
       .nav nav a.hide-m { display: none; }
       .hud-top { display: none; } .hud { justify-content: flex-end; }
-      .meter i { width: 14px; }
+      .meter { display: none; } .cap { bottom: 92px; font-size: 24px; }
+      .nav .wrap { gap: 10px; } .nav nav { gap: 10px; }
       #nakupko { height: 420vh; }
       .show { grid-template-columns: 1fr; grid-template-rows: auto 1fr; gap: 0; padding-top: 86px; }
       .app-id { margin-bottom: 10px; } .app-id img { width: 40px; height: 40px; } .app-id b { font-size: 20px; }
@@ -500,7 +501,7 @@
   (function () {
     "use strict";
     var root = document.documentElement, reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-    var small = innerWidth < 900, DPR = Math.min(small ? 1.5 : 2, window.devicePixelRatio || 1);
+    var small = innerWidth < 900, DPR = Math.min(2, window.devicePixelRatio || 1);
     var BGRGB = getComputedStyle(root).getPropertyValue("--bgrgb").trim() || "7,6,11";
     function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
     function smooth(t) { t = clamp(t, 0, 1); return t * t * (3 - 2 * t); }
@@ -590,7 +591,7 @@
       var hero = document.getElementById("hero"), cv = document.getElementById("heroCv"), ctx = cv.getContext("2d");
       var caps = document.querySelectorAll(".cap .k"), meter = document.querySelectorAll("#meter i");
       var SPR = [sprite("244,241,255"), sprite("185,163,255"), sprite("232,121,249"), sprite("244,114,182")], HEX = ["#f4f1ff", "#b9a3ff", "#e879f9", "#f472b6"];
-      var W = 0, H = 0, N = 0, pos, vel, col, shapes = [], lastK = -1, rotY = 0, rotX = 0, LET, HID;
+      var CY = 0, W = 0, H = 0, N = 0, pos, vel, col, shapes = [], lastK = -1, rotY = 0, rotX = 0, LET, HID;
       var JIT, LC = [], LG = [], FS = 0, waves = [], SPN = 900, spX = new Float32Array(SPN), spY = new Float32Array(SPN), spVX = new Float32Array(SPN), spVY = new Float32Array(SPN), spL = new Float32Array(SPN), spI = 0, landed = -1;
       var FLY = .3, T0 = null, ended = false, shake = 0, flash = 0, lastLetter = -1, L0 = .45, LSTEP = .17, HOLD0 = 3.6, SEG = 1.45, TRANS = .65;
       var skipB = document.getElementById("skip"), replayB = document.getElementById("replay"), down = document.getElementById("down");
@@ -609,11 +610,6 @@
         var TG = null, TGS = 0, TGL = [], ss = Math.min(1, 1000 / Math.max(W, H));
         var txt = sampleShape(N, W, H, function (g, w, h) {
           function geo(lines, size, ys) { TGS = size; TGL = lines; g.font = "900 " + size + "px 'Inter Tight', sans-serif"; TG = lines.map(function (t, li) { var tw = g.measureText(t).width, x = w / 2 - tw / 2, b = [x]; for (var k = 1; k <= t.length; k++) b.push(x + g.measureText(t.slice(0, k)).width); return { b: b, y: ys[li] }; }); }
-          if (w < h) {
-            var sz = w * .5; g.font = "900 " + sz + "px 'Inter Tight', sans-serif"; g.textAlign = "center"; g.textBaseline = "middle";
-            var mw = Math.max(g.measureText("REM").width, g.measureText("AKO").width); if (mw > w * .9) { sz *= w * .9 / mw; g.font = "900 " + sz + "px 'Inter Tight', sans-serif"; }
-            g.fillText("REM", w / 2, h * .47 - sz * .5); g.fillText("AKO", w / 2, h * .47 + sz * .5); geo(["REM", "AKO"], sz, [h * .47 - sz * .5, h * .47 + sz * .5]); return;
-          }
           var size = h * .3; g.font = "900 " + size + "px 'Inter Tight', sans-serif"; g.textAlign = "center"; g.textBaseline = "middle";
           var tw = g.measureText("REMAKO").width, max = w * (w < h ? .92 : .8); if (tw > max) { size *= max / tw; g.font = "900 " + size + "px 'Inter Tight', sans-serif"; }
           g.fillText("REMAKO", w / 2, h * .47); geo(["REMAKO"], size, [h * .47]);
@@ -688,6 +684,10 @@
           drawLogo(g, w / 2, h * .47, size, "#000", "#000");
         });
         shapes = [txt, bulb, phone, code, lock, rocket, chart, icon];
+        // prostor med navigacijo in napisom: oblike pomanjšaj in postavi na sredino tega prostora
+        var capEl = document.querySelector(".cap"), stEl = cv.parentNode, capTop = capEl.getBoundingClientRect().top - stEl.getBoundingClientRect().top - capEl.offsetHeight * .35;
+        var topY = small ? 76 : 96, avail = Math.max(60, (capTop - topY) / 2 - 12); CY = (topY + capTop) / 2;
+        shapes.forEach(function (sh) { var m = 0, n3 = sh.length; for (var q4 = 1; q4 < n3; q4 += 3) { var v = Math.abs(sh[q4]); if (v > m) m = v; } var k5 = Math.min(1, avail / (m || 1)); if (k5 < 1) for (q4 = 0; q4 < n3; q4++) sh[q4] *= k5; });
       }
       function total() { return HOLD0 + (shapes.length - 1) * SEG; }
       function skip() { if (T0 !== null && !ended) T0 = performance.now() - total() * 1000; }
@@ -719,8 +719,8 @@
         var cy = Math.cos(rotY + camYaw), sy = Math.sin(rotY + camYaw), cx = Math.cos(rotX + camPitch), sx = Math.sin(rotX + camPitch);
         // med prehodom se oblika stisne v vrtinec in se razpre v novo
         var sq = Math.sin(Math.PI * f), sqS = 1 - sq * .58, sqC = Math.cos(sq * 1.6), sqN = Math.sin(sq * 1.6);
-        var A = shapes[a], B = shapes[b], fl = 900 - ci * 520, mx = M.x - W / 2, my = M.y - H * .47, R = Math.min(W, H) * .12, R2 = R * R;
-        var ox = W / 2, oy = H * .47;
+        var A = shapes[a], B = shapes[b], fl = 900 - ci * 520, mx = M.x - W / 2, my = M.y - (CY || H * .47), R = Math.min(W, H) * .12, R2 = R * R;
+        var ox = W / 2, oy = CY || H * .47;
         var kS = intro ? .06 : .05, dmp = intro ? .82 : .8, revealT = e - L0;
         ctx.setTransform(DPR, 0, 0, DPR, 0, 0); ctx.globalCompositeOperation = "source-over"; ctx.clearRect(0, 0, W, H);
         ctx.globalCompositeOperation = "lighter";
