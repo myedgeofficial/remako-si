@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>REMAKO d.o.o.: aplikacije za iPhone</title>
-  <meta name="description" content="REMAKO d.o.o. razvija aplikacije za iPhone: Nakupko, Lumora Manifest in Fixko. Ustanoviteljica in direktorica Urška Repušič.">
+  <meta name="description" content="REMAKO d.o.o. razvija aplikacije za iPhone: Nakupko, Manifest (Spirituality by Urška) in Fixko. Ustanoviteljica in direktorica Urška Repušič.">
   <meta name="theme-color" content="#07060b">
   <meta property="og:title" content="REMAKO d.o.o.">
   <meta property="og:description" content="Aplikacije za iPhone, ki jih ljudje odprejo vsak dan.">
@@ -143,6 +143,7 @@
     .work header { display: flex; gap: 18px; align-items: center; }
     .work header img, .work .mono { width: 64px; height: 64px; border-radius: 16px; flex: none; }
     .work .mono { display: grid; place-items: center; font-size: 30px; color: #fcd38a; background: linear-gradient(140deg, #2a1d52, #120c24); border: 1px solid rgba(245, 158, 11, .35); }
+    .work .by { display: block; color: #fcd38a; font-weight: 800; font-size: 14px; letter-spacing: .06em; margin: -2px 0 8px; }
     .work h3 { margin: 0 0 6px; font-size: clamp(26px, 2.2vw, 36px); font-weight: 900; letter-spacing: -.02em; }
     .state { display: inline-block; font-size: 13px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; padding: 4px 12px; border-radius: 999px; }
     .state.live { background: rgba(34, 197, 94, .14); color: #86efac; }
@@ -256,13 +257,13 @@
         <div class="hud-top"><span>REMAKO d.o.o. — Slovenija</span><span data-sl>Premakni miško ali prst</span><span data-en>Move your cursor or finger</span></div>
         <div class="hud-bot">
           <div class="cap">
-            <span class="k on" data-k="0"><span data-sl>Razvijamo aplikacije za iPhone.</span><span data-en>We build iPhone apps.</span></span>
-            <span class="k" data-k="1"><span data-sl>Od ideje do App Stora:<br>oblikovanje, koda, strežniki.</span><span data-en>From idea to App Store:<br>design, code, servers.</span></span>
-            <span class="k" data-k="2"><span data-sl><span class="grad">Lokacija v ozadju</span>: aplikacija ve, kdaj si v trgovini.</span><span data-en><span class="grad">Background location</span>: the app knows when you're at the store.</span></span>
-            <span class="k" data-k="3"><span data-sl><span class="grad">Obvestila in Live Activities</span> na zaklenjenem zaslonu.</span><span data-en><span class="grad">Notifications and Live Activities</span> on the Lock Screen.</span></span>
-            <span class="k" data-k="4"><span data-sl><span class="grad">Zasebnost</span> po pravilih EU. Podatki ostanejo tvoji.</span><span data-en><span class="grad">Privacy</span> by EU rules. Your data stays yours.</span></span>
-            <span class="k" data-k="5"><span data-sl><span class="grad">Koda in strežniki</span>, ki tečejo noč in dan.</span><span data-en><span class="grad">Code and servers</span> running day and night.</span></span>
-            <span class="k" data-k="6"><span data-sl><span class="grad">Podatki in cene</span> v realnem času.</span><span data-en><span class="grad">Data and prices</span> in real time.</span></span>
+            <span class="k on" data-k="0"><span data-sl>Razvijamo aplikacije.</span><span data-en>We build apps.</span></span>
+            <span class="k" data-k="1"><span data-sl><span class="grad">Ideja</span>: povej nam, kaj potrebuješ.</span><span data-en><span class="grad">Idea</span>: tell us what you need.</span></span>
+            <span class="k" data-k="2"><span data-sl><span class="grad">Oblikovanje</span>: zasloni, ki jih razume vsak.</span><span data-en><span class="grad">Design</span>: screens anyone understands.</span></span>
+            <span class="k" data-k="3"><span data-sl><span class="grad">Razvoj</span>: iPhone, Android in strežniki.</span><span data-en><span class="grad">Development</span>: iPhone, Android and servers.</span></span>
+            <span class="k" data-k="4"><span data-sl><span class="grad">Varnost in zasebnost</span> po pravilih EU.</span><span data-en><span class="grad">Security and privacy</span> by EU rules.</span></span>
+            <span class="k" data-k="5"><span data-sl><span class="grad">Objava</span>: od TestFlighta do App Stora.</span><span data-en><span class="grad">Launch</span>: from TestFlight to the App Store.</span></span>
+            <span class="k" data-k="6"><span data-sl><span class="grad">Rast</span>: analitika, naročnine in oglasi.</span><span data-en><span class="grad">Growth</span>: analytics, subscriptions and ads.</span></span>
             <span class="k" data-k="7"><span data-sl>Naslednja aplikacija je lahko <span class="grad">tvoja</span>.</span><span data-en>The next app could be <span class="grad">yours</span>.</span></span>
           </div>
           <div class="ctrl"><div class="meter" id="meter"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><button class="ibtn" id="skip" type="button"><span data-sl>Preskoči ›</span><span data-en>Skip ›</span></button><button class="ibtn" id="replay" type="button" hidden><span data-sl>↺ Ponovi</span><span data-en>↺ Replay</span></button></div>
@@ -328,7 +329,7 @@
         <canvas id="moonCv" aria-hidden="true"></canvas>
         <div class="txt">
           <span class="pill"><span data-sl>Kmalu v App Storu</span><span data-en>Coming soon</span></span>
-          <h2 class="h">Lumora<br>Manifest</h2>
+          <p class="eyebrow" style="margin-bottom:10px;color:#fcd38a">Spirituality by Urška</p><h2 class="h">Manifest</h2>
           <p class="lead"><span data-sl>Tri minute na dan: kartica vsako jutro, vprašanje vsak večer in luna, kot je nocoj.</span><span data-en>Three minutes a day: a card every morning, a question every evening and tonight's moon.</span></p>
           <ul>
             <li><span data-sl>Nova kartica vsako jutro</span><span data-en>A new card every morning</span></li>
@@ -371,7 +372,7 @@
         <div class="titles reveal">
           <div><small><span data-sl>Vloga</span><span data-en>Role</span></small><span data-sl>Direktorica, vodja produktov</span><span data-en>Director, head of product</span></div>
           <div><small><span data-sl>Izobrazba</span><span data-en>Education</span></small><span data-sl>Ekonomija, finance</span><span data-en>Economics, finance</span></div>
-          <div><small><span data-sl>Aplikacije</span><span data-en>Apps</span></small>Nakupko · Lumora Manifest · Fixko</div>
+          <div><small><span data-sl>Aplikacije</span><span data-en>Apps</span></small>Nakupko · Manifest · Fixko</div>
           <div><small><span data-sl>Kontakt</span><span data-en>Contact</span></small><a href="mailto:support@remako.si">support@remako.si</a></div>
         </div>
       </div>
@@ -398,13 +399,13 @@
           <footer><a href="https://apps.apple.com/si/app/nakupko-shopping-list/id6818745132">App Store →</a><a href="nakupko/podpora.html"><span data-sl>Podpora</span><span data-en>Support</span></a><a href="nakupko/zasebnost.html"><span data-sl>Zasebnost</span><span data-en>Privacy</span></a></footer>
         </article>
         <article class="work reveal">
-          <header><div class="mono">✦</div><div><h3>Lumora Manifest</h3><span class="state dev"><span data-sl>V razvoju · kmalu v App Storu</span><span data-en>In development · coming soon</span></span></div></header>
+          <header><div class="mono">✦</div><div><h3>Manifest</h3><small class="by">Spirituality by Urška</small><span class="state dev"><span data-sl>V razvoju · kmalu v App Storu</span><span data-en>In development · coming soon</span></span></div></header>
           <p data-sl>Dnevni ritual za iPhone: kartica z afirmacijo vsako jutro, vprašanje vsak večer, seznam želja in lunini rituali. Dnevnik ostane samo na telefonu.</p>
           <p data-en>A daily ritual for iPhone: an affirmation card every morning, a question every evening, wishes and moon rituals. The journal stays only on the phone.</p>
           <dl>
             <dt><span data-sl>Platforme</span><span data-en>Platforms</span></dt><dd>iPhone</dd>
             <dt><span data-sl>Zasebnost</span><span data-en>Privacy</span></dt><dd><span data-sl>Podatki samo na napravi</span><span data-en>Data stays on the device</span></dd>
-            <dt><span data-sl>Model</span><span data-en>Model</span></dt><dd><span data-sl>Naročnina Lumora Premium (7 dni brezplačno)</span><span data-en>Lumora Premium subscription (7-day free trial)</span></dd>
+            <dt><span data-sl>Model</span><span data-en>Model</span></dt><dd><span data-sl>Naročnina Premium (7 dni brezplačno)</span><span data-en>Premium subscription (7-day free trial)</span></dd>
           </dl>
           <footer><a href="https://byurska.com/lumora"><span data-sl>Več o aplikaciji →</span><span data-en>More about the app →</span></a></footer>
         </article>
@@ -574,6 +575,7 @@
       var caps = document.querySelectorAll(".cap .k"), meter = document.querySelectorAll("#meter i");
       var SPR = [sprite("244,241,255"), sprite("167,139,250"), sprite("236,72,153"), sprite("245,158,11")], HEX = ["#f4f1ff", "#b9a3ff", "#f472b6", "#fbbf24"];
       var W = 0, H = 0, N = 0, pos, vel, col, shapes = [], lastK = -1, rotY = 0, rotX = 0, LET, HID;
+      var LC = [], waves = [], SPN = 900, spX = new Float32Array(SPN), spY = new Float32Array(SPN), spVX = new Float32Array(SPN), spVY = new Float32Array(SPN), spL = new Float32Array(SPN), spI = 0, landed = -1;
       var T0 = null, ended = false, shake = 0, flash = 0, lastLetter = -1, L0 = .35, LSTEP = .24, HOLD0 = 3.2, SEG = 2.0, TRANS = .85;
       var skipB = document.getElementById("skip"), replayB = document.getElementById("replay"), down = document.getElementById("down");
       function sphere(n, R) {
@@ -607,8 +609,10 @@
           if (TG && TG.length > 1 && Y > (TG[0].y + TG[1].y) / 2) { line = 1; off = 3; }
           var bb = TG ? TG[line].b : [0, 1e9], li = 0; for (var k2 = 1; k2 < bb.length - 1; k2++) if (X >= bb[k2]) li = k2;
           LET[q] = li + off;
-          HID[q * 3] = txt[q * 3] * .25 + rnd(-40, 40); HID[q * 3 + 1] = txt[q * 3 + 1] * .25 + rnd(-40, 40); HID[q * 3 + 2] = rnd(2400, 3600);
+          var dA = [3.3, 4.6, .15, 2.2, 5.5, 1.35][LET[q]] || 0, dR = Math.max(W, H) * 1.15; HID[q * 3] = txt[q * 3] + Math.cos(dA) * dR + rnd(-4, 4); HID[q * 3 + 1] = txt[q * 3 + 1] + Math.sin(dA) * dR + rnd(-4, 4); HID[q * 3 + 2] = -260 + rnd(-20, 20);
         }
+        // središča črk za udarni val
+        LC = []; if (TG) TG.forEach(function (ln) { for (var k3 = 0; k3 < ln.b.length - 1; k3++) LC.push({ x: (ln.b[k3] + ln.b[k3 + 1]) / 2 / ss - W / 2, y: ln.y / ss - H * .47 }); });
         var phone = sampleShape(N, W, H, function (g, w, h) {
           var ph = Math.min(h * .64, w * 1.6), pw = ph * .47, x = (w - pw) / 2, y = h * .47 - ph / 2;
           g.lineWidth = Math.max(5, pw * .055); g.beginPath(); g.roundRect(x, y, pw, ph, pw * .17); g.stroke();
@@ -617,27 +621,34 @@
           for (var r = 0; r < 5; r++) for (var c = 0; c < cols; c++) { g.beginPath(); g.roundRect(x + gap + c * (sz + gap), y + ph * .13 + r * (sz + gap * 1.2), sz, sz, sz * .26); g.fill(); }
           g.beginPath(); g.roundRect(x + gap, y + ph * .86, pw - gap * 2, sz * 1.05, sz * .3); g.fill();
         });
-        var pin = sampleShape(N, W, H, function (g, w, h) {
-          var R = Math.min(h * .17, w * .3), cx = w / 2, cy = h * .47 - R * .55, lw = Math.max(6, R * .2);
-          g.lineWidth = lw; g.lineJoin = "round";
-          g.beginPath(); g.arc(cx, cy, R, Math.PI * .82, Math.PI * .18); g.lineTo(cx, cy + R * 2.05); g.closePath(); g.stroke();
-          g.beginPath(); g.arc(cx, cy, R * .38, 0, 7); g.fill();
-          g.lineWidth = lw * .55; g.beginPath(); g.ellipse(cx, cy + R * 2.15, R * 1.25, R * .3, 0, 0, 7); g.stroke();
-        });
         var code = sampleShape(N, W, H, function (g, w, h) {
           var size = h * .34; g.font = "900 " + size + "px 'Inter Tight', sans-serif"; g.textAlign = "center"; g.textBaseline = "middle";
           var tw = g.measureText("</>").width, max = w * .8; if (tw > max) { size *= max / tw; g.font = "900 " + size + "px 'Inter Tight', sans-serif"; }
           g.fillText("</>", w / 2, h * .47);
         });
-        var bell = sampleShape(N, W, H, function (g, w, h) {
-          var s = Math.min(h * .56, w * .72), cx = w / 2, cy = h * .47, lw = Math.max(6, s * .06);
+        var bulb = sampleShape(N, W, H, function (g, w, h) {
+          var S = Math.min(h * .6, w * .8), cx = w / 2, cy = h * .45, R = S * .3, lw = Math.max(6, S * .055), by = cy - S * .1;
+          g.lineWidth = lw; g.lineCap = "round"; g.lineJoin = "round";
+          var a1 = Math.PI * .76, a2 = Math.PI * .24;
+          g.beginPath(); g.arc(cx, by, R, a1, a2 + Math.PI * 2, false);
+          g.lineTo(cx + S * .11, cy + S * .3); g.lineTo(cx - S * .11, cy + S * .3); g.closePath(); g.stroke();
+          g.beginPath(); g.roundRect(cx - S * .13, cy + S * .35, S * .26, S * .06, 99); g.fill();
+          g.beginPath(); g.roundRect(cx - S * .09, cy + S * .44, S * .18, S * .05, 99); g.fill();
+          g.lineWidth = lw * .6; g.beginPath(); g.moveTo(cx - S * .07, cy + S * .28); g.lineTo(cx - S * .07, by + R * .2); g.lineTo(cx - S * .02, by - R * .05); g.lineTo(cx + S * .02, by + R * .15); g.lineTo(cx + S * .07, by - R * .05); g.lineTo(cx + S * .07, cy + S * .28); g.stroke();
+          g.lineWidth = lw * .8;
+          for (var k = 0; k < 5; k++) { var an = Math.PI * (1.12 + k * .19), r1 = R * 1.3, r2 = R * 1.55; g.beginPath(); g.moveTo(cx + Math.cos(an) * r1, by + Math.sin(an) * r1); g.lineTo(cx + Math.cos(an) * r2, by + Math.sin(an) * r2); g.stroke(); }
+        });
+        var rocket = sampleShape(N, W, H, function (g, w, h) {
+          var S = Math.min(h * .62, w * .85), lw = Math.max(6, S * .05);
+          g.save(); g.translate(w / 2, h * .47); g.rotate(Math.PI / 4);
           g.lineWidth = lw; g.lineJoin = "round"; g.lineCap = "round";
-          g.beginPath(); g.moveTo(cx - s * .44, cy + s * .26); g.quadraticCurveTo(cx - s * .34, cy + s * .16, cx - s * .34, cy - s * .04);
-          g.arc(cx, cy - s * .04, s * .34, Math.PI, 0); g.quadraticCurveTo(cx + s * .34, cy + s * .16, cx + s * .44, cy + s * .26); g.closePath(); g.stroke();
-          g.beginPath(); g.arc(cx, cy + s * .33, s * .1, 0, Math.PI); g.stroke();
-          g.beginPath(); g.arc(cx, cy - s * .42, s * .05, 0, 7); g.fill();
-          g.lineWidth = lw * .7;
-          for (var k = 1; k <= 2; k++) { g.beginPath(); g.arc(cx, cy - s * .04, s * (.45 + k * .13), -Math.PI * .32, -Math.PI * .12); g.stroke(); g.beginPath(); g.arc(cx, cy - s * .04, s * (.45 + k * .13), -Math.PI * .88, -Math.PI * .68); g.stroke(); }
+          g.beginPath(); g.moveTo(0, -S * .44); g.quadraticCurveTo(S * .2, -S * .22, S * .15, S * .16); g.lineTo(-S * .15, S * .16); g.quadraticCurveTo(-S * .2, -S * .22, 0, -S * .44); g.stroke();
+          g.beginPath(); g.arc(0, -S * .14, S * .065, 0, 7); g.stroke();
+          g.beginPath(); g.moveTo(S * .15, S * .02); g.lineTo(S * .27, S * .2); g.lineTo(S * .15, S * .16); g.stroke();
+          g.beginPath(); g.moveTo(-S * .15, S * .02); g.lineTo(-S * .27, S * .2); g.lineTo(-S * .15, S * .16); g.stroke();
+          g.beginPath(); g.moveTo(-S * .08, S * .22); g.quadraticCurveTo(0, S * .46, S * .08, S * .22); g.fill();
+          g.lineWidth = lw * .6; g.beginPath(); g.moveTo(-S * .2, S * .3); g.lineTo(-S * .26, S * .42); g.moveTo(S * .2, S * .3); g.lineTo(S * .26, S * .42); g.stroke();
+          g.restore();
         });
         var lock = sampleShape(N, W, H, function (g, w, h) {
           var s = Math.min(h * .56, w * 1.1), cx = w / 2, cy = h * .5, lw = Math.max(6, s * .065);
@@ -659,11 +670,11 @@
           var max = w * (w < h ? .9 : .7); if (tw > max) size *= max / tw;
           drawLogo(g, w / 2, h * .47, size, "#000", "#000");
         });
-        shapes = [txt, phone, pin, bell, lock, code, chart, icon];
+        shapes = [txt, bulb, phone, code, lock, rocket, chart, icon];
       }
       function total() { return HOLD0 + (shapes.length - 1) * SEG; }
       function skip() { if (T0 !== null && !ended) T0 = performance.now() - total() * 1000; }
-      function replay() { T0 = null; ended = false; lastLetter = -1; for (var i = 0; i < N * 3; i++) { pos[i] = HID[i]; vel[i] = 0; } replayB.hidden = true; skipB.hidden = false; down.classList.remove("on"); }
+      function replay() { T0 = null; ended = false; lastLetter = -1; landed = -1; waves = []; for (var i = 0; i < N * 3; i++) { pos[i] = HID[i]; vel[i] = 0; } replayB.hidden = true; skipB.hidden = false; down.classList.remove("on"); }
       skipB.addEventListener("click", skip); replayB.addEventListener("click", replay);
       addEventListener("scroll", function () { if (scrollY > 40) skip(); }, { passive: true });
       function frame(now) {
@@ -673,7 +684,13 @@
         var LAST = shapes.length - 1, e = Math.min((now - T0) / 1000, total()), intro = e < HOLD0;
         if (e >= total() && !ended) { ended = true; skipB.hidden = true; replayB.hidden = false; down.classList.add("on"); }
         var a, b, f = 0, k = 0;
-        if (intro) { a = b = 0; var li = Math.floor((e - L0) / LSTEP); if (li > lastLetter && li >= 0 && li <= 5) { lastLetter = li; shake = 1; flash = 1; } }
+        if (intro) {
+          a = b = 0; var li = Math.floor((e - L0 - .13) / LSTEP);
+          if (li > landed && li >= 0 && li <= 5 && LC[li]) {
+            landed = li; shake = 1; flash = 1; waves.push({ x: LC[li].x, y: LC[li].y, t: e });
+            for (var q2 = 0; q2 < 110; q2++) { var an = Math.random() * 6.283, sp = rnd(4, 22); spX[spI] = LC[li].x + rnd(-20, 20); spY[spI] = LC[li].y + rnd(-30, 30); spVX[spI] = Math.cos(an) * sp; spVY[spI] = Math.sin(an) * sp - 3; spL[spI] = rnd(.5, 1.1); spI = (spI + 1) % SPN; }
+          }
+        }
         else { var seg = Math.floor((e - HOLD0) / SEG), loc = e - HOLD0 - seg * SEG; a = Math.min(seg, LAST); b = Math.min(seg + 1, LAST); f = a === b ? 0 : smooth(loc / TRANS); k = f > .5 ? b : a; }
         if (k !== lastK) { caps.forEach(function (c) { c.classList.toggle("on", +c.dataset.k === k); }); lastK = k; }
         var pe = e / total() * (LAST + 1); meter.forEach(function (m, i) { m.style.setProperty("--f", clamp(pe - i, 0, 1)); });
@@ -684,14 +701,14 @@
         var sq = Math.sin(Math.PI * f), sqS = 1 - sq * .58, sqC = Math.cos(sq * 1.6), sqN = Math.sin(sq * 1.6);
         var A = shapes[a], B = shapes[b], fl = 900, mx = M.x - W / 2, my = M.y - H * .47, R = Math.min(W, H) * .12, R2 = R * R;
         var ox = W / 2 + (Math.random() - .5) * 22 * shake, oy = H * .47 + (Math.random() - .5) * 22 * shake; shake *= .84;
-        var kS = intro ? .11 : .05, dmp = intro ? .72 : .8, revealT = e - L0;
+        var kS = intro ? .2 : .05, dmp = intro ? .62 : .8, revealT = e - L0;
         ctx.setTransform(DPR, 0, 0, DPR, 0, 0); ctx.globalCompositeOperation = "source-over"; ctx.clearRect(0, 0, W, H);
         ctx.globalCompositeOperation = "lighter";
         var base = small ? 3.6 : 4.4;
         for (var i = 0; i < N; i++) {
           var j = i * 3;
           var tx = A[j] + (B[j] - A[j]) * f, ty = A[j + 1] + (B[j + 1] - A[j + 1]) * f, tz = A[j + 2] + (B[j + 2] - A[j + 2]) * f;
-          if (intro && revealT < LET[i] * LSTEP) { tx = HID[j]; ty = HID[j + 1]; tz = HID[j + 2]; }
+          if (intro && revealT < LET[i] * LSTEP) { pos[j] = HID[j]; pos[j + 1] = HID[j + 1]; pos[j + 2] = HID[j + 2]; vel[j] = vel[j + 1] = vel[j + 2] = 0; continue; }
           if (sq > .001) { var qx = tx * sqS, qy = ty * sqS; tx = qx * sqC - qy * sqN; ty = qx * sqN + qy * sqC; tz *= sqS; }
           vel[j] += (tx - pos[j]) * kS; vel[j + 1] += (ty - pos[j + 1]) * kS; vel[j + 2] += (tz - pos[j + 2]) * kS;
           var x1 = pos[j] * cy - pos[j + 2] * sy, z1 = pos[j] * sy + pos[j + 2] * cy, y1 = pos[j + 1] * cx - z1 * sx, z2 = pos[j + 1] * sx + z1 * cx;
@@ -704,8 +721,22 @@
           if (dof > .08) { var s = (base + dof * 9) * sc; ctx.globalAlpha = clamp(1 / (1 + dof * 2.2), .05, .9); ctx.drawImage(SPR[col[i]], ox + px - s / 2, oy + py - s / 2, s, s); }
           else { var d0 = (small ? 2.1 : 2.3) * sc; ctx.globalAlpha = 1; ctx.fillStyle = HEX[col[i]]; ctx.fillRect(ox + px - d0 / 2, oy + py - d0 / 2, d0, d0); }
         }
-        // blisk ob udarcu črke
-        if (flash > .02) { ctx.globalAlpha = flash * .16; ctx.fillStyle = "#c4b5fd"; ctx.fillRect(0, 0, W, H); flash *= .8; }
+        // udarni val, iskre in blisk ob pristanku črke
+        for (var wv = waves.length - 1; wv >= 0; wv--) {
+          var age = e - waves[wv].t; if (age > .9 || age < 0) { waves.splice(wv, 1); continue; }
+          var rad = age * Math.min(W, H) * 1.1, al = (1 - age / .9);
+          ctx.globalAlpha = al * .55; ctx.strokeStyle = "#c4b5fd"; ctx.lineWidth = 3 + 10 * (1 - age / .9);
+          ctx.beginPath(); ctx.ellipse(ox + waves[wv].x, oy + waves[wv].y, rad, rad * .55, 0, 0, 6.283); ctx.stroke();
+          ctx.globalAlpha = al * .25; ctx.lineWidth = 2; ctx.beginPath(); ctx.ellipse(ox + waves[wv].x, oy + waves[wv].y, rad * .62, rad * .34, 0, 0, 6.283); ctx.stroke();
+        }
+        ctx.lineCap = "round";
+        for (var q3 = 0; q3 < SPN; q3++) {
+          if (spL[q3] <= 0) continue;
+          spL[q3] -= 1 / 60; spVY[q3] += .45; spVX[q3] *= .97; spVY[q3] *= .97; spX[q3] += spVX[q3]; spY[q3] += spVY[q3];
+          ctx.globalAlpha = clamp(spL[q3] * 1.4, 0, 1); ctx.strokeStyle = q3 % 3 ? "#f4f1ff" : "#f472b6"; ctx.lineWidth = 1.6;
+          ctx.beginPath(); ctx.moveTo(ox + spX[q3], oy + spY[q3]); ctx.lineTo(ox + spX[q3] - spVX[q3] * 1.8, oy + spY[q3] - spVY[q3] * 1.8); ctx.stroke();
+        }
+        if (flash > .02) { ctx.globalAlpha = flash * .12; ctx.fillStyle = "#ffffff"; ctx.fillRect(0, 0, W, H); flash *= .78; }
         ctx.globalAlpha = 1; ctx.globalCompositeOperation = "source-over";
       }
       function start() { build(); loop(frame); }
