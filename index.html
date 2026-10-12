@@ -308,7 +308,7 @@
             <h3><span data-sl>Ena hiša, <span class="grad">en seznam</span>.</span><span data-en>One home, <span class="grad">one list</span>.</span></h3>
             <p data-sl>Kar doda eden, vidijo vsi. V realnem času.</p><p data-en>What one adds, everyone sees. In real time.</p></div>
         </div>
-        <a class="cta" href="https://apps.apple.com/si/app/nakupko-shopping-list/id6818745132"><span data-sl>Prenesi v App Storu</span><span data-en>Download on the App Store</span> →</a>
+        <a class="cta" href="nakupko/"><span data-sl>Spoznaj Nakupko</span><span data-en>Discover Nakupko</span> →</a>
       </div>
       <div class="device-wrap">
         <div class="halo"></div>
@@ -344,6 +344,39 @@
         <div><dt><span data-sl>Stanje</span><span data-en>Status</span></dt><dd><span data-sl>Objavljeno v App Storu, Android v razvoju</span><span data-en>Live on the App Store, Android in development</span></dd></div>
       </dl>
           </div>
+  </section>
+
+  <!-- Ideja: obrazec za oceno cene -->
+  <section id="ideja">
+    <div class="wrap idea">
+      <div>
+        <p class="eyebrow reveal"><b>04</b><span data-sl>Tvoja aplikacija</span><span data-en>Your app</span></p>
+        <h2 class="h reveal"><span data-sl>Imaš idejo za <span class="grad">aplikacijo</span>?</span><span data-en>Got an idea for an <span class="grad">app</span>?</span></h2>
+        <p class="lead reveal"><span data-sl>Opiši jo v nekaj stavkih. V dveh delovnih dneh ti pošljemo oceno, koliko bi izdelava stala in koliko časa bi trajala. Brezplačno in brez obveznosti.</span><span data-en>Describe it in a few sentences. Within two working days we send you an estimate of what it would cost and how long it would take. Free and with no obligation.</span></p>
+        <ol class="howto reveal">
+          <li><b>1</b><span data-sl>Opišeš idejo</span><span data-en>You describe the idea</span></li>
+          <li><b>2</b><span data-sl>Pošljemo oceno cene in roka</span><span data-en>We send a price and time estimate</span></li>
+          <li><b>3</b><span data-sl>Izdelamo in objavimo v App Storu</span><span data-en>We build it and publish it on the App Store</span></li>
+        </ol>
+      </div>
+      <form class="form reveal" id="ideaForm" novalidate>
+        <label><span data-sl>Ime</span><span data-en>Name</span><input name="ime" autocomplete="name" required></label>
+        <label><span data-sl>E-pošta</span><span data-en>Email</span><input name="email" type="email" autocomplete="email" required></label>
+        <label><span data-sl>Tvoja ideja</span><span data-en>Your idea</span><textarea name="ideja" rows="5" required data-ph-sl="Kaj naj aplikacija dela in za koga je?" data-ph-en="What should the app do, and who is it for?"></textarea></label>
+        <fieldset><legend><span data-sl>Za katere naprave?</span><span data-en>Which devices?</span></legend>
+          <div class="chips">
+            <label class="chip"><input type="radio" name="naprave" value="iPhone" checked><span>iPhone</span></label>
+            <label class="chip"><input type="radio" name="naprave" value="Android"><span>Android</span></label>
+            <label class="chip"><input type="radio" name="naprave" value="iPhone in Android"><span data-sl>Oboje</span><span data-en>Both</span></label>
+            <label class="chip"><input type="radio" name="naprave" value="Ne vem še"><span data-sl>Ne vem še</span><span data-en>Not sure yet</span></label>
+          </div>
+        </fieldset>
+        <input type="text" name="_honey" tabindex="-1" autocomplete="off" class="hp" aria-hidden="true">
+        <button class="send" type="submit"><span data-sl>Pošlji idejo</span><span data-en>Send my idea</span> →</button>
+        <p class="note"><span data-sl>Podatke uporabimo samo za odgovor na tvoje povpraševanje.</span><span data-en>We only use your details to reply to your request.</span></p>
+        <p class="msg" id="ideaMsg" role="status"></p>
+      </form>
+    </div>
   </section>
 
   <!-- 03 Lumora: realistična luna -->
@@ -393,7 +426,7 @@
           <header><img src="img/nakupko.png" alt="" width="64" height="64"><div><h3>Nakupko</h3><span class="state live"><span data-sl>Objavljeno v App Storu</span><span data-en>Live on the App Store</span></span></div></header>
           <p data-sl>Nakupovalni seznam, ki se sam odpre v trgovini. Naš glavni izdelek, podrobno predstavljen zgoraj.</p>
           <p data-en>The shopping list that opens itself in the store. Our flagship product, shown in detail above.</p>
-          <footer><a href="#nakupko"><span data-sl>Več o Nakupku ↑</span><span data-en>More about Nakupko ↑</span></a><a href="https://apps.apple.com/si/app/nakupko-shopping-list/id6818745132">App Store →</a><a href="nakupko/podpora.html"><span data-sl>Podpora</span><span data-en>Support</span></a><a href="nakupko/zasebnost.html"><span data-sl>Zasebnost</span><span data-en>Privacy</span></a></footer>
+          <footer><a href="nakupko/"><span data-sl>Predstavitev Nakupka →</span><span data-en>Nakupko overview →</span></a><a href="https://apps.apple.com/si/app/nakupko-shopping-list/id6818745132">App Store →</a><a href="nakupko/podpora.html"><span data-sl>Podpora</span><span data-en>Support</span></a><a href="nakupko/zasebnost.html"><span data-sl>Zasebnost</span><span data-en>Privacy</span></a></footer>
         </article>
         <article class="work reveal">
           <header><div class="mono">✦</div><div><h3>Spirituality by Urška Manifest</h3><span class="state dev"><span data-sl>V razvoju · kmalu v App Storu</span><span data-en>In development · coming soon</span></span></div></header>
@@ -418,39 +451,6 @@
           </dl>
         </article>
       </div>
-    </div>
-  </section>
-
-  <!-- Ideja: obrazec za oceno cene -->
-  <section id="ideja">
-    <div class="wrap idea">
-      <div>
-        <p class="eyebrow reveal"><b>04</b><span data-sl>Tvoja aplikacija</span><span data-en>Your app</span></p>
-        <h2 class="h reveal"><span data-sl>Imaš idejo za <span class="grad">aplikacijo</span>?</span><span data-en>Got an idea for an <span class="grad">app</span>?</span></h2>
-        <p class="lead reveal"><span data-sl>Opiši jo v nekaj stavkih. V dveh delovnih dneh ti pošljemo oceno, koliko bi izdelava stala in koliko časa bi trajala. Brezplačno in brez obveznosti.</span><span data-en>Describe it in a few sentences. Within two working days we send you an estimate of what it would cost and how long it would take. Free and with no obligation.</span></p>
-        <ol class="howto reveal">
-          <li><b>1</b><span data-sl>Opišeš idejo</span><span data-en>You describe the idea</span></li>
-          <li><b>2</b><span data-sl>Pošljemo oceno cene in roka</span><span data-en>We send a price and time estimate</span></li>
-          <li><b>3</b><span data-sl>Izdelamo in objavimo v App Storu</span><span data-en>We build it and publish it on the App Store</span></li>
-        </ol>
-      </div>
-      <form class="form reveal" id="ideaForm" novalidate>
-        <label><span data-sl>Ime</span><span data-en>Name</span><input name="ime" autocomplete="name" required></label>
-        <label><span data-sl>E-pošta</span><span data-en>Email</span><input name="email" type="email" autocomplete="email" required></label>
-        <label><span data-sl>Tvoja ideja</span><span data-en>Your idea</span><textarea name="ideja" rows="5" required data-ph-sl="Kaj naj aplikacija dela in za koga je?" data-ph-en="What should the app do, and who is it for?"></textarea></label>
-        <fieldset><legend><span data-sl>Za katere naprave?</span><span data-en>Which devices?</span></legend>
-          <div class="chips">
-            <label class="chip"><input type="radio" name="naprave" value="iPhone" checked><span>iPhone</span></label>
-            <label class="chip"><input type="radio" name="naprave" value="Android"><span>Android</span></label>
-            <label class="chip"><input type="radio" name="naprave" value="iPhone in Android"><span data-sl>Oboje</span><span data-en>Both</span></label>
-            <label class="chip"><input type="radio" name="naprave" value="Ne vem še"><span data-sl>Ne vem še</span><span data-en>Not sure yet</span></label>
-          </div>
-        </fieldset>
-        <input type="text" name="_honey" tabindex="-1" autocomplete="off" class="hp" aria-hidden="true">
-        <button class="send" type="submit"><span data-sl>Pošlji idejo</span><span data-en>Send my idea</span> →</button>
-        <p class="note"><span data-sl>Podatke uporabimo samo za odgovor na tvoje povpraševanje.</span><span data-en>We only use your details to reply to your request.</span></p>
-        <p class="msg" id="ideaMsg" role="status"></p>
-      </form>
     </div>
   </section>
 
