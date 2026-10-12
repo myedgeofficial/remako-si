@@ -45,7 +45,7 @@
     .lang { border: 1px solid rgba(255,255,255,.28); border-radius: 999px; padding: 6px 14px; background: none; font: 800 14px "Inter Tight", sans-serif; letter-spacing: .08em; cursor: pointer; color: var(--ink); }
 
     /* 01 Uvod */
-    #hero { position: relative; height: 340vh; }
+    #hero { position: relative; height: 560vh; }
     .stage { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; background: radial-gradient(ellipse at 50% 46%, #120f22 0%, var(--bg) 64%); }
     #heroCv { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: pan-y; }
     .hud { position: absolute; inset: 88px clamp(16px, 4vw, 72px) clamp(24px, 5vh, 56px); pointer-events: none; display: flex; flex-direction: column; justify-content: space-between; }
@@ -149,7 +149,7 @@
     @media (max-width: 900px) {
       body { font-size: 18px; }
       .nav nav a.hide-m { display: none; }
-      #hero { height: 280vh; }
+      #hero { height: 460vh; }
       .hud-top span:last-child { display: none; }
       .meter i { width: 26px; }
       #nakupko { height: 420vh; }
@@ -201,9 +201,11 @@
           <div class="cap">
             <span class="k on" data-k="0"><span data-sl>Razvijamo aplikacije za iPhone.</span><span data-en>We build iPhone apps.</span></span>
             <span class="k" data-k="1"><span data-sl>Od ideje do App Stora:<br>oblikovanje, koda, strežniki.</span><span data-en>From idea to App Store:<br>design, code, servers.</span></span>
-            <span class="k" data-k="2"><span data-sl>Za uporabnike v <span class="grad">177 državah</span>.</span><span data-en>For people in <span class="grad">177 countries</span>.</span></span>
+            <span class="k" data-k="2"><span data-sl><span class="grad">Nakupko</span>: seznam, ki se sam odpre v trgovini.</span><span data-en><span class="grad">Nakupko</span>: the list that opens itself in the store.</span></span>
+            <span class="k" data-k="3"><span data-sl><span class="grad">Lumora Manifest</span>: luna, kartice in tvoj dnevnik.</span><span data-en><span class="grad">Lumora Manifest</span>: the moon, daily cards and your journal.</span></span>
+            <span class="k" data-k="4"><span data-sl>Za uporabnike v <span class="grad">177 državah</span>.</span><span data-en>For people in <span class="grad">177 countries</span>.</span></span>
           </div>
-          <div class="meter" id="meter"><i></i><i></i><i></i></div>
+          <div class="meter" id="meter"><i></i><i></i><i></i><i></i><i></i></div>
         </div>
       </div>
     </div>
@@ -391,7 +393,7 @@
       var d = g.getImageData(0, 0, cw, ch).data, pts = [];
       for (var y = 0; y < ch; y += 2) for (var x = 0; x < cw; x += 2) if (d[(y * cw + x) * 4 + 3] > 128) pts.push(x / s, y / s);
       var out = new Float32Array(n * 3), m = pts.length / 2 || 1;
-      for (var i = 0; i < n; i++) { var k = (Math.random() * m | 0) * 2; out[i * 3] = (pts[k] || w / 2) - w / 2 + rnd(-1.5, 1.5); out[i * 3 + 1] = (pts[k + 1] || h * .47) - h * .47 + rnd(-1.5, 1.5); out[i * 3 + 2] = rnd(-40, 40); }
+      for (var i = 0; i < n; i++) { var k = (Math.random() * m | 0) * 2; out[i * 3] = (pts[k] || w / 2) - w / 2 + rnd(-1.5, 1.5); out[i * 3 + 1] = (pts[k + 1] || h * .47) - h * .47 + rnd(-1.5, 1.5); out[i * 3 + 2] = rnd(-10, 10); }
       return out;
     }
 
@@ -426,34 +428,53 @@
           for (var r = 0; r < 5; r++) for (var c = 0; c < cols; c++) { g.beginPath(); g.roundRect(x + gap + c * (sz + gap), y + ph * .13 + r * (sz + gap * 1.2), sz, sz, sz * .26); g.fill(); }
           g.beginPath(); g.roundRect(x + gap, y + ph * .86, pw - gap * 2, sz * 1.05, sz * .3); g.fill();
         });
-        shapes = [txt, phone, sphere(N, Math.min(W, H) * .34)];
+        var basket = sampleShape(N, W, H, function (g, w, h) {
+          var s = h * .5, cx = w / 2, cy = h * .5, lw = Math.max(4, s * .045);
+          g.lineWidth = lw; g.lineJoin = "round"; g.lineCap = "round";
+          g.beginPath(); g.arc(cx, cy - s * .2, s * .28, Math.PI * 1.05, Math.PI * 1.95); g.stroke(); // ročaj
+          g.beginPath(); g.moveTo(cx - s * .5, cy - s * .16); g.lineTo(cx + s * .5, cy - s * .16); g.lineTo(cx + s * .38, cy + s * .42); g.lineTo(cx - s * .38, cy + s * .42); g.closePath(); g.stroke();
+          for (var i = 1; i < 3; i++) { var yy = cy - s * .16 + i * s * .19, dx = s * .5 - (s * .12) * (i * .19 / .58); g.beginPath(); g.moveTo(cx - dx + lw, yy); g.lineTo(cx + dx - lw, yy); g.stroke(); }
+          for (i = -1; i <= 1; i++) { g.beginPath(); g.moveTo(cx + i * s * .2, cy - s * .16); g.lineTo(cx + i * s * .155, cy + s * .42); g.stroke(); }
+        });
+        var moon = sampleShape(N, W, H, function (g, w, h) {
+          var R = h * .27, cx = w / 2 - R * .15, cy = h * .47;
+          g.beginPath(); g.arc(cx, cy, R, 0, 7); g.fill();
+          g.globalCompositeOperation = "destination-out"; g.beginPath(); g.arc(cx + R * .48, cy - R * .2, R * .86, 0, 7); g.fill();
+          g.globalCompositeOperation = "source-over";
+          function star(x, y, r) { g.beginPath(); for (var k = 0; k < 8; k++) { var a = k * Math.PI / 4, rr = k % 2 ? r * .28 : r; g.lineTo(x + Math.cos(a) * rr, y + Math.sin(a) * rr); } g.closePath(); g.fill(); }
+          star(cx + R * 1.05, cy - R * .55, R * .26); star(cx + R * .7, cy + R * .25, R * .12);
+        });
+        shapes = [txt, phone, basket, moon, sphere(N, Math.min(W, H) * .34)];
       }
       function progress() { var r = hero.getBoundingClientRect(); return clamp(-r.top / Math.max(1, hero.offsetHeight - innerHeight), 0, 1); }
       function frame(now) {
         if (!visible(hero) || !shapes.length) return;
         var a2 = fit(cv); if (a2[0] !== W || a2[1] !== H) build();
-        var pr = progress() * 2.2, a = Math.min(2, Math.floor(pr)), b = Math.min(2, a + 1), f = smooth((pr - a - .2) / .6);
-        var k = pr < .7 ? 0 : pr < 1.7 ? 1 : 2;
+        var LAST = shapes.length - 1, pr = progress() * (LAST + .2), a = Math.min(LAST, Math.floor(pr)), b = Math.min(LAST, a + 1), f = smooth((pr - a - .22) / .56);
+        var k = Math.min(LAST, Math.floor(pr + .45));
         if (k !== lastK) { caps.forEach(function (c) { c.classList.toggle("on", +c.dataset.k === k); }); lastK = k; }
         meter.forEach(function (m, i) { m.style.setProperty("--f", clamp(pr - i, 0, 1)); });
-        var t = now / 1000, globe = a === 2 || (a === 1 && f > .5);
+        var t = now / 1000, globe = a === LAST || (a === LAST - 1 && f > .5);
         rotY += (M.nx * .5 + (globe ? t * .25 : Math.sin(t * .3) * .14) - rotY) * .05; rotX += (-M.ny * .3 - rotX) * .05;
         var cy = Math.cos(rotY), sy = Math.sin(rotY), cx = Math.cos(rotX), sx = Math.sin(rotX);
+        // med prehodom se oblika stisne v vrtinec in se razpre v novo
+        var sq = Math.sin(Math.PI * f), sqS = 1 - sq * .58, sqC = Math.cos(sq * 1.6), sqN = Math.sin(sq * 1.6);
         var A = shapes[a], B = shapes[b], fl = 900, ox = W / 2, oy = H * .47, mx = M.x - ox, my = M.y - oy, R = Math.min(W, H) * .12, R2 = R * R;
         ctx.setTransform(DPR, 0, 0, DPR, 0, 0); ctx.globalCompositeOperation = "source-over"; ctx.clearRect(0, 0, W, H);
         ctx.globalCompositeOperation = "lighter";
-        var base = small ? 5 : 6.5;
+        var base = small ? 3.6 : 4.4;
         for (var i = 0; i < N; i++) {
           var j = i * 3;
           var tx = A[j] + (B[j] - A[j]) * f, ty = A[j + 1] + (B[j + 1] - A[j + 1]) * f, tz = A[j + 2] + (B[j + 2] - A[j + 2]) * f;
-          vel[j] += (tx - pos[j]) * .04; vel[j + 1] += (ty - pos[j + 1]) * .04; vel[j + 2] += (tz - pos[j + 2]) * .04;
+          if (sq > .001) { var qx = tx * sqS, qy = ty * sqS; tx = qx * sqC - qy * sqN; ty = qx * sqN + qy * sqC; tz *= sqS; }
+          vel[j] += (tx - pos[j]) * .07; vel[j + 1] += (ty - pos[j + 1]) * .07; vel[j + 2] += (tz - pos[j + 2]) * .07;
           var x1 = pos[j] * cy - pos[j + 2] * sy, z1 = pos[j] * sy + pos[j + 2] * cy, y1 = pos[j + 1] * cx - z1 * sx, z2 = pos[j + 1] * sx + z1 * cx;
           var sc = fl / (fl + z2), px = x1 * sc, py = y1 * sc;
           if (M.on) { var dx = px - mx, dy = py - my, d2 = dx * dx + dy * dy; if (d2 < R2) { var fo = (1 - d2 / R2) * 7 / (Math.sqrt(d2) + 1); vel[j] += dx * fo; vel[j + 1] += dy * fo; vel[j + 2] += 60 * fo; } }
-          vel[j] *= .84; vel[j + 1] *= .84; vel[j + 2] *= .84;
+          vel[j] *= .76; vel[j + 1] *= .76; vel[j + 2] *= .76;
           pos[j] += vel[j]; pos[j + 1] += vel[j + 1]; pos[j + 2] += vel[j + 2];
           if (sc <= 0.05) continue;
-          var dof = Math.abs(z2) / 260, s = (base + dof * 9) * sc;
+          var dof = Math.max(0, Math.abs(z2) - 30) / 260, s = (base + dof * 9) * sc;
           ctx.globalAlpha = clamp(1 / (1 + dof * 2.2), .05, 1);
           ctx.drawImage(SPR[col[i]], ox + px - s / 2, oy + py - s / 2, s, s);
         }
