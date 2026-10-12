@@ -151,7 +151,7 @@
       body { font-size: 18px; }
       .nav nav a.hide-m { display: none; }
       #hero { height: 1050vh; }
-      .hud-top span:last-child { display: none; }
+      .hud-top { display: none; } .hud { justify-content: flex-end; }
       .meter i { width: 14px; }
       #nakupko { height: 420vh; }
       .show { grid-template-columns: 1fr; grid-template-rows: auto 1fr; gap: 0; padding-top: 86px; }
@@ -348,7 +348,7 @@
   (function () {
     "use strict";
     var root = document.documentElement, reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-    var DPR = Math.min(2, window.devicePixelRatio || 1), small = innerWidth < 900;
+    var small = innerWidth < 900, DPR = Math.min(small ? 1.5 : 2, window.devicePixelRatio || 1);
     function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
     function smooth(t) { t = clamp(t, 0, 1); return t * t * (3 - 2 * t); }
     function rnd(a, b) { return a + Math.random() * (b - a); }
@@ -363,7 +363,7 @@
 
     // Miška / prst
     var M = { x: -1e4, y: -1e4, on: false, nx: 0, ny: 0, vx: 0, vy: 0 };
-    function pm(e) { M.vx = e.clientX - M.x; M.vy = e.clientY - M.y; if (!M.on) { M.vx = M.vy = 0; } M.x = e.clientX; M.y = e.clientY; M.on = true; M.nx = e.clientX / innerWidth * 2 - 1; M.ny = e.clientY / innerHeight * 2 - 1; }
+    function pm(e) { if (e.pointerType === "touch") return; M.vx = e.clientX - M.x; M.vy = e.clientY - M.y; if (!M.on) { M.vx = M.vy = 0; } M.x = e.clientX; M.y = e.clientY; M.on = true; M.nx = e.clientX / innerWidth * 2 - 1; M.ny = e.clientY / innerHeight * 2 - 1; }
     addEventListener("pointermove", pm, { passive: true });
     addEventListener("pointerdown", pm, { passive: true });
     document.addEventListener("pointerleave", function () { M.on = false; });
@@ -444,18 +444,23 @@
       }
       function build() {
         var a = fit(cv); W = a[0]; H = a[1];
-        var want = Math.round(clamp(W * H / 140, 3500, 14000));
+        var want = Math.round(clamp(W * H / (small ? 60 : 140), 3500, 14000));
         if (want !== N) {
           N = want; pos = new Float32Array(N * 3); vel = new Float32Array(N * 3); col = new Uint8Array(N);
           for (var i = 0; i < N; i++) { pos[i * 3] = rnd(-W, W); pos[i * 3 + 1] = rnd(-H, H); pos[i * 3 + 2] = rnd(-900, 900); var r = Math.random(); col[i] = r < .6 ? 0 : r < .84 ? 1 : r < .95 ? 2 : 3; }
         }
         var txt = sampleShape(N, W, H, function (g, w, h) {
+          if (w < h) {
+            var sz = w * .5; g.font = "900 " + sz + "px 'Inter Tight', sans-serif"; g.textAlign = "center"; g.textBaseline = "middle";
+            var mw = Math.max(g.measureText("REM").width, g.measureText("AKO").width); if (mw > w * .9) { sz *= w * .9 / mw; g.font = "900 " + sz + "px 'Inter Tight', sans-serif"; }
+            g.fillText("REM", w / 2, h * .47 - sz * .5); g.fillText("AKO", w / 2, h * .47 + sz * .5); return;
+          }
           var size = h * .3; g.font = "900 " + size + "px 'Inter Tight', sans-serif"; g.textAlign = "center"; g.textBaseline = "middle";
           var tw = g.measureText("REMAKO").width, max = w * (w < h ? .92 : .8); if (tw > max) { size *= max / tw; g.font = "900 " + size + "px 'Inter Tight', sans-serif"; }
           g.fillText("REMAKO", w / 2, h * .47);
         });
         var phone = sampleShape(N, W, H, function (g, w, h) {
-          var ph = h * .64, pw = ph * .47, x = (w - pw) / 2, y = h * .47 - ph / 2;
+          var ph = Math.min(h * .64, w * 1.6), pw = ph * .47, x = (w - pw) / 2, y = h * .47 - ph / 2;
           g.lineWidth = Math.max(5, pw * .055); g.beginPath(); g.roundRect(x, y, pw, ph, pw * .17); g.stroke();
           g.beginPath(); g.roundRect(x + pw * .36, y + ph * .035, pw * .28, ph * .032, 99); g.fill();
           var cols = 4, gap = pw * .07, sz = (pw - gap * (cols + 1)) / cols;
@@ -463,7 +468,7 @@
           g.beginPath(); g.roundRect(x + gap, y + ph * .86, pw - gap * 2, sz * 1.05, sz * .3); g.fill();
         });
         var pin = sampleShape(N, W, H, function (g, w, h) {
-          var R = h * .17, cx = w / 2, cy = h * .4, lw = Math.max(6, R * .2);
+          var R = Math.min(h * .17, w * .3), cx = w / 2, cy = h * .47 - R * .55, lw = Math.max(6, R * .2);
           g.lineWidth = lw; g.lineJoin = "round";
           g.beginPath(); g.arc(cx, cy, R, Math.PI * .82, Math.PI * .18); g.lineTo(cx, cy + R * 2.05); g.closePath(); g.stroke();
           g.beginPath(); g.arc(cx, cy, R * .38, 0, 7); g.fill();
@@ -475,7 +480,7 @@
           g.fillText("</>", w / 2, h * .47);
         });
         var bell = sampleShape(N, W, H, function (g, w, h) {
-          var s = h * .56, cx = w / 2, cy = h * .47, lw = Math.max(6, s * .06);
+          var s = Math.min(h * .56, w * .72), cx = w / 2, cy = h * .47, lw = Math.max(6, s * .06);
           g.lineWidth = lw; g.lineJoin = "round"; g.lineCap = "round";
           g.beginPath(); g.moveTo(cx - s * .44, cy + s * .26); g.quadraticCurveTo(cx - s * .34, cy + s * .16, cx - s * .34, cy - s * .04);
           g.arc(cx, cy - s * .04, s * .34, Math.PI, 0); g.quadraticCurveTo(cx + s * .34, cy + s * .16, cx + s * .44, cy + s * .26); g.closePath(); g.stroke();
@@ -485,14 +490,14 @@
           for (var k = 1; k <= 2; k++) { g.beginPath(); g.arc(cx, cy - s * .04, s * (.45 + k * .13), -Math.PI * .32, -Math.PI * .12); g.stroke(); g.beginPath(); g.arc(cx, cy - s * .04, s * (.45 + k * .13), -Math.PI * .88, -Math.PI * .68); g.stroke(); }
         });
         var lock = sampleShape(N, W, H, function (g, w, h) {
-          var s = h * .56, cx = w / 2, cy = h * .5, lw = Math.max(6, s * .065);
+          var s = Math.min(h * .56, w * 1.1), cx = w / 2, cy = h * .5, lw = Math.max(6, s * .065);
           g.lineWidth = lw; g.lineCap = "round";
           g.beginPath(); g.moveTo(cx - s * .21, cy - s * .04); g.lineTo(cx - s * .21, cy - s * .2); g.arc(cx, cy - s * .2, s * .21, Math.PI, 0); g.lineTo(cx + s * .21, cy - s * .04); g.stroke();
           g.beginPath(); g.roundRect(cx - s * .34, cy - s * .04, s * .68, s * .5, s * .08); g.stroke();
           g.beginPath(); g.arc(cx, cy + s * .17, s * .065, 0, 7); g.fill(); g.fillRect(cx - s * .025, cy + s * .17, s * .05, s * .14);
         });
         var chart = sampleShape(N, W, H, function (g, w, h) {
-          var s = h * .56, x0 = w / 2 - s * .5, y0 = h * .47 + s * .32, lw = Math.max(5, s * .05);
+          var s = Math.min(h * .56, w * .86), x0 = w / 2 - s * .5, y0 = h * .47 + s * .32, lw = Math.max(5, s * .05);
           g.lineWidth = lw; g.lineCap = "round"; g.lineJoin = "round";
           g.beginPath(); g.moveTo(x0, y0 - s * .72); g.lineTo(x0, y0); g.lineTo(x0 + s, y0); g.stroke();
           var hs = [.22, .36, .3, .52, .62], bw = s * .12;
@@ -509,7 +514,7 @@
       function progress() { var r = hero.getBoundingClientRect(); return clamp(-r.top / Math.max(1, hero.offsetHeight - innerHeight), 0, 1); }
       function frame(now) {
         if (!visible(hero) || !shapes.length) return;
-        var a2 = fit(cv); if (a2[0] !== W || a2[1] !== H) build();
+        var a2 = fit(cv); if (a2[0] !== W || Math.abs(a2[1] - H) > 160) build();
         var LAST = shapes.length - 1, pr = progress() * (LAST + .2), a = Math.min(LAST, Math.floor(pr)), b = Math.min(LAST, a + 1), f = smooth((pr - a - .5) / .32);
         var k = Math.min(LAST, Math.floor(pr + .34));
         if (k !== lastK) { caps.forEach(function (c) { c.classList.toggle("on", +c.dataset.k === k); }); lastK = k; }
@@ -536,7 +541,7 @@
           if (sc <= 0.05) continue;
           var dof = Math.max(0, Math.abs(z2) - 30) / 260;
           if (dof > .08) { var s = (base + dof * 9) * sc; ctx.globalAlpha = clamp(1 / (1 + dof * 2.2), .05, .9); ctx.drawImage(SPR[col[i]], ox + px - s / 2, oy + py - s / 2, s, s); }
-          else { var d0 = (small ? 1.8 : 2.3) * sc; ctx.globalAlpha = 1; ctx.fillStyle = HEX[col[i]]; ctx.fillRect(ox + px - d0 / 2, oy + py - d0 / 2, d0, d0); }
+          else { var d0 = (small ? 2.1 : 2.3) * sc; ctx.globalAlpha = 1; ctx.fillStyle = HEX[col[i]]; ctx.fillRect(ox + px - d0 / 2, oy + py - d0 / 2, d0, d0); }
         }
         ctx.globalAlpha = 1; ctx.globalCompositeOperation = "source-over";
       }
