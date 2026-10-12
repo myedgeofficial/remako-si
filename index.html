@@ -703,7 +703,7 @@
         if (T0 === null) { T0 = now; for (var z = 0; z < N * 3; z++) pos[z] = HID[z]; }
         var LAST = shapes.length - 1, eRaw = (now - T0) / 1000, e = Math.min(eRaw, total()), intro = e < HOLD0;
         // na koncu puščica miške potegne vodoravno skozi logotip
-        var swp = (eRaw - total() - .6) / 1.5, sweeping = swp > 0 && swp < 1, svx = (-.62 + 1.24 * swp) * W, svy = Math.sin(swp * Math.PI * 2) * H * .012, SR = Math.min(W, H) * .1, SR2 = SR * SR;
+        var swp = (eRaw - total() - .6) / .75, sweeping = swp > 0 && swp < 1, svx = (-.62 + 1.24 * swp) * W, svy = Math.sin(swp * Math.PI * 2) * H * .012, SR = Math.min(W, H) * .1, SR2 = SR * SR;
         if (e >= total() && !ended) { ended = true; skipB.hidden = true; replayB.hidden = false; down.classList.add("on"); }
         var a, b, f = 0, k = 0;
         if (intro) {
@@ -734,7 +734,7 @@
           vel[j] += (tx - pos[j]) * kS; vel[j + 1] += (ty - pos[j + 1]) * kS; vel[j + 2] += (tz - pos[j + 2]) * kS;
           var x1 = pos[j] * cy - pos[j + 2] * sy, z1 = pos[j] * sy + pos[j + 2] * cy, y1 = pos[j + 1] * cx - z1 * sx, z2 = pos[j + 1] * sx + z1 * cx;
           var sc = fl / (fl + z2), px = x1 * sc, py = y1 * sc;
-          if (sweeping) { var sdx = px - svx, sdy = py - svy, sd2 = sdx * sdx + sdy * sdy; if (sd2 < SR2) { var sfo = (1 - sd2 / SR2) * 9 / (Math.sqrt(sd2) + 1); vel[j] += sdx * sfo * .35; vel[j + 1] += sdy * sfo; } }
+          if (sweeping) { var sdx = px - svx, sdy = py - svy, sd2 = sdx * sdx + sdy * sdy; if (sd2 < SR2) { var sfo = (1 - sd2 / SR2) * 12 / (Math.sqrt(sd2) + 1); vel[j] += sdx * sfo * .3; vel[j + 1] += sdy * sfo; } }
           if (M.on) { var dx = px - mx, dy = py - my, d2 = dx * dx + dy * dy; if (d2 < R2) { var fo = (1 - d2 / R2) * 7 / (Math.sqrt(d2) + 1); vel[j] += dx * fo; vel[j + 1] += dy * fo; vel[j + 2] += 60 * fo; } }
           vel[j] *= dmp; vel[j + 1] *= dmp; vel[j + 2] *= dmp;
           pos[j] += vel[j]; pos[j + 1] += vel[j + 1]; pos[j + 2] += vel[j + 2];
@@ -743,20 +743,6 @@
           if (intro) { var sp2 = Math.sqrt(vel[j] * vel[j] + vel[j + 1] * vel[j + 1]); if (sp2 > 3) { var tl = Math.min(sp2 * 1.4, 46) / sp2; ctx.globalAlpha = .22; ctx.strokeStyle = HEX[col[i]]; ctx.lineWidth = 1 * sc; ctx.beginPath(); ctx.moveTo(ox + px, oy + py); ctx.lineTo(ox + px - vel[j] * tl * sc, oy + py - vel[j + 1] * tl * sc); ctx.stroke(); } }
           if (dof > .08) { var s = (base + dof * 9) * sc; ctx.globalAlpha = clamp(1 / (1 + dof * 2.2), .05, .9); ctx.drawImage(SPR[col[i]], ox + px - s / 2, oy + py - s / 2, s, s); }
           else { var d0 = (small ? 2.1 : 2.3) * sc; ctx.globalAlpha = 1; ctx.fillStyle = HEX[col[i]]; ctx.fillRect(ox + px - d0 / 2, oy + py - d0 / 2, d0, d0); }
-        }
-        if (sweeping) {
-          ctx.globalCompositeOperation = "source-over"; ctx.globalAlpha = smooth(swp / .08) * (1 - smooth((swp - .92) / .08));
-          // svetlobno rezilo: žareča konica s sledjo
-          var hx = ox + svx, hy = oy + svy, tail = Math.min(W * .45, 520), ga = ctx.globalAlpha;
-          ctx.globalCompositeOperation = "lighter";
-          var tg = ctx.createLinearGradient(hx - tail, 0, hx, 0); tg.addColorStop(0, "rgba(167,139,250,0)"); tg.addColorStop(.7, "rgba(196,181,253,.35)"); tg.addColorStop(1, "rgba(255,255,255,1)");
-          ctx.strokeStyle = tg; ctx.lineCap = "round";
-          ctx.globalAlpha = ga * .18; ctx.lineWidth = 18; ctx.beginPath(); ctx.moveTo(hx - tail, hy); ctx.lineTo(hx, hy); ctx.stroke();
-          ctx.globalAlpha = ga * .45; ctx.lineWidth = 6; ctx.beginPath(); ctx.moveTo(hx - tail * .8, hy); ctx.lineTo(hx, hy); ctx.stroke();
-          ctx.globalAlpha = ga; ctx.lineWidth = 1.6; ctx.beginPath(); ctx.moveTo(hx - tail * .6, hy); ctx.lineTo(hx + 4, hy); ctx.stroke();
-          var hg = ctx.createRadialGradient(hx, hy, 0, hx, hy, 70); hg.addColorStop(0, "rgba(255,255,255,.9)"); hg.addColorStop(.15, "rgba(236,72,153,.35)"); hg.addColorStop(1, "rgba(139,92,246,0)");
-          ctx.globalAlpha = ga; ctx.fillStyle = hg; ctx.fillRect(hx - 70, hy - 70, 140, 140);
-          ctx.globalAlpha = ga * .35; ctx.fillStyle = "rgba(255,255,255,1)"; ctx.fillRect(hx - 160, hy - .5, 320, 1);
         }
         ctx.globalAlpha = 1; ctx.globalCompositeOperation = "source-over";
       }
