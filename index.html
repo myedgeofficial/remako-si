@@ -16,7 +16,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700;800;900&family=Archivo+Black&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #07060b; --ink: #f4f1ff; --muted: #b4adc9; --dim: #7d7694;
+      --bg: #07060b; --bgrgb: 7, 6, 11; --ink: #f4f1ff; --muted: #b4adc9; --dim: #7d7694;
       --line: rgba(255, 255, 255, .1); --v: #8b5cf6; --p: #ec4899; --a: #f59e0b;
     }
     * { box-sizing: border-box; }
@@ -36,7 +36,7 @@
 
     /* Navigacija */
     .nav { position: fixed; inset: 0 0 auto 0; z-index: 50; transition: background .3s, border-color .3s; border-bottom: 1px solid transparent; }
-    .nav.solid { background: rgba(7, 6, 11, .72); backdrop-filter: blur(16px) saturate(140%); -webkit-backdrop-filter: blur(16px) saturate(140%); border-color: var(--line); }
+    .nav.solid { background: rgba(var(--bgrgb), .74); backdrop-filter: blur(16px) saturate(140%); -webkit-backdrop-filter: blur(16px) saturate(140%); border-color: var(--line); }
     .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 72px; }
     .logo { font-weight: 900; font-size: 22px; letter-spacing: .14em; text-decoration: none; }
     .logo { display: flex; align-items: center; height: 40px; } .rlogo { display: block; }
@@ -110,7 +110,7 @@
 
     /* Kaj delamo: mreža kot blago */
     .skills { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); border-left: 1px solid var(--line); margin-top: 50px; }
-    .skill { padding: clamp(24px, 2.6vw, 44px); border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); position: relative; background: rgba(7, 6, 11, .55); backdrop-filter: blur(2px); transition: background .3s; }
+    .skill { padding: clamp(24px, 2.6vw, 44px); border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); position: relative; background: rgba(var(--bgrgb), .55); backdrop-filter: blur(2px); transition: background .3s; }
     .skill:hover { background: rgba(28, 20, 50, .7); }
     .skill .n { font-size: 14px; font-weight: 800; letter-spacing: .18em; color: var(--dim); }
     .skill h3 { margin: 18px 0 10px; font-size: clamp(24px, 2vw, 32px); font-weight: 900; letter-spacing: -.02em; }
@@ -134,7 +134,7 @@
     #kontakt { overflow: hidden; }
     .contact { display: grid; grid-template-columns: 1.3fr 1fr; gap: 40px; align-items: end; }
     .big-mail { font-weight: 900; letter-spacing: -.04em; font-size: clamp(30px, 5.6vw, 110px); text-decoration: none; display: inline-block; line-height: 1; word-break: break-word; }
-    .company dl { display: grid; grid-template-columns: max-content 1fr; gap: 0 24px; margin: 0; border-top: 1px solid var(--line); background: rgba(7,6,11,.55); }
+    .company dl { display: grid; grid-template-columns: max-content 1fr; gap: 0 24px; margin: 0; border-top: 1px solid var(--line); background: rgba(var(--bgrgb), .55); }
     .company dt, .company dd { padding: 14px 0; border-bottom: 1px solid var(--line); margin: 0; }
     .company dt { color: var(--dim); font-weight: 700; }
     .company dd { font-weight: 800; }
@@ -148,7 +148,11 @@
     html[lang="en"] [data-en] { display: revert !important; }
 
     @media (max-width: 900px) {
+      :root { --bg: #1a1233; --bgrgb: 26, 18, 51; --muted: #cbc3e3; --dim: #9d94b8; --line: rgba(255, 255, 255, .14); }
       body { font-size: 18px; }
+      .stage { background: radial-gradient(ellipse 120% 70% at 50% 45%, #3d2780 0%, #24184a 45%, var(--bg) 100%); }
+      .night { background: radial-gradient(ellipse at 50% 80%, #2a1d52, #120c24 75%); }
+      .photo { background: #120c24; }
       .nav nav a.hide-m { display: none; }
       #hero { height: 1050vh; }
       .hud-top { display: none; } .hud { justify-content: flex-end; }
@@ -349,6 +353,7 @@
     "use strict";
     var root = document.documentElement, reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
     var small = innerWidth < 900, DPR = Math.min(small ? 1.5 : 2, window.devicePixelRatio || 1);
+    var BGRGB = getComputedStyle(root).getPropertyValue("--bgrgb").trim() || "7,6,11";
     function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
     function smooth(t) { t = clamp(t, 0, 1); return t * t * (3 - 2 * t); }
     function rnd(a, b) { return a + Math.random() * (b - a); }
@@ -607,10 +612,10 @@
       function seed(i) { X[i] = Math.random() * W; Y[i] = Math.random() * H; L[i] = rnd(80, 260); }
       loop(function (now) {
         if (!visible(sec)) return;
-        var sz = fit(cv); if (sz[0] !== W || sz[1] !== H) { W = sz[0]; H = sz[1]; for (var k = 0; k < N; k++) seed(k); ctx.setTransform(DPR, 0, 0, DPR, 0, 0); ctx.fillStyle = "#07060b"; ctx.fillRect(0, 0, W, H); }
+        var sz = fit(cv); if (sz[0] !== W || sz[1] !== H) { W = sz[0]; H = sz[1]; for (var k = 0; k < N; k++) seed(k); ctx.setTransform(DPR, 0, 0, DPR, 0, 0); ctx.fillStyle = "rgb(" + BGRGB + ")"; ctx.fillRect(0, 0, W, H); }
         var t = now / 1000, rect = cv.getBoundingClientRect(), mx = M.x - rect.left, my = M.y - rect.top, R = Math.min(W, H) * .32, R2 = R * R;
         ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
-        ctx.globalCompositeOperation = "source-over"; ctx.fillStyle = "rgba(7,6,11,.07)"; ctx.fillRect(0, 0, W, H);
+        ctx.globalCompositeOperation = "source-over"; ctx.fillStyle = "rgba(" + BGRGB + ",.07)"; ctx.fillRect(0, 0, W, H);
         ctx.globalCompositeOperation = "lighter"; ctx.lineWidth = 1.2;
         var paths = [new Path2D(), new Path2D(), new Path2D(), new Path2D()];
         for (var i = 0; i < N; i++) {
