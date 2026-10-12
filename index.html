@@ -592,7 +592,7 @@
       var SPR = [sprite("244,241,255"), sprite("185,163,255"), sprite("232,121,249"), sprite("244,114,182")], HEX = ["#f4f1ff", "#b9a3ff", "#e879f9", "#f472b6"];
       var W = 0, H = 0, N = 0, pos, vel, col, shapes = [], lastK = -1, rotY = 0, rotX = 0, LET, HID;
       var JIT, LC = [], LG = [], FS = 0, waves = [], SPN = 900, spX = new Float32Array(SPN), spY = new Float32Array(SPN), spVX = new Float32Array(SPN), spVY = new Float32Array(SPN), spL = new Float32Array(SPN), spI = 0, landed = -1;
-      var FLY = .3, T0 = null, ended = false, shake = 0, flash = 0, lastLetter = -1, L0 = .45, LSTEP = .17, HOLD0 = 4.6, SEG = 2.0, TRANS = .85;
+      var FLY = .3, T0 = null, ended = false, shake = 0, flash = 0, lastLetter = -1, L0 = .45, LSTEP = .17, HOLD0 = 3.6, SEG = 1.45, TRANS = .65;
       var skipB = document.getElementById("skip"), replayB = document.getElementById("replay"), down = document.getElementById("down");
       function sphere(n, R) {
         var out = new Float32Array(n * 3), ga = Math.PI * (3 - Math.sqrt(5));
