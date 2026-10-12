@@ -595,7 +595,7 @@
       var SPR = [sprite("244,241,255"), sprite("185,163,255"), sprite("232,121,249"), sprite("244,114,182")], HEX = ["#f4f1ff", "#b9a3ff", "#e879f9", "#f472b6"];
       var W = 0, H = 0, N = 0, pos, vel, col, shapes = [], lastK = -1, rotY = 0, rotX = 0, LET, HID;
       var JIT, LC = [], LG = [], FS = 0, waves = [], SPN = 900, spX = new Float32Array(SPN), spY = new Float32Array(SPN), spVX = new Float32Array(SPN), spVY = new Float32Array(SPN), spL = new Float32Array(SPN), spI = 0, landed = -1;
-      var FLY = .3, T0 = null, ended = false, shake = 0, flash = 0, lastLetter = -1, L0 = .7, LSTEP = .28, HOLD0 = 4.6, SEG = 2.0, TRANS = .85;
+      var FLY = .3, T0 = null, ended = false, shake = 0, flash = 0, lastLetter = -1, L0 = .45, LSTEP = .17, HOLD0 = 4.6, SEG = 2.0, TRANS = .85;
       var skipB = document.getElementById("skip"), replayB = document.getElementById("replay"), down = document.getElementById("down");
       function sphere(n, R) {
         var out = new Float32Array(n * 3), ga = Math.PI * (3 - Math.sqrt(5));
@@ -622,7 +622,7 @@
           g.fillText("REMAKO", w / 2, h * .47); geo(["REMAKO"], size, [h * .47]);
         });
         // vsaki pikici napisa določi črko (0–5) in skrito izhodišče globoko v prostoru
-        LET = new Uint8Array(N); HID = new Float32Array(N * 3); JIT = new Float32Array(N); for (var q0 = 0; q0 < N; q0++) JIT[q0] = Math.pow(Math.random(), 1.6) * .55;
+        LET = new Uint8Array(N); HID = new Float32Array(N * 3); JIT = new Float32Array(N); for (var q0 = 0; q0 < N; q0++) JIT[q0] = Math.pow(Math.random(), 1.3) * .4;
         for (var q = 0; q < N; q++) {
           var X = (txt[q * 3] + W / 2) * ss, Y = (txt[q * 3 + 1] + H * .47) * ss, line = 0, off = 0;
           if (TG && TG.length > 1 && Y > (TG[0].y + TG[1].y) / 2) { line = 1; off = 3; }
@@ -731,7 +731,8 @@
         for (var i = 0; i < N; i++) {
           var j = i * 3;
           var tx = A[j] + (B[j] - A[j]) * f, ty = A[j + 1] + (B[j + 1] - A[j + 1]) * f, tz = A[j + 2] + (B[j + 2] - A[j + 2]) * f;
-          if (intro && revealT < LET[i] * LSTEP + JIT[i]) { tx = HID[j] + Math.sin(t * .5 + i) * 14; ty = HID[j + 1] + Math.cos(t * .4 + i * .7) * 14; tz = HID[j + 2]; }
+          var waiting = intro && revealT < LET[i] * LSTEP + JIT[i];
+          if (waiting) { tx = HID[j] + Math.sin(t * .5 + i) * 14; ty = HID[j + 1] + Math.cos(t * .4 + i * .7) * 14; tz = HID[j + 2]; }
           if (sq > .001) { var qx = tx * sqS, qy = ty * sqS; tx = qx * sqC - qy * sqN; ty = qx * sqN + qy * sqC; tz *= sqS; }
           vel[j] += (tx - pos[j]) * kS; vel[j + 1] += (ty - pos[j + 1]) * kS; vel[j + 2] += (tz - pos[j + 2]) * kS;
           var x1 = pos[j] * cy - pos[j + 2] * sy, z1 = pos[j] * sy + pos[j + 2] * cy, y1 = pos[j + 1] * cx - z1 * sx, z2 = pos[j + 1] * sx + z1 * cx;
@@ -742,8 +743,9 @@
           pos[j] += vel[j]; pos[j + 1] += vel[j + 1]; pos[j + 2] += vel[j + 2];
           if (sc <= 0.05) continue;
           var dof = Math.max(0, Math.abs(z2) - 30) / 260;
-          if (dof > .08) { var s = (base + dof * 9) * sc; ctx.globalAlpha = clamp(1 / (1 + dof * 2.2), .05, .9); ctx.drawImage(SPR[col[i]], ox + px - s / 2, oy + py - s / 2, s, s); }
-          else { var d0 = (small ? 2.1 : 2.3) * sc; ctx.globalAlpha = 1; ctx.fillStyle = HEX[col[i]]; ctx.fillRect(ox + px - d0 / 2, oy + py - d0 / 2, d0, d0); }
+          var cloudA = waiting ? clamp(1 - e / 2.2, .15, 1) : 1;
+          if (dof > .08) { var s = (base + dof * 9) * sc; ctx.globalAlpha = clamp(1 / (1 + dof * 2.2), .05, .9) * cloudA; ctx.drawImage(SPR[col[i]], ox + px - s / 2, oy + py - s / 2, s, s); }
+          else { var d0 = (small ? 2.1 : 2.3) * sc; ctx.globalAlpha = cloudA; ctx.fillStyle = HEX[col[i]]; ctx.fillRect(ox + px - d0 / 2, oy + py - d0 / 2, d0, d0); }
         }
         ctx.globalAlpha = 1; ctx.globalCompositeOperation = "source-over";
       }
