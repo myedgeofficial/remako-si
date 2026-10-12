@@ -595,7 +595,7 @@
       var SPR = [sprite("244,241,255"), sprite("167,139,250"), sprite("236,72,153"), sprite("245,158,11")], HEX = ["#f4f1ff", "#b9a3ff", "#f472b6", "#fbbf24"];
       var W = 0, H = 0, N = 0, pos, vel, col, shapes = [], lastK = -1, rotY = 0, rotX = 0, LET, HID;
       var JIT, LC = [], LG = [], FS = 0, waves = [], SPN = 900, spX = new Float32Array(SPN), spY = new Float32Array(SPN), spVX = new Float32Array(SPN), spVY = new Float32Array(SPN), spL = new Float32Array(SPN), spI = 0, landed = -1;
-      var FLY = .3, T0 = null, ended = false, shake = 0, flash = 0, lastLetter = -1, L0 = .25, LSTEP = .2, HOLD0 = 3.2, SEG = 2.0, TRANS = .85;
+      var FLY = .3, T0 = null, ended = false, shake = 0, flash = 0, lastLetter = -1, L0 = .7, LSTEP = .28, HOLD0 = 3.2, SEG = 2.0, TRANS = .85;
       var skipB = document.getElementById("skip"), replayB = document.getElementById("replay"), down = document.getElementById("down");
       function sphere(n, R) {
         var out = new Float32Array(n * 3), ga = Math.PI * (3 - Math.sqrt(5));
@@ -628,7 +628,7 @@
           if (TG && TG.length > 1 && Y > (TG[0].y + TG[1].y) / 2) { line = 1; off = 3; }
           var bb = TG ? TG[line].b : [0, 1e9], li = 0; for (var k2 = 1; k2 < bb.length - 1; k2++) if (X >= bb[k2]) li = k2;
           LET[q] = li + off;
-          var dA = [3.3, 4.6, .15, 2.2, 5.5, 1.35][LET[q]] || 0, dR = Math.max(W, H) * 1.15; HID[q * 3] = txt[q * 3] + Math.cos(dA) * dR + rnd(-4, 4); HID[q * 3 + 1] = txt[q * 3 + 1] + Math.sin(dA) * dR + rnd(-4, 4); HID[q * 3 + 2] = rnd(-120, 120);
+          HID[q * 3] = rnd(-W * .75, W * .75); HID[q * 3 + 1] = rnd(-H * .7, H * .7); HID[q * 3 + 2] = rnd(-700, 900);
         }
         // središča črk za udarni val
         LC = []; LG = []; FS = TGS / ss;
@@ -722,14 +722,14 @@
         var sq = Math.sin(Math.PI * f), sqS = 1 - sq * .58, sqC = Math.cos(sq * 1.6), sqN = Math.sin(sq * 1.6);
         var A = shapes[a], B = shapes[b], fl = 900, mx = M.x - W / 2, my = M.y - H * .47, R = Math.min(W, H) * .12, R2 = R * R;
         var ox = W / 2, oy = H * .47;
-        var kS = intro ? .09 : .05, dmp = intro ? .76 : .8, revealT = e - L0;
+        var kS = intro ? .045 : .05, dmp = intro ? .84 : .8, revealT = e - L0;
         ctx.setTransform(DPR, 0, 0, DPR, 0, 0); ctx.globalCompositeOperation = "source-over"; ctx.clearRect(0, 0, W, H);
         ctx.globalCompositeOperation = "lighter";
         var base = small ? 3.6 : 4.4;
         for (var i = 0; i < N; i++) {
           var j = i * 3;
           var tx = A[j] + (B[j] - A[j]) * f, ty = A[j + 1] + (B[j + 1] - A[j + 1]) * f, tz = A[j + 2] + (B[j + 2] - A[j + 2]) * f;
-          if (intro && revealT < LET[i] * LSTEP + JIT[i]) { pos[j] = HID[j]; pos[j + 1] = HID[j + 1]; pos[j + 2] = HID[j + 2]; vel[j] = vel[j + 1] = vel[j + 2] = 0; continue; }
+          if (intro && revealT < LET[i] * LSTEP + JIT[i]) { tx = HID[j] + Math.sin(t * .5 + i) * 14; ty = HID[j + 1] + Math.cos(t * .4 + i * .7) * 14; tz = HID[j + 2]; }
           if (sq > .001) { var qx = tx * sqS, qy = ty * sqS; tx = qx * sqC - qy * sqN; ty = qx * sqN + qy * sqC; tz *= sqS; }
           vel[j] += (tx - pos[j]) * kS; vel[j + 1] += (ty - pos[j + 1]) * kS; vel[j + 2] += (tz - pos[j + 2]) * kS;
           var x1 = pos[j] * cy - pos[j + 2] * sy, z1 = pos[j] * sy + pos[j + 2] * cy, y1 = pos[j + 1] * cx - z1 * sx, z2 = pos[j + 1] * sx + z1 * cx;
@@ -740,7 +740,6 @@
           pos[j] += vel[j]; pos[j + 1] += vel[j + 1]; pos[j + 2] += vel[j + 2];
           if (sc <= 0.05) continue;
           var dof = Math.max(0, Math.abs(z2) - 30) / 260;
-          if (intro) { var sp2 = Math.sqrt(vel[j] * vel[j] + vel[j + 1] * vel[j + 1]); if (sp2 > 3) { var tl = Math.min(sp2 * 1.4, 46) / sp2; ctx.globalAlpha = .22; ctx.strokeStyle = HEX[col[i]]; ctx.lineWidth = 1 * sc; ctx.beginPath(); ctx.moveTo(ox + px, oy + py); ctx.lineTo(ox + px - vel[j] * tl * sc, oy + py - vel[j + 1] * tl * sc); ctx.stroke(); } }
           if (dof > .08) { var s = (base + dof * 9) * sc; ctx.globalAlpha = clamp(1 / (1 + dof * 2.2), .05, .9); ctx.drawImage(SPR[col[i]], ox + px - s / 2, oy + py - s / 2, s, s); }
           else { var d0 = (small ? 2.1 : 2.3) * sc; ctx.globalAlpha = 1; ctx.fillStyle = HEX[col[i]]; ctx.fillRect(ox + px - d0 / 2, oy + py - d0 / 2, d0, d0); }
         }
