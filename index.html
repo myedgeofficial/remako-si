@@ -114,6 +114,10 @@
     .stat + .stat { padding-left: 26px; }
     .stat b { display: block; font-weight: 900; letter-spacing: -.04em; font-size: clamp(54px, 6vw, 112px); line-height: 1; }
     .stat span { display: block; margin-top: 12px; font-weight: 700; color: var(--muted); }
+    #tok { padding-top: clamp(40px, 7vh, 90px); }
+    .facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin: 40px 0 0; padding-top: 26px; border-top: 1px solid var(--line); }
+    .facts dt { color: var(--dim); font-weight: 700; font-size: 14px; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 6px; }
+    .facts dd { margin: 0; font-weight: 800; }
     .hint { font-size: 13px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; color: var(--dim); margin-top: 26px; }
 
     /* 03 Lumora */
@@ -227,7 +231,7 @@
       .stats { grid-template-columns: repeat(2, 1fr); }
       .stat:nth-child(2) { border-right: 0; }
       .stat:nth-child(3) { padding-left: 0; }
-      .night, .urska, .contact, .idea, .works { grid-template-columns: 1fr; }
+      .night, .urska, .contact, .idea, .works, .facts { grid-template-columns: 1fr; }
       .nav nav a.nav-cta { padding: 7px 12px; font-size: 14px; }
       .work dl { grid-template-columns: 1fr; } .work dt { border-bottom: 0; padding-bottom: 0; }
       .night { min-height: 0; }
@@ -267,14 +271,12 @@
           <div class="cap">
             <span class="k on" data-k="0"><span data-sl>Razvijamo aplikacije.</span><span data-en>We build apps.</span></span>
             <span class="k" data-k="1"><span data-sl><span class="grad">Ideja</span>: povej nam, kaj potrebuješ.</span><span data-en><span class="grad">Idea</span>: tell us what you need.</span></span>
-            <span class="k" data-k="2"><span data-sl><span class="grad">Oblikovanje</span>: zasloni, ki jih razume vsak.</span><span data-en><span class="grad">Design</span>: screens anyone understands.</span></span>
-            <span class="k" data-k="3"><span data-sl><span class="grad">Razvoj</span>: iPhone, Android in strežniki.</span><span data-en><span class="grad">Development</span>: iPhone, Android and servers.</span></span>
-            <span class="k" data-k="4"><span data-sl><span class="grad">Varnost in zasebnost</span> po pravilih EU.</span><span data-en><span class="grad">Security and privacy</span> by EU rules.</span></span>
-            <span class="k" data-k="5"><span data-sl><span class="grad">Objava</span>: od TestFlighta do App Stora.</span><span data-en><span class="grad">Launch</span>: from TestFlight to the App Store.</span></span>
-            <span class="k" data-k="6"><span data-sl><span class="grad">Rast</span>: analitika, naročnine in oglasi.</span><span data-en><span class="grad">Growth</span>: analytics, subscriptions and ads.</span></span>
-            <span class="k" data-k="7"><span data-sl>Naslednja aplikacija je lahko <span class="grad">tvoja</span>.</span><span data-en>The next app could be <span class="grad">yours</span>.</span></span>
+            <span class="k" data-k="2"><span data-sl><span class="grad">Oblikovanje in razvoj</span>: iPhone, Android in strežniki.</span><span data-en><span class="grad">Design and development</span>: iPhone, Android and servers.</span></span>
+            <span class="k" data-k="3"><span data-sl><span class="grad">Objava</span>: od TestFlighta do App Stora.</span><span data-en><span class="grad">Launch</span>: from TestFlight to the App Store.</span></span>
+            <span class="k" data-k="4"><span data-sl><span class="grad">Rast</span>: analitika, naročnine in oglasi.</span><span data-en><span class="grad">Growth</span>: analytics, subscriptions and ads.</span></span>
+            <span class="k" data-k="5"><span data-sl>Naslednja aplikacija je lahko <span class="grad">tvoja</span>.</span><span data-en>The next app could be <span class="grad">yours</span>.</span></span>
           </div>
-          <div class="ctrl"><div class="meter" id="meter"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><button class="ibtn" id="skip" type="button"><span data-sl>Preskoči ›</span><span data-en>Skip ›</span></button><button class="ibtn" id="replay" type="button" hidden><span data-sl>↺ Ponovi</span><span data-en>↺ Replay</span></button></div>
+          <div class="ctrl"><div class="meter" id="meter"><i></i><i></i><i></i><i></i><i></i><i></i></div><button class="ibtn" id="skip" type="button"><span data-sl>Preskoči ›</span><span data-en>Skip ›</span></button><button class="ibtn" id="replay" type="button" hidden><span data-sl>↺ Ponovi</span><span data-en>↺ Replay</span></button></div>
         </div>
       </div>
       <div class="down" id="down"><span data-sl>Pomakni navzdol ↓</span><span data-en>Scroll down ↓</span></div>
@@ -328,14 +330,18 @@
   <section id="tok">
     <canvas class="fx" id="flowCv" aria-hidden="true"></canvas>
     <div class="wrap over">
-      <p class="eyebrow reveal"><b>02</b><span data-sl>V številkah</span><span data-en>By the numbers</span></p>
-      <h2 class="h reveal"><span data-sl>Majhna ekipa.<br><span class="grad">Velik doseg.</span></span><span data-en>Small team.<br><span class="grad">Big reach.</span></span></h2>
+      <p class="eyebrow reveal"><span data-sl>Nakupko v številkah</span><span data-en>Nakupko in numbers</span></p>
       <div class="stats">
         <div class="stat reveal"><b data-count="177">0</b><span data-sl>držav s trgovinami v Nakupku</span><span data-en>countries with stores in Nakupko</span></div>
         <div class="stat reveal"><b data-count="8">0</b><span data-sl>jezikov</span><span data-en>languages</span></div>
         <div class="stat reveal"><b data-count="15" data-suffix=" s">0</b><span data-sl>do zaznave trgovine</span><span data-en>to detect a store</span></div>
-        <div class="stat reveal"><b data-count="3">0</b><span data-sl>aplikacije za iPhone</span><span data-en>iPhone apps</span></div>
+        <div class="stat reveal"><b data-count="4">0</b><span data-sl>platforme: iPhone, CarPlay, Android, splet</span><span data-en>platforms: iPhone, CarPlay, Android, web</span></div>
       </div>
+      <dl class="facts reveal">
+        <div><dt><span data-sl>Tehnologija</span><span data-en>Technology</span></dt><dd>Swift, Live Activities, WidgetKit, Core Location, Firebase (EU), StoreKit 2</dd></div>
+        <div><dt><span data-sl>Poslovni model</span><span data-en>Business model</span></dt><dd><span data-sl>Brezplačno z oglasi, naročnina Nakupko Plus</span><span data-en>Free with ads, Nakupko Plus subscription</span></dd></div>
+        <div><dt><span data-sl>Stanje</span><span data-en>Status</span></dt><dd><span data-sl>Objavljeno v App Storu, Android v razvoju</span><span data-en>Live on the App Store, Android in development</span></dd></div>
+      </dl>
           </div>
   </section>
 
@@ -364,7 +370,7 @@
   <section id="znanje">
     <canvas class="fx" id="clothCv" aria-hidden="true"></canvas>
     <div class="wrap over">
-      <p class="eyebrow reveal"><b>03</b><span data-sl>Kaj delamo</span><span data-en>What we do</span></p>
+      <p class="eyebrow reveal"><b>02</b><span data-sl>Kaj delamo</span><span data-en>What we do</span></p>
       <h2 class="h reveal"><span data-sl>Vse, kar aplikacija<br><span class="grad">potrebuje</span>.</span><span data-en>Everything an app<br><span class="grad">needs</span>.</span></h2>
       <div class="skills">
         <div class="skill reveal"><svg viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M10 18h4"/></svg><span class="n">01</span><h3><span data-sl>Aplikacije za iPhone</span><span data-en>iPhone apps</span></h3><p data-sl>Swift, gradniki, Live Activities, CarPlay in obvestila.</p><p data-en>Swift, widgets, Live Activities, CarPlay and notifications.</p></div>
@@ -382,7 +388,7 @@
     <div class="wrap urska">
       <figure class="photo reveal" style="margin:0"><img src="img/urska-portret.webp" alt="Urška Repušič, direktorica REMAKO d.o.o." width="640" height="800" loading="lazy"></figure>
       <div>
-        <p class="eyebrow reveal"><b>04</b><span data-sl>Vodstvo</span><span data-en>Leadership</span></p>
+        <p class="eyebrow reveal"><b>03</b><span data-sl>Vodstvo</span><span data-en>Leadership</span></p>
         <h2 class="h reveal">Urška<br><span class="grad">Repušič</span></h2>
         <p class="role reveal"><span data-sl>Ustanoviteljica in direktorica</span><span data-en>Founder and director</span></p>
         <p class="lead reveal"><span data-sl>Urška vodi REMAKO in skrbi, da vsaka aplikacija od prve ideje do objave v App Storu ostane preprosta, zanesljiva in koristna v vsakdanjem življenju. Kot diplomirana ekonomistka s področja financ vodi tudi poslovanje podjetja.</span><span data-en>Urška leads REMAKO and makes sure every app, from the first idea to its App Store release, stays simple, reliable and useful in everyday life. As a finance graduate, she also runs the business side of the company.</span></p>
@@ -399,21 +405,14 @@
   <!-- Portfelj: izdelane aplikacije -->
   <section id="portfelj">
     <div class="wrap">
-      <p class="eyebrow reveal"><b>05</b><span data-sl>Portfelj</span><span data-en>Portfolio</span></p>
+      <p class="eyebrow reveal"><b>04</b><span data-sl>Portfelj</span><span data-en>Portfolio</span></p>
       <h2 class="h reveal"><span data-sl>Aplikacije, ki smo jih <span class="grad">izdelali</span>.</span><span data-en>Apps we have <span class="grad">built</span>.</span></h2>
       <div class="works">
         <article class="work reveal">
           <header><img src="img/nakupko.png" alt="" width="64" height="64"><div><h3>Nakupko</h3><span class="state live"><span data-sl>Objavljeno v App Storu</span><span data-en>Live on the App Store</span></span></div></header>
-          <p data-sl>Nakupovalni seznam, ki zazna, kdaj vstopiš v trgovino, in ti seznam pokaže na zaklenjenem zaslonu. Skupen seznam za gospodinjstvo in primerjava cen v slovenskih trgovinah.</p>
-          <p data-en>A shopping list that detects when you walk into a store and shows the list on your Lock Screen. A shared household list and price comparison across Slovenian stores.</p>
-          <dl>
-            <dt><span data-sl>Platforme</span><span data-en>Platforms</span></dt><dd>iPhone · CarPlay · <span data-sl>Android (v razvoju)</span><span data-en>Android (in development)</span></dd>
-            <dt><span data-sl>Jeziki</span><span data-en>Languages</span></dt><dd>8</dd>
-            <dt><span data-sl>Države</span><span data-en>Countries</span></dt><dd>177 <span data-sl>(zaznava trgovin)</span><span data-en>(store detection)</span></dd>
-            <dt><span data-sl>Tehnologija</span><span data-en>Technology</span></dt><dd>Swift, Live Activities, WidgetKit, Core Location, Firebase (EU), StoreKit 2</dd>
-            <dt><span data-sl>Model</span><span data-en>Model</span></dt><dd><span data-sl>Brezplačno z oglasi, naročnina Nakupko Plus</span><span data-en>Free with ads, Nakupko Plus subscription</span></dd>
-          </dl>
-          <footer><a href="https://apps.apple.com/si/app/nakupko-shopping-list/id6818745132">App Store →</a><a href="nakupko/podpora.html"><span data-sl>Podpora</span><span data-en>Support</span></a><a href="nakupko/zasebnost.html"><span data-sl>Zasebnost</span><span data-en>Privacy</span></a></footer>
+          <p data-sl>Nakupovalni seznam, ki se sam odpre v trgovini. Naš glavni izdelek, podrobno predstavljen zgoraj.</p>
+          <p data-en>The shopping list that opens itself in the store. Our flagship product, shown in detail above.</p>
+          <footer><a href="#nakupko"><span data-sl>Več o Nakupku ↑</span><span data-en>More about Nakupko ↑</span></a><a href="https://apps.apple.com/si/app/nakupko-shopping-list/id6818745132">App Store →</a><a href="nakupko/podpora.html"><span data-sl>Podpora</span><span data-en>Support</span></a><a href="nakupko/zasebnost.html"><span data-sl>Zasebnost</span><span data-en>Privacy</span></a></footer>
         </article>
         <article class="work reveal">
           <header><div class="mono">✦</div><div><h3>Manifest</h3><small class="by">Spirituality by Urška</small><span class="state dev"><span data-sl>V razvoju · kmalu v App Storu</span><span data-en>In development · coming soon</span></span></div></header>
@@ -445,7 +444,7 @@
   <section id="ideja">
     <div class="wrap idea">
       <div>
-        <p class="eyebrow reveal"><b>06</b><span data-sl>Tvoja aplikacija</span><span data-en>Your app</span></p>
+        <p class="eyebrow reveal"><b>05</b><span data-sl>Tvoja aplikacija</span><span data-en>Your app</span></p>
         <h2 class="h reveal"><span data-sl>Imaš idejo za <span class="grad">aplikacijo</span>?</span><span data-en>Got an idea for an <span class="grad">app</span>?</span></h2>
         <p class="lead reveal"><span data-sl>Opiši jo v nekaj stavkih. V dveh delovnih dneh ti pošljemo oceno, koliko bi izdelava stala in koliko časa bi trajala. Brezplačno in brez obveznosti.</span><span data-en>Describe it in a few sentences. Within two working days we send you an estimate of what it would cost and how long it would take. Free and with no obligation.</span></p>
         <ol class="howto reveal">
@@ -477,7 +476,7 @@
   <!-- Kontakt -->
   <section id="kontakt">
     <div class="wrap over">
-      <p class="eyebrow reveal"><b>07</b><span data-sl>Kontakt</span><span data-en>Contact</span></p>
+      <p class="eyebrow reveal"><b>06</b><span data-sl>Kontakt</span><span data-en>Contact</span></p>
       <div class="contact">
         <div>
           <h2 class="h reveal"><span data-sl>Piši nam.</span><span data-en>Write to us.</span></h2>
@@ -602,7 +601,7 @@
       }
       function build() {
         var a = fit(cv); W = a[0]; H = a[1];
-        var want = Math.round(clamp(W * H / (small ? 60 : 140), 3500, 14000));
+        var want = Math.round(clamp(W * H / (small ? 32 : 140), 3500, 14000));
         if (want !== N) {
           N = want; pos = new Float32Array(N * 3); vel = new Float32Array(N * 3); col = new Uint8Array(N);
           for (var i = 0; i < N; i++) { pos[i * 3] = rnd(-W, W); pos[i * 3 + 1] = rnd(-H, H); pos[i * 3 + 2] = rnd(-900, 900); var r = Math.random(); col[i] = r < .52 ? 0 : r < .76 ? 1 : r < .9 ? 2 : 3; }
@@ -683,7 +682,7 @@
           var max = w * (w < h ? .9 : .7); if (tw > max) size *= max / tw;
           drawLogo(g, w / 2, h * .47, size, "#000", "#000");
         });
-        shapes = [txt, bulb, phone, code, lock, rocket, chart, icon];
+        shapes = [txt, bulb, phone, rocket, chart, icon];
         // prostor med navigacijo in napisom: oblike pomanjšaj in postavi na sredino tega prostora
         var capEl = document.querySelector(".cap"), stEl = cv.parentNode, capTop = capEl.getBoundingClientRect().top - stEl.getBoundingClientRect().top - capEl.offsetHeight * .35;
         var topY = small ? 76 : 96, avail = Math.max(60, (capTop - topY) / 2 - 12); CY = (topY + capTop) / 2;
@@ -724,7 +723,7 @@
         var kS = intro ? .06 : .05, dmp = intro ? .82 : .8, revealT = e - L0;
         ctx.setTransform(DPR, 0, 0, DPR, 0, 0); ctx.globalCompositeOperation = "source-over"; ctx.clearRect(0, 0, W, H);
         ctx.globalCompositeOperation = "lighter";
-        var base = small ? 3.6 : 4.4;
+        var base = small ? 2.4 : 4.4;
         for (var i = 0; i < N; i++) {
           var j = i * 3;
           var tx = A[j] + (B[j] - A[j]) * f, ty = A[j + 1] + (B[j + 1] - A[j + 1]) * f, tz = A[j + 2] + (B[j + 2] - A[j + 2]) * f;
@@ -742,7 +741,7 @@
           var dof = Math.max(0, Math.abs(z2) - 30) / 260;
           var cloudA = waiting ? clamp(1 - e / 2.2, .15, 1) : 1;
           if (dof > .08) { var s = (base + dof * 9) * sc; ctx.globalAlpha = clamp(1 / (1 + dof * 2.2), .05, .9) * cloudA; ctx.drawImage(SPR[col[i]], ox + px - s / 2, oy + py - s / 2, s, s); }
-          else { var d0 = (small ? 2.1 : 2.3) * sc; ctx.globalAlpha = cloudA; ctx.fillStyle = HEX[col[i]]; ctx.fillRect(ox + px - d0 / 2, oy + py - d0 / 2, d0, d0); }
+          else { var d0 = (small ? 1.25 : 2.3) * sc; ctx.globalAlpha = cloudA; ctx.fillStyle = HEX[col[i]]; ctx.fillRect(ox + px - d0 / 2, oy + py - d0 / 2, d0, d0); }
         }
         ctx.globalAlpha = 1; ctx.globalCompositeOperation = "source-over";
       }
