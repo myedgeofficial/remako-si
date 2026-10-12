@@ -45,7 +45,7 @@
     .lang { border: 1px solid rgba(255,255,255,.28); border-radius: 999px; padding: 6px 14px; background: none; font: 800 14px "Inter Tight", sans-serif; letter-spacing: .08em; cursor: pointer; color: var(--ink); }
 
     /* 01 Uvod */
-    #hero { position: relative; height: 900vh; }
+    #hero { position: relative; height: 1300vh; }
     .stage { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; background: radial-gradient(ellipse at 50% 46%, #120f22 0%, var(--bg) 64%); }
     #heroCv { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: pan-y; }
     .hud { position: absolute; inset: 88px clamp(16px, 4vw, 72px) clamp(24px, 5vh, 56px); pointer-events: none; display: flex; flex-direction: column; justify-content: space-between; }
@@ -149,7 +149,7 @@
     @media (max-width: 900px) {
       body { font-size: 18px; }
       .nav nav a.hide-m { display: none; }
-      #hero { height: 720vh; }
+      #hero { height: 1050vh; }
       .hud-top span:last-child { display: none; }
       .meter i { width: 14px; }
       #nakupko { height: 420vh; }
@@ -482,8 +482,8 @@
       function frame(now) {
         if (!visible(hero) || !shapes.length) return;
         var a2 = fit(cv); if (a2[0] !== W || a2[1] !== H) build();
-        var LAST = shapes.length - 1, pr = progress() * (LAST + .2), a = Math.min(LAST, Math.floor(pr)), b = Math.min(LAST, a + 1), f = smooth((pr - a - .22) / .56);
-        var k = Math.min(LAST, Math.floor(pr + .45));
+        var LAST = shapes.length - 1, pr = progress() * (LAST + .2), a = Math.min(LAST, Math.floor(pr)), b = Math.min(LAST, a + 1), f = smooth((pr - a - .5) / .32);
+        var k = Math.min(LAST, Math.floor(pr + .34));
         if (k !== lastK) { caps.forEach(function (c) { c.classList.toggle("on", +c.dataset.k === k); }); lastK = k; }
         meter.forEach(function (m, i) { m.style.setProperty("--f", clamp(pr - i, 0, 1)); });
         var t = now / 1000, globe = false;
