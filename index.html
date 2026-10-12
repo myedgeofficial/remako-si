@@ -391,9 +391,11 @@
       var c = document.createElement("canvas"); c.width = cw; c.height = ch;
       var g = c.getContext("2d"); g.fillStyle = "#000"; g.strokeStyle = "#000"; draw(g, cw, ch);
       var d = g.getImageData(0, 0, cw, ch).data, pts = [];
-      for (var y = 0; y < ch; y += 2) for (var x = 0; x < cw; x += 2) if (d[(y * cw + x) * 4 + 3] > 128) pts.push(x / s, y / s);
-      var out = new Float32Array(n * 3), m = pts.length / 2 || 1;
-      for (var i = 0; i < n; i++) { var k = (Math.random() * m | 0) * 2; out[i * 3] = (pts[k] || w / 2) - w / 2 + rnd(-1.5, 1.5); out[i * 3 + 1] = (pts[k + 1] || h * .47) - h * .47 + rnd(-1.5, 1.5); out[i * 3 + 2] = rnd(-10, 10); }
+      for (var y = 0; y < ch; y += 1) for (var x = 0; x < cw; x += 1) if (d[(y * cw + x) * 4 + 3] > 128) pts.push(x / s, y / s);
+      var out = new Float32Array(n * 3), m = pts.length / 2 || 1, order = new Uint32Array(m);
+      for (var i = 0; i < m; i++) order[i] = i;
+      for (i = m - 1; i > 0; i--) { var j = Math.random() * (i + 1) | 0, tt = order[i]; order[i] = order[j]; order[j] = tt; }
+      for (i = 0; i < n; i++) { var k = order[Math.floor(i * m / n) % m] * 2; out[i * 3] = (pts[k] || w / 2) - w / 2 + rnd(-.6, .6); out[i * 3 + 1] = (pts[k + 1] || h * .47) - h * .47 + rnd(-.6, .6); out[i * 3 + 2] = 0; }
       return out;
     }
 
@@ -401,7 +403,7 @@
     (function () {
       var hero = document.getElementById("hero"), cv = document.getElementById("heroCv"), ctx = cv.getContext("2d");
       var caps = document.querySelectorAll(".cap .k"), meter = document.querySelectorAll("#meter i");
-      var SPR = [sprite("244,241,255"), sprite("167,139,250"), sprite("236,72,153"), sprite("245,158,11")];
+      var SPR = [sprite("244,241,255"), sprite("167,139,250"), sprite("236,72,153"), sprite("245,158,11")], HEX = ["#f4f1ff", "#b9a3ff", "#f472b6", "#fbbf24"];
       var W = 0, H = 0, N = 0, pos, vel, col, shapes = [], lastK = -1, rotY = 0, rotX = 0;
       function sphere(n, R) {
         var out = new Float32Array(n * 3), ga = Math.PI * (3 - Math.sqrt(5));
@@ -410,7 +412,7 @@
       }
       function build() {
         var a = fit(cv); W = a[0]; H = a[1];
-        var want = Math.round(clamp(W * H / 190, 3000, 10000));
+        var want = Math.round(clamp(W * H / 140, 3500, 14000));
         if (want !== N) {
           N = want; pos = new Float32Array(N * 3); vel = new Float32Array(N * 3); col = new Uint8Array(N);
           for (var i = 0; i < N; i++) { pos[i * 3] = rnd(-W, W); pos[i * 3 + 1] = rnd(-H, H); pos[i * 3 + 2] = rnd(-900, 900); var r = Math.random(); col[i] = r < .6 ? 0 : r < .84 ? 1 : r < .95 ? 2 : 3; }
@@ -422,14 +424,14 @@
         });
         var phone = sampleShape(N, W, H, function (g, w, h) {
           var ph = h * .64, pw = ph * .47, x = (w - pw) / 2, y = h * .47 - ph / 2;
-          g.lineWidth = Math.max(3, pw * .035); g.beginPath(); g.roundRect(x, y, pw, ph, pw * .17); g.stroke();
+          g.lineWidth = Math.max(5, pw * .055); g.beginPath(); g.roundRect(x, y, pw, ph, pw * .17); g.stroke();
           g.beginPath(); g.roundRect(x + pw * .36, y + ph * .035, pw * .28, ph * .032, 99); g.fill();
           var cols = 4, gap = pw * .07, sz = (pw - gap * (cols + 1)) / cols;
           for (var r = 0; r < 5; r++) for (var c = 0; c < cols; c++) { g.beginPath(); g.roundRect(x + gap + c * (sz + gap), y + ph * .13 + r * (sz + gap * 1.2), sz, sz, sz * .26); g.fill(); }
           g.beginPath(); g.roundRect(x + gap, y + ph * .86, pw - gap * 2, sz * 1.05, sz * .3); g.fill();
         });
         var basket = sampleShape(N, W, H, function (g, w, h) {
-          var s = h * .5, cx = w / 2, cy = h * .5, lw = Math.max(4, s * .045);
+          var s = h * .5, cx = w / 2, cy = h * .5, lw = Math.max(6, s * .065);
           g.lineWidth = lw; g.lineJoin = "round"; g.lineCap = "round";
           g.beginPath(); g.arc(cx, cy - s * .2, s * .28, Math.PI * 1.05, Math.PI * 1.95); g.stroke(); // ročaj
           g.beginPath(); g.moveTo(cx - s * .5, cy - s * .16); g.lineTo(cx + s * .5, cy - s * .16); g.lineTo(cx + s * .38, cy + s * .42); g.lineTo(cx - s * .38, cy + s * .42); g.closePath(); g.stroke();
@@ -474,9 +476,9 @@
           vel[j] *= .76; vel[j + 1] *= .76; vel[j + 2] *= .76;
           pos[j] += vel[j]; pos[j + 1] += vel[j + 1]; pos[j + 2] += vel[j + 2];
           if (sc <= 0.05) continue;
-          var dof = Math.max(0, Math.abs(z2) - 30) / 260, s = (base + dof * 9) * sc;
-          ctx.globalAlpha = clamp(1 / (1 + dof * 2.2), .05, 1);
-          ctx.drawImage(SPR[col[i]], ox + px - s / 2, oy + py - s / 2, s, s);
+          var dof = Math.max(0, Math.abs(z2) - 30) / 260;
+          if (dof > .08) { var s = (base + dof * 9) * sc; ctx.globalAlpha = clamp(1 / (1 + dof * 2.2), .05, .9); ctx.drawImage(SPR[col[i]], ox + px - s / 2, oy + py - s / 2, s, s); }
+          else { var d0 = (small ? 1.8 : 2.3) * sc; ctx.globalAlpha = 1; ctx.fillStyle = HEX[col[i]]; ctx.fillRect(ox + px - d0 / 2, oy + py - d0 / 2, d0, d0); }
         }
         ctx.globalAlpha = 1; ctx.globalCompositeOperation = "source-over";
       }
