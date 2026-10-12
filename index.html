@@ -329,7 +329,6 @@
 
   <!-- Številke na toku svetlobe -->
   <section id="tok">
-    <canvas class="fx" id="flowCv" aria-hidden="true"></canvas>
     <div class="wrap over">
       <p class="eyebrow reveal"><span data-sl>Nakupko v številkah</span><span data-en>Nakupko in numbers</span></p>
       <div class="stats">
@@ -763,32 +762,6 @@
       });
     })();
 
-    // ========== Tok svetlobe (številke) ==========
-    (function () {
-      var sec = document.getElementById("tok"), cv = document.getElementById("flowCv"), ctx = cv.getContext("2d");
-      var N = small ? 600 : 1600, X = new Float32Array(N), Y = new Float32Array(N), L = new Float32Array(N), W = 0, H = 0;
-      var COL = ["rgba(167,139,250,.28)", "rgba(236,72,153,.2)", "rgba(245,158,11,.18)", "rgba(244,241,255,.2)"];
-      function seed(i) { X[i] = Math.random() * W; Y[i] = Math.random() * H; L[i] = rnd(80, 260); }
-      loop(function (now) {
-        if (!visible(sec)) return;
-        var sz = fit(cv); if (sz[0] !== W || sz[1] !== H) { W = sz[0]; H = sz[1]; for (var k = 0; k < N; k++) seed(k); ctx.setTransform(DPR, 0, 0, DPR, 0, 0); ctx.fillStyle = "rgb(" + BGRGB + ")"; ctx.fillRect(0, 0, W, H); }
-        var t = now / 1000, rect = cv.getBoundingClientRect(), mx = M.x - rect.left, my = M.y - rect.top, R = Math.min(W, H) * .32, R2 = R * R;
-        ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
-        ctx.globalCompositeOperation = "source-over"; ctx.fillStyle = "rgba(" + BGRGB + ",.07)"; ctx.fillRect(0, 0, W, H);
-        ctx.globalCompositeOperation = "lighter"; ctx.lineWidth = 1.2;
-        var paths = [new Path2D(), new Path2D(), new Path2D(), new Path2D()];
-        for (var i = 0; i < N; i++) {
-          var x = X[i], y = Y[i], an = noise3(x * .0016, y * .0016, t * .07) * Math.PI * 4;
-          var vx = Math.cos(an) * 1.8, vy = Math.sin(an) * 1.8;
-          if (M.on) { var dx = x - mx, dy = y - my, d2 = dx * dx + dy * dy; if (d2 < R2) { var fo = (1 - d2 / R2) * 5; var d = Math.sqrt(d2) + 1; vx += (-dy / d) * fo + dx / d * fo * .3; vy += (dx / d) * fo + dy / d * fo * .3; } }
-          X[i] = x + vx; Y[i] = y + vy; L[i]--;
-          paths[i & 3].moveTo(x, y); paths[i & 3].lineTo(X[i], Y[i]);
-          if (L[i] < 0 || X[i] < 0 || Y[i] < 0 || X[i] > W || Y[i] > H) seed(i);
-        }
-        for (k = 0; k < 4; k++) { ctx.strokeStyle = COL[k]; ctx.stroke(paths[k]); }
-        ctx.globalCompositeOperation = "source-over";
-      });
-    })();
 
     // ========== 03 Lumora: realistična luna, izrisana piksel za pikslom ==========
     (function () {
