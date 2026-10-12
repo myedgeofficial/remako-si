@@ -713,52 +713,47 @@
       addEventListener("resize", function () { if (W) build(); });
     })();
 
-    // ========== 02 Nakupko: zaslon razpade v prah ==========
+    // ========== 02 Nakupko: zaslon se obrne v ploščicah (diagonalni val) ==========
     (function () {
       var sec = document.getElementById("nakupko"), cv = document.getElementById("screenCv"), ctx = cv.getContext("2d");
       var dev = document.getElementById("device"), scr = document.getElementById("scr");
       var steps = document.querySelectorAll(".step"), srcs = ["img/s-v-trgovini.webp", "img/s-zaklenjen.webp", "img/s-trgovina.webp", "img/s-skupen.webp"];
-      var COLS = small ? 60 : 92, ROWS = Math.round(COLS * 1304 / 600), N = COLS * ROWS;
-      var colors = [], imgs = [], ready = 0, off = new Float32Array(N * 3), lastS = -1;
-      for (var i = 0; i < N; i++) { var an = Math.random() * 6.283, sp = Math.pow(Math.random(), .6); off[i * 3] = Math.cos(an) * sp; off[i * 3 + 1] = Math.sin(an) * sp - .2; off[i * 3 + 2] = rnd(-1, 1); }
-      srcs.forEach(function (src, k) {
-        var im = new Image(); im.onload = function () {
-          var c = document.createElement("canvas"); c.width = COLS; c.height = ROWS; var g = c.getContext("2d");
-          g.imageSmoothingQuality = "high"; g.drawImage(im, 0, 0, COLS, ROWS); colors[k] = g.getImageData(0, 0, COLS, ROWS).data; imgs[k] = im; ready++;
-        }; im.src = src;
-      });
-      var disp = new Float32Array(N * 2), dv = new Float32Array(N * 2), stirred = 0;
+      var COLS = small ? 5 : 6, ROWS = small ? 11 : 13, imgs = [], ready = 0, lastS = -1, gx = .5, gy = .3;
+      srcs.forEach(function (src, k) { var im = new Image(); im.onload = function () { imgs[k] = im; ready++; }; im.src = src; });
       loop(function (now) {
         if (ready < srcs.length || !visible(sec)) return;
         var sz = fit(cv), CW = sz[0], CH = sz[1], t = now / 1000;
         var r = sec.getBoundingClientRect(), p = clamp(-r.top / Math.max(1, sec.offsetHeight - innerHeight), 0, .9999);
-        var tt = p * 4 - .5, a = clamp(Math.floor(tt), 0, 3), b = clamp(a + 1, 0, 3), f = tt < 0 ? 0 : smooth((tt - a - .3) / .4);
+        var tt = p * 4 - .5, a = clamp(Math.floor(tt), 0, 3), b = clamp(a + 1, 0, 3), f = tt < 0 || a === b ? 0 : clamp((tt - a - .2) / .6, 0, 1);
         var s = f > .5 ? b : a; if (tt < 0) s = 0;
         if (s !== lastS) { steps.forEach(function (st, i) { st.classList.toggle("on", i === s); }); lastS = s; }
         if (!reduce) dev.style.transform = "translateY(" + (Math.sin(t * .8) * 8).toFixed(2) + "px) rotate(" + (M.nx * 1.2).toFixed(2) + "deg)";
         var base = cv.getBoundingClientRect(), sr = scr.getBoundingClientRect();
-        var ox = sr.left - base.left, oy = sr.top - base.top, W = sr.width, H = sr.height, cw = W / COLS, chh = H / ROWS;
-        var mx = M.x - sr.left, my = M.y - sr.top, R = W * .24, R2 = R * R;
-        var inside = M.on && mx > -R && my > -R && mx < W + R && my < H + R, burst = Math.sin(Math.PI * f);
+        var ox = sr.left - base.left, oy = sr.top - base.top, W = sr.width, H = sr.height;
         ctx.setTransform(DPR, 0, 0, DPR, 0, 0); ctx.clearRect(0, 0, CW, CH);
-        if (burst < .002 && !inside && stirred < .5) {
-          ctx.save(); ctx.beginPath(); ctx.roundRect(ox, oy, W, H, [W * .125]); ctx.clip(); ctx.drawImage(imgs[f > .5 ? b : a], ox, oy, W, H); ctx.restore();
-          disp.fill(0); dv.fill(0); stirred = 0; return;
+        ctx.save(); ctx.beginPath(); ctx.roundRect(ox, oy, W, H, [W * .125]); ctx.clip();
+        var A = imgs[a], B = imgs[b];
+        if (f <= 0 || f >= 1) {
+          ctx.drawImage(f >= 1 ? B : A, ox, oy, W, H);
+        } else {
+          ctx.fillStyle = "#0b0a10"; ctx.fillRect(ox, oy, W, H);
+          var tw = W / COLS, th = H / ROWS, sw = A.naturalWidth / COLS, sh = A.naturalHeight / ROWS, span = COLS + ROWS - 2;
+          for (var rr = 0; rr < ROWS; rr++) for (var c = 0; c < COLS; c++) {
+            var d = (c + rr) / span * .55, l = smooth((f - d) / .45), th0 = l * Math.PI, sx = Math.cos(th0), w = Math.abs(sx) * tw;
+            var im = th0 < Math.PI / 2 ? A : B, lift = 1 + Math.sin(th0) * .08, x = ox + c * tw + (tw - w) / 2, y = oy + rr * th - th * (lift - 1) / 2;
+            if (w < .5) continue;
+            ctx.drawImage(im, c * sw, rr * sh, sw, sh, x, y, w, th * lift);
+            var shade = Math.sin(th0);
+            if (shade > .01) { ctx.fillStyle = "rgba(10,6,24," + (shade * .55).toFixed(3) + ")"; ctx.fillRect(x, y, w, th * lift); ctx.fillStyle = "rgba(236,72,153," + (shade * .5).toFixed(3) + ")"; ctx.fillRect(sx > 0 ? x + w - 1.5 : x, y, 1.5, th * lift); }
+          }
         }
-        var A = colors[a], B = colors[b], spreadX = Math.min(CW, 1400) * .22, spreadY = CH * .2, mxStir = 0;
-        for (var i = 0; i < N; i++) {
-          var cxp = (i % COLS) * cw, cyp = ((i / COLS) | 0) * chh, j = i * 4, q = i * 2;
-          if (inside) { var dx = cxp + disp[q] - mx, dy = cyp + disp[q + 1] - my, d2 = dx * dx + dy * dy; if (d2 < R2) { var fo = (1 - d2 / R2) * 2.6 / (Math.sqrt(d2) + 1); dv[q] += dx * fo; dv[q + 1] += dy * fo; } }
-          dv[q] += -disp[q] * .07; dv[q + 1] += -disp[q + 1] * .07; dv[q] *= .85; dv[q + 1] *= .85; disp[q] += dv[q]; disp[q + 1] += dv[q + 1];
-          var md = Math.abs(disp[q]) + Math.abs(disp[q + 1]); if (md > mxStir) mxStir = md;
-          var rr = A[j] + (B[j] - A[j]) * f, gg = A[j + 1] + (B[j + 1] - A[j + 1]) * f, bb = A[j + 2] + (B[j + 2] - A[j + 2]) * f;
-          var z = 1 + off[i * 3 + 2] * burst * .9;
-          var x = ox + cxp + disp[q] + off[i * 3] * spreadX * burst + Math.sin(t * 2 + i) * burst * 5, y = oy + cyp + disp[q + 1] + off[i * 3 + 1] * spreadY * burst;
-          ctx.fillStyle = "rgb(" + (rr | 0) + "," + (gg | 0) + "," + (bb | 0) + ")";
-          var k = burst > .02 ? clamp(z * (1 - burst * .45), .25, 1.5) : 1;
-          ctx.fillRect(x, y, (cw + .5) * k, (chh + .5) * k);
-        }
-        stirred = mxStir;
+        // odsev na steklu sledi miški
+        var mx = (M.x - sr.left) / W, my = (M.y - sr.top) / H, over = M.on && mx > -.2 && mx < 1.2 && my > -.2 && my < 1.2;
+        gx += ((over ? mx : .3 + Math.sin(t * .4) * .2) - gx) * .08; gy += ((over ? my : .25) - gy) * .08;
+        var gl = ctx.createRadialGradient(ox + gx * W, oy + gy * H, 0, ox + gx * W, oy + gy * H, W * .9);
+        gl.addColorStop(0, "rgba(255,255,255," + (over ? .16 : .07) + ")"); gl.addColorStop(1, "rgba(255,255,255,0)");
+        ctx.fillStyle = gl; ctx.fillRect(ox, oy, W, H);
+        ctx.restore();
       });
     })();
 
