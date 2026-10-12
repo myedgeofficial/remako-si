@@ -9,110 +9,113 @@
 <style>
   html, body { margin: 0; height: 100%; background: #07060b; color: #f4f1ff; font: 800 15px "Inter Tight", sans-serif; overflow: hidden; }
   canvas { position: fixed; inset: 0; width: 100%; height: 100%; display: block; background: radial-gradient(ellipse at 50% 46%, #120f22 0%, #07060b 64%); }
-  .bar { position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%); display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; width: min(900px, 94vw); z-index: 2; }
+  .bar { position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%); display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; width: min(980px, 94vw); z-index: 2; }
   button { background: rgba(255,255,255,.06); color: #f4f1ff; border: 1px solid rgba(255,255,255,.22); border-radius: 999px; padding: 10px 16px; font: 800 14px "Inter Tight", sans-serif; cursor: pointer; }
   button.on { background: #f4f1ff; color: #07060b; }
   .t { position: fixed; top: 20px; left: 0; right: 0; text-align: center; color: #7d7694; letter-spacing: .16em; text-transform: uppercase; font-size: 12px; z-index: 2; }
 </style>
 </head>
 <body>
-<div class="t">Izberi začetek · klikni »Ponovi« za ponovni ogled</div>
+<div class="t">Mešanice 1 in 4 · klikni »Ponovi« za ponovni ogled</div>
 <canvas id="c"></canvas>
 <div class="bar">
-  <button data-m="0" class="on">1 · Svetlobni prelet</button>
-  <button data-m="1">2 · Pesek, ki pade</button>
-  <button data-m="2">3 · Implozija</button>
-  <button data-m="3">4 · Dekodiranje</button>
+  <button data-m="0" class="on">A · Žarek odkodira</button>
+  <button data-m="1">B · Pikčasto dekodiranje + sij</button>
+  <button data-m="2">C · Skener od zgoraj</button>
+  <button data-m="3">D · Črke se razpustijo za žarkom</button>
   <button id="again">↺ Ponovi</button>
 </div>
 <script>
 (function () {
   var cv = document.getElementById("c"), ctx = cv.getContext("2d"), DPR = Math.min(2, devicePixelRatio || 1);
-  var W, H, N, TX, TY, X, Y, VX, VY, A, D, COL, mode = 0, T0 = 0;
+  var W, H, N, TX, TY, COL, LI, A, mode = 0, T0 = 0, FS = 0, LET = [], GL = {}, STEP = 3;
   var HEX = ["#f4f1ff", "#b9a3ff", "#f472b6", "#fbbf24"], GLYPH = "ABCDEFGHJKLMNPQRSTUVWXYZ0123456789#%&@$";
   function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
   function smooth(t) { t = clamp(t, 0, 1); return t * t * (3 - 2 * t); }
   function rnd(a, b) { return a + Math.random() * (b - a); }
-  var FS = 0, LET = [];
+  // pike za poljuben znak (za naključne znake med dekodiranjem)
+  function glyphDots(ch) {
+    if (GL[ch]) return GL[ch];
+    var s = Math.ceil(FS * 1.2), c = document.createElement("canvas"); c.width = s; c.height = s; var g = c.getContext("2d");
+    g.font = "900 " + FS + "px 'Inter Tight'"; g.textBaseline = "middle"; g.fillText(ch, 0, s / 2);
+    var d = g.getImageData(0, 0, s, s).data, pts = [], w = g.measureText(ch).width;
+    for (var y = 0; y < s; y += STEP + 1) for (var x = 0; x < s; x += STEP + 1) if (d[(y * s + x) * 4 + 3] > 128) pts.push(x, y - s / 2);
+    return (GL[ch] = { p: pts, w: w });
+  }
   function layout() {
-    W = innerWidth; H = innerHeight; cv.width = W * DPR; cv.height = H * DPR;
-    var g = document.createElement("canvas").getContext("2d"), portrait = W < H;
-    var lines = portrait ? ["REM", "AKO"] : ["REMAKO"], size = portrait ? W * .5 : H * .3;
-    g.font = "900 " + size + "px 'Inter Tight'"; var mw = Math.max.apply(null, lines.map(function (l) { return g.measureText(l).width; })), max = W * (portrait ? .9 : .8);
-    if (mw > max) size *= max / mw; FS = size;
+    W = innerWidth; H = innerHeight; cv.width = W * DPR; cv.height = H * DPR; GL = {};
+    var portrait = W < H, lines = portrait ? ["REM", "AKO"] : ["REMAKO"], size = portrait ? W * .5 : H * .3;
     var c = document.createElement("canvas"); c.width = W; c.height = H; var x = c.getContext("2d");
-    x.font = "900 " + size + "px 'Inter Tight'"; x.textBaseline = "middle"; x.fillStyle = "#000"; LET = [];
+    x.font = "900 " + size + "px 'Inter Tight'"; var mw = Math.max.apply(null, lines.map(function (l) { return x.measureText(l).width; })), max = W * (portrait ? .9 : .8);
+    if (mw > max) size *= max / mw; FS = size; x.font = "900 " + size + "px 'Inter Tight'"; x.textBaseline = "middle"; LET = [];
     lines.forEach(function (l, li) {
-      var y = H * .47 + (lines.length > 1 ? (li - .5) * size : 0), tw = x.measureText(l).width, x0 = W / 2 - tw / 2, cx = x0;
+      var y = H * .47 + (lines.length > 1 ? (li - .5) * size : 0), tw = x.measureText(l).width, cx = W / 2 - tw / 2;
       for (var k = 0; k < l.length; k++) { var w = x.measureText(l[k]).width; LET.push({ ch: l[k], x: cx, y: y, w: w }); x.fillText(l[k], cx, y); cx += w; }
     });
-    var d = x.getImageData(0, 0, W, H).data, pts = [], step = W * H > 1.5e6 ? 3 : 2;
-    for (var yy = 0; yy < H; yy += step) for (var xx = 0; xx < W; xx += step) if (d[(yy * W + xx) * 4 + 3] > 128) pts.push(xx, yy);
-    N = pts.length / 2; TX = new Float32Array(N); TY = new Float32Array(N); X = new Float32Array(N); Y = new Float32Array(N); VX = new Float32Array(N); VY = new Float32Array(N); A = new Float32Array(N); D = new Float32Array(N); COL = new Uint8Array(N);
-    var minY = 1e9, maxY = -1e9;
-    for (var i = 0; i < N; i++) { TX[i] = pts[i * 2] + rnd(-.5, .5); TY[i] = pts[i * 2 + 1] + rnd(-.5, .5); var r = Math.random(); COL[i] = r < .62 ? 0 : r < .85 ? 1 : r < .95 ? 2 : 3; if (TY[i] < minY) minY = TY[i]; if (TY[i] > maxY) maxY = TY[i]; }
-    MINY = minY; MAXY = maxY; reset();
-  }
-  var MINY = 0, MAXY = 1;
-  function reset() {
-    T0 = performance.now();
+    var d = x.getImageData(0, 0, W, H).data, pts = [];
+    for (var yy = 0; yy < H; yy += STEP) for (var xx = 0; xx < W; xx += STEP) if (d[(yy * W + xx) * 4 + 3] > 128) pts.push(xx, yy);
+    N = pts.length / 2; TX = new Float32Array(N); TY = new Float32Array(N); COL = new Uint8Array(N); LI = new Uint8Array(N); A = new Float32Array(N);
     for (var i = 0; i < N; i++) {
-      VX[i] = VY[i] = 0; A[i] = 0;
-      if (mode === 0) { X[i] = TX[i]; Y[i] = TY[i]; }
-      if (mode === 1) { X[i] = TX[i] + rnd(-6, 6); Y[i] = rnd(-H * .6, -20); D[i] = (1 - (TY[i] - MINY) / (MAXY - MINY + 1)) * 1.3 + Math.random() * .35; }
-      if (mode === 2) { X[i] = Math.random() * W; Y[i] = Math.random() * H; D[i] = Math.random() * .5; }
-      if (mode === 3) { X[i] = TX[i]; Y[i] = TY[i]; }
+      TX[i] = pts[i * 2]; TY[i] = pts[i * 2 + 1]; var r = Math.random(); COL[i] = r < .62 ? 0 : r < .85 ? 1 : r < .95 ? 2 : 3;
+      var best = 0; for (var k2 = 0; k2 < LET.length; k2++) if (Math.abs(TY[i] - LET[k2].y) < FS * .6 && TX[i] >= LET[k2].x - 1) best = k2; LI[i] = best;
     }
+    reset();
+  }
+  function reset() { T0 = performance.now(); A.fill(0); }
+  function rndCh(t, li) { return GLYPH[(Math.floor(t * 18) * 7 + li * 13) % GLYPH.length]; }
+  function drawGlyph(ch, L, alpha, color) {
+    var G = glyphDots(ch), ox = L.x + (L.w - G.w) / 2, dot = STEP * .8; ctx.globalAlpha = alpha; ctx.fillStyle = color;
+    for (var i = 0; i < G.p.length; i += 2) ctx.fillRect(ox + G.p[i], L.y + G.p[i + 1], dot, dot);
+  }
+  function beam(bx, a) {
+    var g = ctx.createLinearGradient(bx - 140, 0, bx + 16, 0); g.addColorStop(0, "rgba(196,181,253,0)"); g.addColorStop(.85, "rgba(196,181,253,.14)"); g.addColorStop(1, "rgba(255,255,255,.6)");
+    ctx.globalAlpha = a; ctx.fillStyle = g; ctx.fillRect(bx - 140, 0, 156, H);
+  }
+  function hbeam(by, a) {
+    var g = ctx.createLinearGradient(0, by - 120, 0, by + 12); g.addColorStop(0, "rgba(196,181,253,0)"); g.addColorStop(.85, "rgba(196,181,253,.14)"); g.addColorStop(1, "rgba(255,255,255,.6)");
+    ctx.globalAlpha = a; ctx.fillStyle = g; ctx.fillRect(0, by - 120, W, 132);
+  }
+  function dots(alphaFn) {
+    var dot = STEP * .85;
+    for (var i = 0; i < N; i++) { var a = alphaFn(i); if (a <= .01) continue; ctx.globalAlpha = a; ctx.fillStyle = HEX[COL[i]]; ctx.fillRect(TX[i], TY[i], dot, dot); }
   }
   function frame(now) {
     requestAnimationFrame(frame);
     var t = (now - T0) / 1000;
-    ctx.setTransform(DPR, 0, 0, DPR, 0, 0); ctx.clearRect(0, 0, W, H);
-    ctx.globalCompositeOperation = "lighter";
-    var dot = W < 700 ? 1.8 : 2.1;
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0); ctx.clearRect(0, 0, W, H); ctx.globalCompositeOperation = "lighter";
     if (mode === 0) {
-      // svetlobni prelet: pikice v temi, žarek jih prižge
-      var bx = -W * .15 + smooth(t / 2.4) * W * 1.3;
-      for (var i = 0; i < N; i++) {
-        var lit = X[i] < bx; if (lit) A[i] = Math.min(1, A[i] + .06);
-        var near = Math.max(0, 1 - Math.abs(X[i] - bx) / 90);
-        ctx.globalAlpha = .05 + A[i] * .95 * (1 - near * .3) + near * .9 * (lit ? 1 : .4);
-        ctx.fillStyle = HEX[COL[i]]; ctx.fillRect(X[i] - dot / 2, Y[i] - dot / 2, dot, dot);
-      }
-      if (t < 2.6) {
-        var g = ctx.createLinearGradient(bx - 120, 0, bx + 20, 0); g.addColorStop(0, "rgba(196,181,253,0)"); g.addColorStop(.85, "rgba(196,181,253,.16)"); g.addColorStop(1, "rgba(255,255,255,.55)");
-        ctx.globalAlpha = 1 - smooth((t - 2.1) / .5); ctx.fillStyle = g; ctx.fillRect(bx - 120, 0, 140, H);
-      }
+      // A: naključni znaki iz pik tlijo; žarek gre čez, za njim se črka zaklene in zažari
+      var bx = -W * .1 + smooth((t - .4) / 2.4) * W * 1.25;
+      LET.forEach(function (L, li) { if (L.x + L.w / 2 > bx) drawGlyph(rndCh(t, li), L, .28, "#b9a3ff"); });
+      dots(function (i) { var L = LET[LI[i]]; if (L.x + L.w / 2 > bx) return 0; A[i] = Math.min(1, A[i] + .05); var near = Math.max(0, 1 - Math.abs(TX[i] - bx) / 80); return A[i] * (1 - near * .2) + near * .6; });
+      if (t < 3.1) beam(bx, 1 - smooth((t - 2.6) / .5));
     } else if (mode === 1) {
-      // pesek: pikice padajo in se nalagajo od spodaj navzgor
-      for (i = 0; i < N; i++) {
-        if (t > D[i]) {
-          if (Y[i] < TY[i]) { VY[i] += .9; Y[i] += VY[i]; X[i] += (TX[i] - X[i]) * .2; if (Y[i] >= TY[i]) { Y[i] = TY[i]; VY[i] = -VY[i] * .18; } }
-          else { VY[i] += .9; Y[i] = Math.min(TY[i], Y[i] + VY[i]); X[i] += (TX[i] - X[i]) * .3; }
-        }
-        ctx.globalAlpha = Y[i] < -5 ? 0 : 1; ctx.fillStyle = HEX[COL[i]]; ctx.fillRect(X[i] - dot / 2, Y[i] - dot / 2, dot, dot);
-      }
+      // B: znaki iz pik se menjajo in zaklenejo enega za drugim; na koncu sij čez napis
+      var step = .2, lockEnd = .4 + LET.length * step;
+      LET.forEach(function (L, li) { if (t < .4 + li * step) drawGlyph(rndCh(t, li), L, .55, "#c4b5fd"); });
+      var sb = -W * .1 + smooth((t - lockEnd - .3) / 1.4) * W * 1.25;
+      dots(function (i) { var lt = .4 + LI[i] * step; if (t < lt) return 0; var near = t > lockEnd ? Math.max(0, 1 - Math.abs(TX[i] - sb) / 70) : 0, flash = Math.max(0, 1 - (t - lt) / .35); return .78 + flash * .22 + near * .5; });
+      if (t > lockEnd && t < lockEnd + 2) beam(sb, .55 * (1 - smooth((t - lockEnd - 1.4) / .5)));
     } else if (mode === 2) {
-      // implozija: miren prah po celem zaslonu, nato ga posrka v napis
-      for (i = 0; i < N; i++) {
-        var k = smooth((t - .6 - D[i]) / 1.5);
-        if (k <= 0) { X[i] += Math.sin(t * .7 + i) * .15; Y[i] += Math.cos(t * .6 + i * .7) * .15; }
-        else { var dx = TX[i] - X[i], dy = TY[i] - Y[i]; X[i] += dx * .06 * k - dy * .02 * (1 - k); Y[i] += dy * .06 * k + dx * .02 * (1 - k); }
-        ctx.globalAlpha = .35 + .65 * k; ctx.fillStyle = HEX[COL[i]]; ctx.fillRect(X[i] - dot / 2, Y[i] - dot / 2, dot, dot);
-      }
+      // C: vodoravni skener od zgoraj navzdol; nad njim pike, pod njim naključni znaki
+      var top = Math.min.apply(null, LET.map(function (L) { return L.y - FS * .45; })), bot = Math.max.apply(null, LET.map(function (L) { return L.y + FS * .45; }));
+      var by = top - 40 + smooth((t - .4) / 2.2) * (bot - top + 90);
+      ctx.save(); ctx.beginPath(); ctx.rect(0, by, W, H); ctx.clip();
+      LET.forEach(function (L, li) { drawGlyph(rndCh(t, li), L, .32, "#b9a3ff"); }); ctx.restore();
+      dots(function (i) { if (TY[i] > by) return 0; A[i] = Math.min(1, A[i] + .06); var near = Math.max(0, 1 - Math.abs(TY[i] - by) / 50); return A[i] + near * .5; });
+      if (t < 3) hbeam(by, 1 - smooth((t - 2.5) / .5));
     } else {
-      // dekodiranje: naključni znaki se ustalijo, nato se napis razpusti v pikice
-      var lockStep = .22, done = .3 + LET.length * lockStep, dis = smooth((t - done - .6) / .8);
-      if (dis < 1) {
-        ctx.globalCompositeOperation = "source-over"; ctx.font = "900 " + FS + "px 'Inter Tight'"; ctx.textBaseline = "middle";
-        LET.forEach(function (L, li) {
-          var locked = t > .3 + li * lockStep, ch = locked ? L.ch : GLYPH[(Math.floor(t * 22) + li * 7) % GLYPH.length];
-          ctx.globalAlpha = (1 - dis) * (locked ? 1 : .55); ctx.fillStyle = locked ? "#f4f1ff" : "#b9a3ff";
-          ctx.fillText(ch, L.x + (L.w - ctx.measureText(ch).width) / 2, L.y);
-        });
-        ctx.globalCompositeOperation = "lighter";
-      }
-      if (dis > 0) for (i = 0; i < N; i++) { ctx.globalAlpha = dis; ctx.fillStyle = HEX[COL[i]]; ctx.fillRect(X[i] - dot / 2 + Math.sin(t + i) * .4, Y[i] - dot / 2, dot, dot); }
+      // D: črke se odkodirajo kot poln tekst, žarek gre čez in za sabo jih razpusti v pike
+      var dl = .2, done = .35 + LET.length * dl, bx2 = -W * .1 + smooth((t - done - .2) / 2) * W * 1.25;
+      ctx.globalCompositeOperation = "source-over"; ctx.font = "900 " + FS + "px 'Inter Tight'"; ctx.textBaseline = "middle";
+      LET.forEach(function (L, li) {
+        if (L.x + L.w / 2 < bx2) return;
+        var locked = t > .35 + li * dl, ch = locked ? L.ch : rndCh(t, li);
+        ctx.globalAlpha = locked ? 1 : .5; ctx.fillStyle = locked ? "#f4f1ff" : "#b9a3ff"; ctx.fillText(ch, L.x + (L.w - ctx.measureText(ch).width) / 2, L.y);
+      });
+      ctx.globalCompositeOperation = "lighter";
+      dots(function (i) { var L = LET[LI[i]]; if (L.x + L.w / 2 > bx2) return 0; A[i] = Math.min(1, A[i] + .05); var near = Math.max(0, 1 - Math.abs(TX[i] - bx2) / 80); return A[i] + near * .5; });
+      if (t > done && t < done + 2.6) beam(bx2, 1 - smooth((t - done - 2.1) / .5));
     }
     ctx.globalAlpha = 1; ctx.globalCompositeOperation = "source-over";
   }
