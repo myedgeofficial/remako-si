@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="sl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>REMAKO – začetki</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@800;900&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; height: 100%; background: #07060b; color: #f4f1ff; font: 800 15px "Inter Tight", sans-serif; overflow: hidden; }
+  canvas { position: fixed; inset: 0; width: 100%; height: 100%; display: block; background: radial-gradient(ellipse at 50% 46%, #120f22 0%, #07060b 64%); }
+  .bar { position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%); display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; width: min(900px, 94vw); z-index: 2; }
+  button { background: rgba(255,255,255,.06); color: #f4f1ff; border: 1px solid rgba(255,255,255,.22); border-radius: 999px; padding: 10px 16px; font: 800 14px "Inter Tight", sans-serif; cursor: pointer; }
+  button.on { background: #f4f1ff; color: #07060b; }
+  .t { position: fixed; top: 20px; left: 0; right: 0; text-align: center; color: #7d7694; letter-spacing: .16em; text-transform: uppercase; font-size: 12px; z-index: 2; }
+</style>
+</head>
+<body>
+<div class="t">Izberi začetek · klikni »Ponovi« za ponovni ogled</div>
+<canvas id="c"></canvas>
+<div class="bar">
+  <button data-m="0" class="on">1 · Svetlobni prelet</button>
+  <button data-m="1">2 · Pesek, ki pade</button>
+  <button data-m="2">3 · Implozija</button>
+  <button data-m="3">4 · Dekodiranje</button>
+  <button id="again">↺ Ponovi</button>
+</div>
+<script>
+(function () {
+  var cv = document.getElementById("c"), ctx = cv.getContext("2d"), DPR = Math.min(2, devicePixelRatio || 1);
+  var W, H, N, TX, TY, X, Y, VX, VY, A, D, COL, mode = 0, T0 = 0;
+  var HEX = ["#f4f1ff", "#b9a3ff", "#f472b6", "#fbbf24"], GLYPH = "ABCDEFGHJKLMNPQRSTUVWXYZ0123456789#%&@$";
+  function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
+  function smooth(t) { t = clamp(t, 0, 1); return t * t * (3 - 2 * t); }
+  function rnd(a, b) { return a + Math.random() * (b - a); }
+  var FS = 0, LET = [];
+  function layout() {
+    W = innerWidth; H = innerHeight; cv.width = W * DPR; cv.height = H * DPR;
+    var g = document.createElement("canvas").getContext("2d"), portrait = W < H;
+    var lines = portrait ? ["REM", "AKO"] : ["REMAKO"], size = portrait ? W * .5 : H * .3;
+    g.font = "900 " + size + "px 'Inter Tight'"; var mw = Math.max.apply(null, lines.map(function (l) { return g.measureText(l).width; })), max = W * (portrait ? .9 : .8);
+    if (mw > max) size *= max / mw; FS = size;
+    var c = document.createElement("canvas"); c.width = W; c.height = H; var x = c.getContext("2d");
+    x.font = "900 " + size + "px 'Inter Tight'"; x.textBaseline = "middle"; x.fillStyle = "#000"; LET = [];
+    lines.forEach(function (l, li) {
+      var y = H * .47 + (lines.length > 1 ? (li - .5) * size : 0), tw = x.measureText(l).width, x0 = W / 2 - tw / 2, cx = x0;
+      for (var k = 0; k < l.length; k++) { var w = x.measureText(l[k]).width; LET.push({ ch: l[k], x: cx, y: y, w: w }); x.fillText(l[k], cx, y); cx += w; }
+    });
+    var d = x.getImageData(0, 0, W, H).data, pts = [], step = W * H > 1.5e6 ? 3 : 2;
+    for (var yy = 0; yy < H; yy += step) for (var xx = 0; xx < W; xx += step) if (d[(yy * W + xx) * 4 + 3] > 128) pts.push(xx, yy);
+    N = pts.length / 2; TX = new Float32Array(N); TY = new Float32Array(N); X = new Float32Array(N); Y = new Float32Array(N); VX = new Float32Array(N); VY = new Float32Array(N); A = new Float32Array(N); D = new Float32Array(N); COL = new Uint8Array(N);
+    var minY = 1e9, maxY = -1e9;
+    for (var i = 0; i < N; i++) { TX[i] = pts[i * 2] + rnd(-.5, .5); TY[i] = pts[i * 2 + 1] + rnd(-.5, .5); var r = Math.random(); COL[i] = r < .62 ? 0 : r < .85 ? 1 : r < .95 ? 2 : 3; if (TY[i] < minY) minY = TY[i]; if (TY[i] > maxY) maxY = TY[i]; }
+    MINY = minY; MAXY = maxY; reset();
+  }
+  var MINY = 0, MAXY = 1;
+  function reset() {
+    T0 = performance.now();
+    for (var i = 0; i < N; i++) {
+      VX[i] = VY[i] = 0; A[i] = 0;
+      if (mode === 0) { X[i] = TX[i]; Y[i] = TY[i]; }
+      if (mode === 1) { X[i] = TX[i] + rnd(-6, 6); Y[i] = rnd(-H * .6, -20); D[i] = (1 - (TY[i] - MINY) / (MAXY - MINY + 1)) * 1.3 + Math.random() * .35; }
+      if (mode === 2) { X[i] = Math.random() * W; Y[i] = Math.random() * H; D[i] = Math.random() * .5; }
+      if (mode === 3) { X[i] = TX[i]; Y[i] = TY[i]; }
+    }
+  }
+  function frame(now) {
+    requestAnimationFrame(frame);
+    var t = (now - T0) / 1000;
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0); ctx.clearRect(0, 0, W, H);
+    ctx.globalCompositeOperation = "lighter";
+    var dot = W < 700 ? 1.8 : 2.1;
+    if (mode === 0) {
+      // svetlobni prelet: pikice v temi, žarek jih prižge
+      var bx = -W * .15 + smooth(t / 2.4) * W * 1.3;
+      for (var i = 0; i < N; i++) {
+        var lit = X[i] < bx; if (lit) A[i] = Math.min(1, A[i] + .06);
+        var near = Math.max(0, 1 - Math.abs(X[i] - bx) / 90);
+        ctx.globalAlpha = .05 + A[i] * .95 * (1 - near * .3) + near * .9 * (lit ? 1 : .4);
+        ctx.fillStyle = HEX[COL[i]]; ctx.fillRect(X[i] - dot / 2, Y[i] - dot / 2, dot, dot);
+      }
+      if (t < 2.6) {
+        var g = ctx.createLinearGradient(bx - 120, 0, bx + 20, 0); g.addColorStop(0, "rgba(196,181,253,0)"); g.addColorStop(.85, "rgba(196,181,253,.16)"); g.addColorStop(1, "rgba(255,255,255,.55)");
+        ctx.globalAlpha = 1 - smooth((t - 2.1) / .5); ctx.fillStyle = g; ctx.fillRect(bx - 120, 0, 140, H);
+      }
+    } else if (mode === 1) {
+      // pesek: pikice padajo in se nalagajo od spodaj navzgor
+      for (i = 0; i < N; i++) {
+        if (t > D[i]) {
+          if (Y[i] < TY[i]) { VY[i] += .9; Y[i] += VY[i]; X[i] += (TX[i] - X[i]) * .2; if (Y[i] >= TY[i]) { Y[i] = TY[i]; VY[i] = -VY[i] * .18; } }
+          else { VY[i] += .9; Y[i] = Math.min(TY[i], Y[i] + VY[i]); X[i] += (TX[i] - X[i]) * .3; }
+        }
+        ctx.globalAlpha = Y[i] < -5 ? 0 : 1; ctx.fillStyle = HEX[COL[i]]; ctx.fillRect(X[i] - dot / 2, Y[i] - dot / 2, dot, dot);
+      }
+    } else if (mode === 2) {
+      // implozija: miren prah po celem zaslonu, nato ga posrka v napis
+      for (i = 0; i < N; i++) {
+        var k = smooth((t - .6 - D[i]) / 1.5);
+        if (k <= 0) { X[i] += Math.sin(t * .7 + i) * .15; Y[i] += Math.cos(t * .6 + i * .7) * .15; }
+        else { var dx = TX[i] - X[i], dy = TY[i] - Y[i]; X[i] += dx * .06 * k - dy * .02 * (1 - k); Y[i] += dy * .06 * k + dx * .02 * (1 - k); }
+        ctx.globalAlpha = .35 + .65 * k; ctx.fillStyle = HEX[COL[i]]; ctx.fillRect(X[i] - dot / 2, Y[i] - dot / 2, dot, dot);
+      }
+    } else {
+      // dekodiranje: naključni znaki se ustalijo, nato se napis razpusti v pikice
+      var lockStep = .22, done = .3 + LET.length * lockStep, dis = smooth((t - done - .6) / .8);
+      if (dis < 1) {
+        ctx.globalCompositeOperation = "source-over"; ctx.font = "900 " + FS + "px 'Inter Tight'"; ctx.textBaseline = "middle";
+        LET.forEach(function (L, li) {
+          var locked = t > .3 + li * lockStep, ch = locked ? L.ch : GLYPH[(Math.floor(t * 22) + li * 7) % GLYPH.length];
+          ctx.globalAlpha = (1 - dis) * (locked ? 1 : .55); ctx.fillStyle = locked ? "#f4f1ff" : "#b9a3ff";
+          ctx.fillText(ch, L.x + (L.w - ctx.measureText(ch).width) / 2, L.y);
+        });
+        ctx.globalCompositeOperation = "lighter";
+      }
+      if (dis > 0) for (i = 0; i < N; i++) { ctx.globalAlpha = dis; ctx.fillStyle = HEX[COL[i]]; ctx.fillRect(X[i] - dot / 2 + Math.sin(t + i) * .4, Y[i] - dot / 2, dot, dot); }
+    }
+    ctx.globalAlpha = 1; ctx.globalCompositeOperation = "source-over";
+  }
+  document.querySelectorAll("[data-m]").forEach(function (b) { b.onclick = function () { mode = +b.dataset.m; document.querySelectorAll("[data-m]").forEach(function (x) { x.classList.toggle("on", x === b); }); reset(); }; });
+  document.getElementById("again").onclick = reset;
+  addEventListener("resize", layout);
+  document.fonts.load("900 80px 'Inter Tight'").then(function () { layout(); requestAnimationFrame(frame); });
+})();
+</script>
+</body>
+</html>

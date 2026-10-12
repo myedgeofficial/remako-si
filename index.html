@@ -701,7 +701,9 @@
         if (!visible(hero) || !shapes.length) return;
         var a2 = fit(cv); if (a2[0] !== W || Math.abs(a2[1] - H) > 160) build();
         if (T0 === null) { T0 = now; for (var z = 0; z < N * 3; z++) pos[z] = HID[z]; }
-        var LAST = shapes.length - 1, e = Math.min((now - T0) / 1000, total()), intro = e < HOLD0;
+        var LAST = shapes.length - 1, eRaw = (now - T0) / 1000, e = Math.min(eRaw, total()), intro = e < HOLD0;
+        // na koncu puščica miške potegne vodoravno skozi logotip
+        var swp = (eRaw - total() - .6) / 2.2, sweeping = swp > 0 && swp < 1, svx = (-.62 + 1.24 * swp) * W, svy = Math.sin(swp * Math.PI * 2) * H * .012, SR = Math.min(W, H) * .1, SR2 = SR * SR;
         if (e >= total() && !ended) { ended = true; skipB.hidden = true; replayB.hidden = false; down.classList.add("on"); }
         var a, b, f = 0, k = 0;
         if (intro) {
@@ -732,6 +734,7 @@
           vel[j] += (tx - pos[j]) * kS; vel[j + 1] += (ty - pos[j + 1]) * kS; vel[j + 2] += (tz - pos[j + 2]) * kS;
           var x1 = pos[j] * cy - pos[j + 2] * sy, z1 = pos[j] * sy + pos[j + 2] * cy, y1 = pos[j + 1] * cx - z1 * sx, z2 = pos[j + 1] * sx + z1 * cx;
           var sc = fl / (fl + z2), px = x1 * sc, py = y1 * sc;
+          if (sweeping) { var sdx = px - svx, sdy = py - svy, sd2 = sdx * sdx + sdy * sdy; if (sd2 < SR2) { var sfo = (1 - sd2 / SR2) * 9 / (Math.sqrt(sd2) + 1); vel[j] += sdx * sfo * .35; vel[j + 1] += sdy * sfo; } }
           if (M.on) { var dx = px - mx, dy = py - my, d2 = dx * dx + dy * dy; if (d2 < R2) { var fo = (1 - d2 / R2) * 7 / (Math.sqrt(d2) + 1); vel[j] += dx * fo; vel[j + 1] += dy * fo; vel[j + 2] += 60 * fo; } }
           vel[j] *= dmp; vel[j + 1] *= dmp; vel[j + 2] *= dmp;
           pos[j] += vel[j]; pos[j + 1] += vel[j + 1]; pos[j + 2] += vel[j + 2];
@@ -740,6 +743,14 @@
           if (intro) { var sp2 = Math.sqrt(vel[j] * vel[j] + vel[j + 1] * vel[j + 1]); if (sp2 > 3) { var tl = Math.min(sp2 * 1.4, 46) / sp2; ctx.globalAlpha = .22; ctx.strokeStyle = HEX[col[i]]; ctx.lineWidth = 1 * sc; ctx.beginPath(); ctx.moveTo(ox + px, oy + py); ctx.lineTo(ox + px - vel[j] * tl * sc, oy + py - vel[j + 1] * tl * sc); ctx.stroke(); } }
           if (dof > .08) { var s = (base + dof * 9) * sc; ctx.globalAlpha = clamp(1 / (1 + dof * 2.2), .05, .9); ctx.drawImage(SPR[col[i]], ox + px - s / 2, oy + py - s / 2, s, s); }
           else { var d0 = (small ? 2.1 : 2.3) * sc; ctx.globalAlpha = 1; ctx.fillStyle = HEX[col[i]]; ctx.fillRect(ox + px - d0 / 2, oy + py - d0 / 2, d0, d0); }
+        }
+        if (sweeping) {
+          ctx.globalCompositeOperation = "source-over"; ctx.globalAlpha = smooth(swp / .08) * (1 - smooth((swp - .92) / .08));
+          var cs = small ? 1.2 : 1.6, cx0 = ox + svx, cy0 = oy + svy;
+          ctx.save(); ctx.translate(cx0, cy0); ctx.scale(cs, cs);
+          ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(0, 21); ctx.lineTo(5, 16.5); ctx.lineTo(8.5, 24); ctx.lineTo(11.5, 22.7); ctx.lineTo(8, 15.3); ctx.lineTo(14.6, 15.3); ctx.closePath();
+          ctx.shadowColor = "rgba(0,0,0,.5)"; ctx.shadowBlur = 8; ctx.shadowOffsetY = 2; ctx.fillStyle = "#ffffff"; ctx.fill();
+          ctx.shadowColor = "transparent"; ctx.lineWidth = 1.3; ctx.strokeStyle = "#111"; ctx.stroke(); ctx.restore();
         }
         ctx.globalAlpha = 1; ctx.globalCompositeOperation = "source-over";
       }
