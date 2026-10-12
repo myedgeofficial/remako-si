@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="sl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Lunaris · REMAKO d.o.o.</title>
+  <meta name="description" content="Lunaris je investicijska dejavnost skupine REMAKO, ki je v pripravi.">
+  <meta name="theme-color" content="#050507">
+  <link rel="icon" href="img/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700;800&family=Cormorant+Garamond:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg: #050507; --ink: #f2f0ec; --muted: #a9a6a0; --dim: #6f6c67; --line: rgba(255,255,255,.1); --gold: #c9a96e; }
+    * { box-sizing: border-box; }
+    html { background: var(--bg); overflow-x: clip; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font: 500 18px/1.65 "Inter Tight", system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: clip; }
+    a { color: var(--ink); }
+    .wrap { max-width: 1500px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 72px); }
+    header .wrap { display: flex; align-items: center; justify-content: space-between; height: 76px; border-bottom: 1px solid var(--line); }
+    .brand { font-family: "Cormorant Garamond", serif; font-weight: 600; font-size: 26px; letter-spacing: .32em; text-decoration: none; }
+    .nav { display: flex; gap: 22px; align-items: center; }
+    .nav a { text-decoration: none; color: var(--muted); font-weight: 600; font-size: 15px; letter-spacing: .04em; }
+    .lang { border: 1px solid rgba(255,255,255,.25); border-radius: 999px; padding: 5px 12px; background: none; font: 700 13px "Inter Tight", sans-serif; letter-spacing: .1em; cursor: pointer; color: var(--ink); }
+    .hero { position: relative; min-height: calc(100svh - 76px); display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 4vw; }
+    .eyebrow { font-size: 13px; font-weight: 700; letter-spacing: .28em; text-transform: uppercase; color: var(--gold); margin: 0 0 26px; }
+    h1 { font-family: "Cormorant Garamond", serif; font-weight: 500; font-size: clamp(64px, 9vw, 168px); letter-spacing: .08em; line-height: .9; margin: 0 0 30px; }
+    .lead { font-size: clamp(19px, 1.6vw, 24px); color: var(--muted); max-width: 640px; margin: 0; }
+    .status { display: inline-flex; align-items: center; gap: 10px; margin-top: 36px; padding: 10px 18px; border: 1px solid rgba(201,169,110,.45); border-radius: 999px; color: var(--gold); font-weight: 700; font-size: 14px; letter-spacing: .12em; text-transform: uppercase; }
+    .status::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 12px var(--gold); }
+    .moon { position: relative; display: grid; place-items: center; }
+    .moon img { width: min(640px, 90%); height: auto; filter: drop-shadow(0 0 80px rgba(242,240,236,.08)); animation: drift 9s ease-in-out infinite; }
+    @keyframes drift { 50% { transform: translateY(-14px); } }
+    section { padding: clamp(60px, 12vh, 140px) 0; border-top: 1px solid var(--line); }
+    h2 { font-family: "Cormorant Garamond", serif; font-weight: 500; font-size: clamp(38px, 4.6vw, 76px); line-height: 1.02; margin: 0 0 26px; }
+    .three { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid var(--line); border-left: 1px solid var(--line); margin-top: 40px; }
+    .three div { padding: clamp(24px, 2.6vw, 40px); border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .three b { display: block; font-family: "Cormorant Garamond", serif; font-weight: 600; font-size: 30px; margin-bottom: 10px; }
+    .three p { margin: 0; color: var(--muted); }
+    .note { font-size: 14px; color: var(--dim); max-width: 980px; line-height: 1.6; }
+    .contact a { font-family: "Cormorant Garamond", serif; font-size: clamp(30px, 3.4vw, 56px); text-decoration: none; border-bottom: 1px solid rgba(201,169,110,.5); }
+    footer { padding: 34px 0 50px; color: var(--dim); font-size: 15px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; border-top: 1px solid var(--line); }
+    [data-en] { display: none !important; }
+    html[lang="en"] [data-sl] { display: none !important; }
+    html[lang="en"] [data-en] { display: revert !important; }
+    @media (max-width: 900px) { .hero, .three { grid-template-columns: 1fr; } .hero { padding: 40px 0; } .moon { order: -1; } .moon img { width: 70%; } .nav a.hide { display: none; } }
+    @media (prefers-reduced-motion: reduce) { .moon img { animation: none; } }
+  </style>
+</head>
+<body>
+  <header><div class="wrap">
+    <a class="brand" href="lunaris.html">LUNARIS</a>
+    <nav class="nav"><a class="hide" href="#nacela"><span data-sl>Načela</span><span data-en>Principles</span></a><a href="./"><span data-sl>REMAKO</span><span data-en>REMAKO</span></a><button class="lang" id="lang" type="button">EN</button></nav>
+  </div></header>
+
+  <main>
+    <div class="wrap hero">
+      <div>
+        <p class="eyebrow"><span data-sl>Skupina REMAKO · Investicije</span><span data-en>REMAKO Group · Investments</span></p>
+        <h1>LUNARIS</h1>
+        <p class="lead"><span data-sl>Investicijska dejavnost skupine REMAKO. Gradimo jo počasi, premišljeno in v skladu z veljavno zakonodajo.</span><span data-en>The investment arm of the REMAKO Group. We are building it slowly, deliberately and in line with applicable regulation.</span></p>
+        <span class="status"><span data-sl>V pripravi</span><span data-en>In preparation</span></span>
+      </div>
+      <div class="moon"><img src="img/lunaris-luna.webp" alt="" width="1400" height="1400"></div>
+    </div>
+
+    <section id="nacela"><div class="wrap">
+      <p class="eyebrow"><span data-sl>Načela</span><span data-en>Principles</span></p>
+      <h2><span data-sl>Disciplina, preglednost, dolgoročnost.</span><span data-en>Discipline, transparency, the long term.</span></h2>
+      <div class="three">
+        <div><b><span data-sl>Disciplina</span><span data-en>Discipline</span></b><p data-sl>Odločitve na podlagi jasnih pravil in podatkov, ne čustev.</p><p data-en>Decisions based on clear rules and data, not emotion.</p></div>
+        <div><b><span data-sl>Preglednost</span><span data-en>Transparency</span></b><p data-sl>Jasno o tem, kaj delamo, s kakšnim tveganjem in pod kakšnimi pogoji.</p><p data-en>Clear about what we do, at what risk and under what conditions.</p></div>
+        <div><b><span data-sl>Skladnost</span><span data-en>Compliance</span></b><p data-sl>Dejavnost bomo začeli šele s potrebnimi dovoljenji pristojnih organov.</p><p data-en>We will only begin operating with the required regulatory authorisations.</p></div>
+      </div>
+    </div></section>
+
+    <section class="contact"><div class="wrap">
+      <p class="eyebrow"><span data-sl>Kontakt</span><span data-en>Contact</span></p>
+      <h2><span data-sl>Želite biti obveščeni?</span><span data-en>Would you like to be kept informed?</span></h2>
+      <a href="mailto:support@remako.si?subject=Lunaris">support@remako.si</a>
+    </div></section>
+
+    <section><div class="wrap">
+      <p class="note"><span data-sl><strong>Pravno obvestilo.</strong> Lunaris je v pripravi in trenutno ne opravlja investicijskih storitev, ne upravlja sredstev tretjih oseb in ne zbira sredstev. Vsebina te strani ni ponudba, priporočilo ali poziv k nakupu ali prodaji katerega koli finančnega instrumenta in ni investicijski nasvet. Morebitne prihodnje storitve bodo na voljo le v skladu z veljavno zakonodajo in po pridobitvi potrebnih dovoljenj.</span><span data-en><strong>Legal notice.</strong> Lunaris is in preparation and does not currently provide investment services, manage third-party assets or raise funds. Nothing on this page is an offer, recommendation or solicitation to buy or sell any financial instrument, nor investment advice. Any future services will only be offered in accordance with applicable law and after obtaining the required authorisations.</span></p>
+    </div></section>
+  </main>
+
+  <div class="wrap"><footer><span>© <span id="y">2026</span> Lunaris · REMAKO d.o.o., Ljubljanska cesta 63, 2327 Rače</span><span>SI45736901</span></footer></div>
+  <script>
+    (function () {
+      var root = document.documentElement, btn = document.getElementById("lang"), saved = null;
+      try { saved = localStorage.getItem("remako-lang"); } catch (e) {}
+      function set(l) { root.lang = l; btn.textContent = l === "sl" ? "EN" : "SL"; try { localStorage.setItem("remako-lang", l); } catch (e) {} }
+      set(saved || ((navigator.language || "sl").slice(0, 2) === "sl" ? "sl" : "en"));
+      btn.onclick = function () { set(root.lang === "sl" ? "en" : "sl"); };
+      document.getElementById("y").textContent = new Date().getFullYear();
+    })();
+  </script>
+</body>
+</html>
