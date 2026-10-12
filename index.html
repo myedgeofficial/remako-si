@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>REMAKO d.o.o.: aplikacije za iPhone</title>
-  <meta name="description" content="REMAKO d.o.o. razvija aplikacije za iPhone: Nakupko, Manifest (Spirituality by Urška) in Fixko. Ustanoviteljica in direktorica Urška Repušič.">
+  <meta name="description" content="REMAKO d.o.o. razvija aplikacije za iPhone: Nakupko, Spirituality by Urška Manifest in Fixko. Direktorica Urška Repušič.">
   <meta name="theme-color" content="#07060b">
   <meta property="og:title" content="REMAKO d.o.o.">
   <meta property="og:description" content="Aplikacije za iPhone, ki jih ljudje odprejo vsak dan.">
@@ -223,11 +223,12 @@
       #nakupko { height: 420vh; }
       .show { grid-template-columns: 1fr; grid-template-rows: auto 1fr; gap: 0; padding-top: 86px; }
       .app-id { margin-bottom: 10px; } .app-id img { width: 40px; height: 40px; } .app-id b { font-size: 20px; }
-      .steps { min-height: 172px; }
+      .steps { min-height: 150px; }
       .step h3 { font-size: 30px; margin: 6px 0 10px; }
       .step p { font-size: 16px; }
       .cta { display: none; }
-      .device { width: min(190px, 23vh); } .floor { width: 150px; bottom: 4%; }
+      .device { width: min(218px, 27vh); } .floor { width: 160px; bottom: 3%; }
+      .step h3 { font-size: 26px; }
       .stats { grid-template-columns: repeat(2, 1fr); }
       .stat:nth-child(2) { border-right: 0; }
       .stat:nth-child(3) { padding-left: 0; }
@@ -253,7 +254,7 @@
     <div class="wrap">
       <a class="logo" href="#" aria-label="REMAKO"><canvas class="rlogo" data-h="26"></canvas></a>
       <nav>
-                <a class="hide-m" href="#urska"><span data-sl>Urška</span><span data-en>Urška</span></a>
+                <a class="hide-m" href="vodstvo.html"><span data-sl>Vodstvo</span><span data-en>Leadership</span></a>
         <a class="hide-m" href="#portfelj"><span data-sl>Portfelj</span><span data-en>Portfolio</span></a>
         <a class="nav-cta" href="#ideja"><span data-sl>Pošlji idejo</span><span data-en>Send an idea</span></a>
         <button class="lang" id="lang" type="button">EN</button>
@@ -352,7 +353,7 @@
         <canvas id="moonCv" aria-hidden="true"></canvas>
         <div class="txt">
           <span class="pill"><span data-sl>Kmalu v App Storu</span><span data-en>Coming soon</span></span>
-          <p class="eyebrow" style="margin-bottom:10px;color:#fcd38a">Spirituality by Urška</p><h2 class="h">Manifest</h2>
+          <h2 class="h" style="font-size:clamp(40px,5.4vw,104px)">Spirituality by Urška <span class="grad">Manifest</span></h2>
           <p class="lead"><span data-sl>Tri minute na dan: kartica vsako jutro, vprašanje vsak večer in luna, kot je nocoj.</span><span data-en>Three minutes a day: a card every morning, a question every evening and tonight's moon.</span></p>
           <ul>
             <li><span data-sl>Nova kartica vsako jutro</span><span data-en>A new card every morning</span></li>
@@ -368,7 +369,6 @@
 
   <!-- Kaj delamo: mreža kot blago -->
   <section id="znanje">
-    <canvas class="fx" id="clothCv" aria-hidden="true"></canvas>
     <div class="wrap over">
       <p class="eyebrow reveal"><b>02</b><span data-sl>Kaj delamo</span><span data-en>What we do</span></p>
       <h2 class="h reveal"><span data-sl>Vse, kar aplikacija<br><span class="grad">potrebuje</span>.</span><span data-en>Everything an app<br><span class="grad">needs</span>.</span></h2>
@@ -383,29 +383,10 @@
     </div>
   </section>
 
-  <!-- 04 Urška -->
-  <section id="urska">
-    <div class="wrap urska">
-      <figure class="photo reveal" style="margin:0"><img src="img/urska-portret.webp" alt="Urška Repušič, direktorica REMAKO d.o.o." width="640" height="800" loading="lazy"></figure>
-      <div>
-        <p class="eyebrow reveal"><b>03</b><span data-sl>Vodstvo</span><span data-en>Leadership</span></p>
-        <h2 class="h reveal">Urška<br><span class="grad">Repušič</span></h2>
-        <p class="role reveal"><span data-sl>Ustanoviteljica in direktorica</span><span data-en>Founder and director</span></p>
-        <p class="lead reveal"><span data-sl>Urška vodi REMAKO in skrbi, da vsaka aplikacija od prve ideje do objave v App Storu ostane preprosta, zanesljiva in koristna v vsakdanjem življenju. Kot diplomirana ekonomistka s področja financ vodi tudi poslovanje podjetja.</span><span data-en>Urška leads REMAKO and makes sure every app, from the first idea to its App Store release, stays simple, reliable and useful in everyday life. As a finance graduate, she also runs the business side of the company.</span></p>
-        <div class="titles reveal">
-          <div><small><span data-sl>Vloga</span><span data-en>Role</span></small><span data-sl>Direktorica, vodja produktov</span><span data-en>Director, head of product</span></div>
-          <div><small><span data-sl>Izobrazba</span><span data-en>Education</span></small><span data-sl>Ekonomija, finance</span><span data-en>Economics, finance</span></div>
-          <div><small><span data-sl>Aplikacije</span><span data-en>Apps</span></small>Nakupko · Manifest · Fixko</div>
-          <div><small><span data-sl>Kontakt</span><span data-en>Contact</span></small><a href="mailto:support@remako.si">support@remako.si</a></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- Portfelj: izdelane aplikacije -->
   <section id="portfelj">
     <div class="wrap">
-      <p class="eyebrow reveal"><b>04</b><span data-sl>Portfelj</span><span data-en>Portfolio</span></p>
+      <p class="eyebrow reveal"><b>03</b><span data-sl>Portfelj</span><span data-en>Portfolio</span></p>
       <h2 class="h reveal"><span data-sl>Aplikacije, ki smo jih <span class="grad">izdelali</span>.</span><span data-en>Apps we have <span class="grad">built</span>.</span></h2>
       <div class="works">
         <article class="work reveal">
@@ -415,7 +396,7 @@
           <footer><a href="#nakupko"><span data-sl>Več o Nakupku ↑</span><span data-en>More about Nakupko ↑</span></a><a href="https://apps.apple.com/si/app/nakupko-shopping-list/id6818745132">App Store →</a><a href="nakupko/podpora.html"><span data-sl>Podpora</span><span data-en>Support</span></a><a href="nakupko/zasebnost.html"><span data-sl>Zasebnost</span><span data-en>Privacy</span></a></footer>
         </article>
         <article class="work reveal">
-          <header><div class="mono">✦</div><div><h3>Manifest</h3><small class="by">Spirituality by Urška</small><span class="state dev"><span data-sl>V razvoju · kmalu v App Storu</span><span data-en>In development · coming soon</span></span></div></header>
+          <header><div class="mono">✦</div><div><h3>Spirituality by Urška Manifest</h3><span class="state dev"><span data-sl>V razvoju · kmalu v App Storu</span><span data-en>In development · coming soon</span></span></div></header>
           <p data-sl>Dnevni ritual za iPhone: kartica z afirmacijo vsako jutro, vprašanje vsak večer, seznam želja in lunini rituali. Dnevnik ostane samo na telefonu.</p>
           <p data-en>A daily ritual for iPhone: an affirmation card every morning, a question every evening, wishes and moon rituals. The journal stays only on the phone.</p>
           <dl>
@@ -444,7 +425,7 @@
   <section id="ideja">
     <div class="wrap idea">
       <div>
-        <p class="eyebrow reveal"><b>05</b><span data-sl>Tvoja aplikacija</span><span data-en>Your app</span></p>
+        <p class="eyebrow reveal"><b>04</b><span data-sl>Tvoja aplikacija</span><span data-en>Your app</span></p>
         <h2 class="h reveal"><span data-sl>Imaš idejo za <span class="grad">aplikacijo</span>?</span><span data-en>Got an idea for an <span class="grad">app</span>?</span></h2>
         <p class="lead reveal"><span data-sl>Opiši jo v nekaj stavkih. V dveh delovnih dneh ti pošljemo oceno, koliko bi izdelava stala in koliko časa bi trajala. Brezplačno in brez obveznosti.</span><span data-en>Describe it in a few sentences. Within two working days we send you an estimate of what it would cost and how long it would take. Free and with no obligation.</span></p>
         <ol class="howto reveal">
@@ -476,7 +457,7 @@
   <!-- Kontakt -->
   <section id="kontakt">
     <div class="wrap over">
-      <p class="eyebrow reveal"><b>06</b><span data-sl>Kontakt</span><span data-en>Contact</span></p>
+      <p class="eyebrow reveal"><b>05</b><span data-sl>Kontakt</span><span data-en>Contact</span></p>
       <div class="contact">
         <div>
           <h2 class="h reveal"><span data-sl>Piši nam.</span><span data-en>Write to us.</span></h2>
@@ -492,7 +473,7 @@
           </dl>
         </div>
       </div>
-      <footer><span style="display:flex;align-items:center;gap:16px"><canvas class="rlogo" data-h="20"></canvas>© <span id="y">2026</span> REMAKO d.o.o.</span><span>Rače, <span data-sl>Slovenija</span><span data-en>Slovenia</span></span></footer>
+      <footer><span style="display:flex;align-items:center;gap:16px"><canvas class="rlogo" data-h="20"></canvas>© <span id="y">2026</span> REMAKO d.o.o.</span><a href="vodstvo.html" style="color:var(--dim);text-decoration:none"><span data-sl>Vodstvo</span><span data-en>Leadership</span></a><span>Rače, <span data-sl>Slovenija</span><span data-en>Slovenia</span></span></footer>
     </div>
   </section>
 
@@ -699,7 +680,7 @@
         if (T0 === null) { T0 = now; for (var z = 0; z < N * 3; z++) pos[z] = HID[z]; }
         var LAST = shapes.length - 1, eRaw = (now - T0) / 1000, e = Math.min(eRaw, total()), intro = e < HOLD0;
         // na koncu puščica miške potegne vodoravno skozi logotip
-        var swp = (eRaw - total() - .6) / .75, sweeping = swp > 0 && swp < 1, svx = (-.62 + 1.24 * swp) * W, svy = Math.sin(swp * Math.PI * 2) * H * .012, SR = Math.min(W, H) * .035, SR2 = SR * SR;
+        var swp = (eRaw - total() - .6) / .75, sweeping = swp > 0 && swp < 1, svx = (-.62 + 1.24 * swp) * W, svy = Math.sin(swp * Math.PI * 2) * H * .012, SR = Math.min(W, H) * .018, SR2 = SR * SR;
         if (e >= total() && !ended) { ended = true; skipB.hidden = true; replayB.hidden = false; down.classList.add("on"); }
         var a, b, f = 0, k = 0;
         if (intro) {
@@ -865,39 +846,6 @@
       });
     })();
 
-    // ========== Kaj delamo: mreža, ki se upogiba kot blago ==========
-    (function () {
-      var sec = document.getElementById("znanje"), cv = document.getElementById("clothCv"), ctx = cv.getContext("2d");
-      var W = 0, H = 0, sp = small ? 30 : 38, cols = 0, rows = 0, P, V, O;
-      function build() {
-        cols = Math.ceil(W / sp) + 1; rows = Math.ceil(H / sp) + 1; var n = cols * rows;
-        P = new Float32Array(n * 2); V = new Float32Array(n * 2); O = new Float32Array(n * 2);
-        for (var y = 0; y < rows; y++) for (var x = 0; x < cols; x++) { var i = (y * cols + x) * 2; O[i] = P[i] = x * sp; O[i + 1] = P[i + 1] = y * sp; }
-      }
-      loop(function (now) {
-        if (!visible(sec)) return;
-        var sz = fit(cv); if (sz[0] !== W || sz[1] !== H) { W = sz[0]; H = sz[1]; build(); }
-        var rect = cv.getBoundingClientRect(), mx = M.x - rect.left, my = M.y - rect.top, R = small ? 120 : 190, R2 = R * R, t = now / 1000;
-        var n = cols * rows;
-        for (var i = 0; i < n; i++) {
-          var j = i * 2, dx = P[j] - mx, dy = P[j + 1] - my, d2 = dx * dx + dy * dy;
-          if (M.on && d2 < R2) { var d = Math.sqrt(d2) + .1, f = (1 - d / R); f = f * f * 7; V[j] += dx / d * f + M.vx * f * .02; V[j + 1] += dy / d * f + M.vy * f * .02; }
-          var wave = Math.sin(t * .9 + O[j] * .01 + O[j + 1] * .013) * 3;
-          V[j] += (O[j] - P[j]) * .06; V[j + 1] += (O[j + 1] + wave - P[j + 1]) * .06; V[j] *= .86; V[j + 1] *= .86; P[j] += V[j]; P[j + 1] += V[j + 1];
-        }
-        ctx.setTransform(DPR, 0, 0, DPR, 0, 0); ctx.clearRect(0, 0, W, H);
-        var calm = new Path2D(), hot = new Path2D();
-        for (var y = 0; y < rows; y++) for (var x = 0; x < cols; x++) {
-          var i = (y * cols + x) * 2, ox = P[i] - O[i], oy = P[i + 1] - O[i + 1], st = ox * ox + oy * oy > 40 ? hot : calm;
-          if (x < cols - 1) { st.moveTo(P[i], P[i + 1]); st.lineTo(P[i + 2], P[i + 3]); }
-          if (y < rows - 1) { var k = i + cols * 2; st.moveTo(P[i], P[i + 1]); st.lineTo(P[k], P[k + 1]); }
-        }
-        ctx.lineWidth = 1; ctx.strokeStyle = "rgba(139,92,246,.13)"; ctx.stroke(calm);
-        ctx.strokeStyle = "rgba(167,139,250,.3)"; ctx.lineWidth = 1; ctx.stroke(hot);
-        ctx.fillStyle = "rgba(244,241,255,.25)";
-        for (i = 0; i < n; i++) { var jj = i * 2, dd = Math.abs(P[jj] - O[jj]) + Math.abs(P[jj + 1] - O[jj + 1]); if (dd > 4) { var s = Math.min(4, 1 + dd / 12); ctx.fillRect(P[jj] - s / 2, P[jj + 1] - s / 2, s, s); } }
-      });
-    })();
 
     // Obrazec za idejo: pošlje na support@remako.si prek FormSubmit
     (function () {
