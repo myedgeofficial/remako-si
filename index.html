@@ -206,7 +206,7 @@
             <span class="k" data-k="4"><span data-sl><span class="grad">Zasebnost</span> po pravilih EU. Podatki ostanejo tvoji.</span><span data-en><span class="grad">Privacy</span> by EU rules. Your data stays yours.</span></span>
             <span class="k" data-k="5"><span data-sl><span class="grad">Koda in strežniki</span>, ki tečejo noč in dan.</span><span data-en><span class="grad">Code and servers</span> running day and night.</span></span>
             <span class="k" data-k="6"><span data-sl><span class="grad">Podatki in cene</span> v realnem času.</span><span data-en><span class="grad">Data and prices</span> in real time.</span></span>
-            <span class="k" data-k="7"><span data-sl>Za uporabnike v <span class="grad">177 državah</span>.</span><span data-en>For people in <span class="grad">177 countries</span>.</span></span>
+            <span class="k" data-k="7"><span data-sl>Naslednja aplikacija je lahko <span class="grad">tvoja</span>.</span><span data-en>The next app could be <span class="grad">yours</span>.</span></span>
           </div>
           <div class="meter" id="meter"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
         </div>
@@ -470,7 +470,13 @@
           for (var i = 0; i < 5; i++) { g.beginPath(); g.roundRect(x0 + s * .1 + i * s * .175, y0 - s * hs[i] - lw, bw, s * hs[i], bw * .25); g.fill(); }
           g.beginPath(); for (i = 0; i < 5; i++) { var px = x0 + s * .1 + i * s * .175 + bw / 2, py = y0 - s * hs[i] - s * .14; i ? g.lineTo(px, py) : g.moveTo(px, py); } g.stroke();
         });
-        shapes = [txt, phone, pin, bell, lock, code, chart, sphere(N, Math.min(W, H) * .34)];
+        var icon = sampleShape(N, W, H, function (g, w, h) {
+          var s = h * .3, cx = w / 2, cy = h * .47, lw = Math.max(5, s * .06);
+          g.lineWidth = lw; g.beginPath(); g.roundRect(cx - s / 2, cy - s / 2, s, s, s * .23); g.stroke();
+          g.font = "900 " + (s * .58) + "px 'Inter Tight', sans-serif"; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText("R", cx - s * .03, cy + s * .03);
+          g.beginPath(); g.arc(cx + s * .27, cy + s * .2, s * .055, 0, 7); g.fill();
+        });
+        shapes = [txt, phone, pin, bell, lock, code, chart, icon];
       }
       function progress() { var r = hero.getBoundingClientRect(); return clamp(-r.top / Math.max(1, hero.offsetHeight - innerHeight), 0, 1); }
       function frame(now) {
@@ -480,7 +486,7 @@
         var k = Math.min(LAST, Math.floor(pr + .45));
         if (k !== lastK) { caps.forEach(function (c) { c.classList.toggle("on", +c.dataset.k === k); }); lastK = k; }
         meter.forEach(function (m, i) { m.style.setProperty("--f", clamp(pr - i, 0, 1)); });
-        var t = now / 1000, globe = a === LAST || (a === LAST - 1 && f > .5);
+        var t = now / 1000, globe = false;
         rotY += (M.nx * .5 + (globe ? t * .25 : Math.sin(t * .3) * .14) - rotY) * .05; rotX += (-M.ny * .3 - rotX) * .05;
         var cy = Math.cos(rotY), sy = Math.sin(rotY), cx = Math.cos(rotX), sx = Math.sin(rotX);
         // med prehodom se oblika stisne v vrtinec in se razpre v novo
