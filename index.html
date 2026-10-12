@@ -45,7 +45,7 @@
     .lang { border: 1px solid rgba(255,255,255,.28); border-radius: 999px; padding: 6px 14px; background: none; font: 800 14px "Inter Tight", sans-serif; letter-spacing: .08em; cursor: pointer; color: var(--ink); }
 
     /* 01 Uvod */
-    #hero { position: relative; height: 560vh; }
+    #hero { position: relative; height: 900vh; }
     .stage { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; background: radial-gradient(ellipse at 50% 46%, #120f22 0%, var(--bg) 64%); }
     #heroCv { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: pan-y; }
     .hud { position: absolute; inset: 88px clamp(16px, 4vw, 72px) clamp(24px, 5vh, 56px); pointer-events: none; display: flex; flex-direction: column; justify-content: space-between; }
@@ -55,7 +55,7 @@
     .cap .k { position: absolute; left: 0; bottom: 0; opacity: 0; transform: translateY(16px); transition: opacity .5s, transform .5s; }
     .cap .k.on { opacity: 1; transform: none; }
     .meter { display: flex; gap: 6px; }
-    .meter i { width: 46px; height: 3px; background: rgba(255,255,255,.14); position: relative; overflow: hidden; }
+    .meter i { width: 30px; height: 3px; background: rgba(255,255,255,.14); position: relative; overflow: hidden; }
     .meter i::after { content: ""; position: absolute; inset: 0; background: var(--ink); transform: scaleX(var(--f, 0)); transform-origin: left; }
 
     .ticker { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); overflow: hidden; padding: 22px 0; }
@@ -149,9 +149,9 @@
     @media (max-width: 900px) {
       body { font-size: 18px; }
       .nav nav a.hide-m { display: none; }
-      #hero { height: 460vh; }
+      #hero { height: 720vh; }
       .hud-top span:last-child { display: none; }
-      .meter i { width: 26px; }
+      .meter i { width: 14px; }
       #nakupko { height: 420vh; }
       .show { grid-template-columns: 1fr; grid-template-rows: auto 1fr; gap: 0; padding-top: 86px; }
       .app-id { margin-bottom: 10px; } .app-id img { width: 40px; height: 40px; } .app-id b { font-size: 20px; }
@@ -202,10 +202,13 @@
             <span class="k on" data-k="0"><span data-sl>Razvijamo aplikacije za iPhone.</span><span data-en>We build iPhone apps.</span></span>
             <span class="k" data-k="1"><span data-sl>Od ideje do App Stora:<br>oblikovanje, koda, strežniki.</span><span data-en>From idea to App Store:<br>design, code, servers.</span></span>
             <span class="k" data-k="2"><span data-sl><span class="grad">Lokacija v ozadju</span>: aplikacija ve, kdaj si v trgovini.</span><span data-en><span class="grad">Background location</span>: the app knows when you're at the store.</span></span>
-            <span class="k" data-k="3"><span data-sl><span class="grad">Koda in strežniki</span>, ki tečejo noč in dan.</span><span data-en><span class="grad">Code and servers</span> running day and night.</span></span>
-            <span class="k" data-k="4"><span data-sl>Za uporabnike v <span class="grad">177 državah</span>.</span><span data-en>For people in <span class="grad">177 countries</span>.</span></span>
+            <span class="k" data-k="3"><span data-sl><span class="grad">Obvestila in Live Activities</span> na zaklenjenem zaslonu.</span><span data-en><span class="grad">Notifications and Live Activities</span> on the Lock Screen.</span></span>
+            <span class="k" data-k="4"><span data-sl><span class="grad">Zasebnost</span> po pravilih EU. Podatki ostanejo tvoji.</span><span data-en><span class="grad">Privacy</span> by EU rules. Your data stays yours.</span></span>
+            <span class="k" data-k="5"><span data-sl><span class="grad">Koda in strežniki</span>, ki tečejo noč in dan.</span><span data-en><span class="grad">Code and servers</span> running day and night.</span></span>
+            <span class="k" data-k="6"><span data-sl><span class="grad">Podatki in cene</span> v realnem času.</span><span data-en><span class="grad">Data and prices</span> in real time.</span></span>
+            <span class="k" data-k="7"><span data-sl>Za uporabnike v <span class="grad">177 državah</span>.</span><span data-en>For people in <span class="grad">177 countries</span>.</span></span>
           </div>
-          <div class="meter" id="meter"><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="meter" id="meter"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
         </div>
       </div>
     </div>
@@ -442,7 +445,32 @@
           var tw = g.measureText("</>").width, max = w * .8; if (tw > max) { size *= max / tw; g.font = "900 " + size + "px 'Inter Tight', sans-serif"; }
           g.fillText("</>", w / 2, h * .47);
         });
-        shapes = [txt, phone, pin, code, sphere(N, Math.min(W, H) * .34)];
+        var bell = sampleShape(N, W, H, function (g, w, h) {
+          var s = h * .56, cx = w / 2, cy = h * .47, lw = Math.max(6, s * .06);
+          g.lineWidth = lw; g.lineJoin = "round"; g.lineCap = "round";
+          g.beginPath(); g.moveTo(cx - s * .44, cy + s * .26); g.quadraticCurveTo(cx - s * .34, cy + s * .16, cx - s * .34, cy - s * .04);
+          g.arc(cx, cy - s * .04, s * .34, Math.PI, 0); g.quadraticCurveTo(cx + s * .34, cy + s * .16, cx + s * .44, cy + s * .26); g.closePath(); g.stroke();
+          g.beginPath(); g.arc(cx, cy + s * .33, s * .1, 0, Math.PI); g.stroke();
+          g.beginPath(); g.arc(cx, cy - s * .42, s * .05, 0, 7); g.fill();
+          g.lineWidth = lw * .7;
+          for (var k = 1; k <= 2; k++) { g.beginPath(); g.arc(cx, cy - s * .04, s * (.45 + k * .13), -Math.PI * .32, -Math.PI * .12); g.stroke(); g.beginPath(); g.arc(cx, cy - s * .04, s * (.45 + k * .13), -Math.PI * .88, -Math.PI * .68); g.stroke(); }
+        });
+        var lock = sampleShape(N, W, H, function (g, w, h) {
+          var s = h * .56, cx = w / 2, cy = h * .5, lw = Math.max(6, s * .065);
+          g.lineWidth = lw; g.lineCap = "round";
+          g.beginPath(); g.moveTo(cx - s * .21, cy - s * .04); g.lineTo(cx - s * .21, cy - s * .2); g.arc(cx, cy - s * .2, s * .21, Math.PI, 0); g.lineTo(cx + s * .21, cy - s * .04); g.stroke();
+          g.beginPath(); g.roundRect(cx - s * .34, cy - s * .04, s * .68, s * .5, s * .08); g.stroke();
+          g.beginPath(); g.arc(cx, cy + s * .17, s * .065, 0, 7); g.fill(); g.fillRect(cx - s * .025, cy + s * .17, s * .05, s * .14);
+        });
+        var chart = sampleShape(N, W, H, function (g, w, h) {
+          var s = h * .56, x0 = w / 2 - s * .5, y0 = h * .47 + s * .32, lw = Math.max(5, s * .05);
+          g.lineWidth = lw; g.lineCap = "round"; g.lineJoin = "round";
+          g.beginPath(); g.moveTo(x0, y0 - s * .72); g.lineTo(x0, y0); g.lineTo(x0 + s, y0); g.stroke();
+          var hs = [.22, .36, .3, .52, .62], bw = s * .12;
+          for (var i = 0; i < 5; i++) { g.beginPath(); g.roundRect(x0 + s * .1 + i * s * .175, y0 - s * hs[i] - lw, bw, s * hs[i], bw * .25); g.fill(); }
+          g.beginPath(); for (i = 0; i < 5; i++) { var px = x0 + s * .1 + i * s * .175 + bw / 2, py = y0 - s * hs[i] - s * .14; i ? g.lineTo(px, py) : g.moveTo(px, py); } g.stroke();
+        });
+        shapes = [txt, phone, pin, bell, lock, code, chart, sphere(N, Math.min(W, H) * .34)];
       }
       function progress() { var r = hero.getBoundingClientRect(); return clamp(-r.top / Math.max(1, hero.offsetHeight - innerHeight), 0, 1); }
       function frame(now) {
