@@ -515,7 +515,7 @@
       function frame(now) {
         if (!visible(hero) || !shapes.length) return;
         var a2 = fit(cv); if (a2[0] !== W || Math.abs(a2[1] - H) > 160) build();
-        var LAST = shapes.length - 1, pr = progress() * (LAST + .2), a = Math.min(LAST, Math.floor(pr)), b = Math.min(LAST, a + 1), f = smooth((pr - a - .5) / .32);
+        var LAST = shapes.length - 1, pr = progress() * (LAST + .2), a = Math.min(LAST, Math.floor(pr)), b = Math.min(LAST, a + 1), f = smooth((pr - a - .44) / .46);
         var k = Math.min(LAST, Math.floor(pr + .34));
         if (k !== lastK) { caps.forEach(function (c) { c.classList.toggle("on", +c.dataset.k === k); }); lastK = k; }
         meter.forEach(function (m, i) { m.style.setProperty("--f", clamp(pr - i, 0, 1)); });
@@ -532,11 +532,11 @@
           var j = i * 3;
           var tx = A[j] + (B[j] - A[j]) * f, ty = A[j + 1] + (B[j + 1] - A[j + 1]) * f, tz = A[j + 2] + (B[j + 2] - A[j + 2]) * f;
           if (sq > .001) { var qx = tx * sqS, qy = ty * sqS; tx = qx * sqC - qy * sqN; ty = qx * sqN + qy * sqC; tz *= sqS; }
-          vel[j] += (tx - pos[j]) * .07; vel[j + 1] += (ty - pos[j + 1]) * .07; vel[j + 2] += (tz - pos[j + 2]) * .07;
+          vel[j] += (tx - pos[j]) * .05; vel[j + 1] += (ty - pos[j + 1]) * .05; vel[j + 2] += (tz - pos[j + 2]) * .05;
           var x1 = pos[j] * cy - pos[j + 2] * sy, z1 = pos[j] * sy + pos[j + 2] * cy, y1 = pos[j + 1] * cx - z1 * sx, z2 = pos[j + 1] * sx + z1 * cx;
           var sc = fl / (fl + z2), px = x1 * sc, py = y1 * sc;
           if (M.on) { var dx = px - mx, dy = py - my, d2 = dx * dx + dy * dy; if (d2 < R2) { var fo = (1 - d2 / R2) * 7 / (Math.sqrt(d2) + 1); vel[j] += dx * fo; vel[j + 1] += dy * fo; vel[j + 2] += 60 * fo; } }
-          vel[j] *= .76; vel[j + 1] *= .76; vel[j + 2] *= .76;
+          vel[j] *= .8; vel[j + 1] *= .8; vel[j + 2] *= .8;
           pos[j] += vel[j]; pos[j + 1] += vel[j + 1]; pos[j + 2] += vel[j + 2];
           if (sc <= 0.05) continue;
           var dof = Math.max(0, Math.abs(z2) - 30) / 260;
