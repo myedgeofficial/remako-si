@@ -545,7 +545,7 @@
       var F = "400 " + h + "px 'Archivo Black', 'Inter Tight', sans-serif"; g.save(); g.font = F; g.textBaseline = "alphabetic";
       var rw = g.measureText("R").width, ew = g.measureText("EMAKO").width, cap = h * .74;
       var bw = h * .22, t = h * .1, gap = h * .07, dot = h * .19, tot = bw + gap + rw + gap + bw + gap * .8 + ew + h * .05 + dot, x0 = cx - tot / 2, base = cy + cap / 2;
-      var bh = cap * 1.32, by = cy - bh / 2, slit = Math.max(1.5, h * .045), sh = h * .055;
+      var bh = cap * 1.32, by = cy - bh / 2, slit = Math.max(1.5, h * .04), sh = h * .02;
       g.fillStyle = accent;
       g.fillRect(x0, by, t, bh); g.fillRect(x0, by, bw, t); g.fillRect(x0, by + bh - t, bw, t);
       var xr = x0 + bw + gap, xb = xr + rw + gap;
@@ -592,10 +592,10 @@
     (function () {
       var hero = document.getElementById("hero"), cv = document.getElementById("heroCv"), ctx = cv.getContext("2d");
       var caps = document.querySelectorAll(".cap .k"), meter = document.querySelectorAll("#meter i");
-      var SPR = [sprite("244,241,255"), sprite("167,139,250"), sprite("236,72,153"), sprite("245,158,11")], HEX = ["#f4f1ff", "#b9a3ff", "#f472b6", "#fbbf24"];
+      var SPR = [sprite("244,241,255"), sprite("185,163,255"), sprite("232,121,249"), sprite("244,114,182")], HEX = ["#f4f1ff", "#b9a3ff", "#e879f9", "#f472b6"];
       var W = 0, H = 0, N = 0, pos, vel, col, shapes = [], lastK = -1, rotY = 0, rotX = 0, LET, HID;
       var JIT, LC = [], LG = [], FS = 0, waves = [], SPN = 900, spX = new Float32Array(SPN), spY = new Float32Array(SPN), spVX = new Float32Array(SPN), spVY = new Float32Array(SPN), spL = new Float32Array(SPN), spI = 0, landed = -1;
-      var FLY = .3, T0 = null, ended = false, shake = 0, flash = 0, lastLetter = -1, L0 = .7, LSTEP = .28, HOLD0 = 3.2, SEG = 2.0, TRANS = .85;
+      var FLY = .3, T0 = null, ended = false, shake = 0, flash = 0, lastLetter = -1, L0 = .7, LSTEP = .28, HOLD0 = 4.6, SEG = 2.0, TRANS = .85;
       var skipB = document.getElementById("skip"), replayB = document.getElementById("replay"), down = document.getElementById("down");
       function sphere(n, R) {
         var out = new Float32Array(n * 3), ga = Math.PI * (3 - Math.sqrt(5));
@@ -607,7 +607,7 @@
         var want = Math.round(clamp(W * H / (small ? 60 : 140), 3500, 14000));
         if (want !== N) {
           N = want; pos = new Float32Array(N * 3); vel = new Float32Array(N * 3); col = new Uint8Array(N);
-          for (var i = 0; i < N; i++) { pos[i * 3] = rnd(-W, W); pos[i * 3 + 1] = rnd(-H, H); pos[i * 3 + 2] = rnd(-900, 900); var r = Math.random(); col[i] = r < .6 ? 0 : r < .84 ? 1 : r < .95 ? 2 : 3; }
+          for (var i = 0; i < N; i++) { pos[i * 3] = rnd(-W, W); pos[i * 3 + 1] = rnd(-H, H); pos[i * 3 + 2] = rnd(-900, 900); var r = Math.random(); col[i] = r < .52 ? 0 : r < .76 ? 1 : r < .9 ? 2 : 3; }
         }
         var TG = null, TGS = 0, TGL = [], ss = Math.min(1, 1000 / Math.max(W, H));
         var txt = sampleShape(N, W, H, function (g, w, h) {
@@ -724,7 +724,7 @@
         var sq = Math.sin(Math.PI * f), sqS = 1 - sq * .58, sqC = Math.cos(sq * 1.6), sqN = Math.sin(sq * 1.6);
         var A = shapes[a], B = shapes[b], fl = 900 - ci * 520, mx = M.x - W / 2, my = M.y - H * .47, R = Math.min(W, H) * .12, R2 = R * R;
         var ox = W / 2, oy = H * .47;
-        var kS = intro ? .045 : .05, dmp = intro ? .84 : .8, revealT = e - L0;
+        var kS = intro ? .06 : .05, dmp = intro ? .82 : .8, revealT = e - L0;
         ctx.setTransform(DPR, 0, 0, DPR, 0, 0); ctx.globalCompositeOperation = "source-over"; ctx.clearRect(0, 0, W, H);
         ctx.globalCompositeOperation = "lighter";
         var base = small ? 3.6 : 4.4;
