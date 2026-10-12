@@ -393,7 +393,7 @@
     function drawLogo(g, cx, cy, h, ink, accent) {
       var F = "400 " + h + "px 'Archivo Black', 'Inter Tight', sans-serif"; g.save(); g.font = F; g.textBaseline = "alphabetic";
       var rw = g.measureText("R").width, ew = g.measureText("EMAKO").width, cap = h * .74;
-      var bw = h * .22, t = h * .1, gap = h * .07, tot = bw + gap + rw + gap + bw + gap * .8 + ew, x0 = cx - tot / 2, base = cy + cap / 2;
+      var bw = h * .22, t = h * .1, gap = h * .07, dot = h * .19, tot = bw + gap + rw + gap + bw + gap * .8 + ew + h * .05 + dot, x0 = cx - tot / 2, base = cy + cap / 2;
       var bh = cap * 1.32, by = cy - bh / 2, slit = Math.max(1.5, h * .045), sh = h * .055;
       g.fillStyle = accent;
       g.fillRect(x0, by, t, bh); g.fillRect(x0, by, bw, t); g.fillRect(x0, by + bh - t, bw, t);
@@ -405,12 +405,13 @@
       g.save(); g.beginPath(); g.rect(x0 - h, cy - h * 2, tot + h * 2, h * 2 - slit / 2); g.clip(); letters(-sh); g.restore();
       g.save(); g.beginPath(); g.rect(x0 - h, cy + slit / 2, tot + h * 2, h * 2); g.clip(); letters(sh); g.restore();
       g.fillStyle = accent; g.fillRect(xr - gap * .4, cy - slit / 2, xe + ew - xr + gap * .4 + sh, slit);
+      g.fillRect(xe + ew + sh + h * .05, base - dot, dot, dot);
       g.restore(); return tot;
     }
     function paintLogos() {
       document.querySelectorAll("canvas.rlogo").forEach(function (c) {
         var h = +c.dataset.h, g = c.getContext("2d"); g.font = "400 " + h + "px 'Archivo Black'";
-        var w = Math.ceil((h * .22 * 2 + h * .07 * 2.8 + g.measureText("R").width + g.measureText("EMAKO").width) + h * .3), ht = Math.ceil(h * 1.25);
+        var w = Math.ceil((h * .22 * 2 + h * .07 * 2.8 + g.measureText("R").width + g.measureText("EMAKO").width) + h * .54), ht = Math.ceil(h * 1.25);
         c.width = w * DPR; c.height = ht * DPR; c.style.width = w + "px"; c.style.height = ht + "px";
         g.setTransform(DPR, 0, 0, DPR, 0, 0); drawLogo(g, w / 2, ht / 2, h, "#f4f1ff", "#ec4899");
       });
