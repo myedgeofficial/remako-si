@@ -315,10 +315,10 @@
         <div class="device" id="device">
           <i class="btn b-act"></i><i class="btn b-vu"></i><i class="btn b-vd"></i><i class="btn b-pw"></i>
           <div class="bezel"><div class="scr" id="scr" role="img" aria-label="Nakupko">
-            <img src="img/s-v-trgovini.webp" alt="" width="600" height="1304">
-            <img src="img/s-zaklenjen.webp" alt="" width="600" height="1304" loading="lazy">
-            <img src="img/s-trgovina.webp" alt="" width="600" height="1304" loading="lazy">
-            <img src="img/s-skupen.webp" alt="" width="600" height="1304" loading="lazy">
+            <img src="img/s-v-trgovini.webp" data-shot="v-trgovini" data-dir="img/" alt="" width="600" height="1304">
+            <img src="img/s-zaklenjen.webp" data-shot="zaklenjen" data-dir="img/" alt="" width="600" height="1304" loading="lazy">
+            <img src="img/s-trgovina.webp" data-shot="trgovina" data-dir="img/" alt="" width="600" height="1304" loading="lazy">
+            <img src="img/s-skupen.webp" data-shot="skupen" data-dir="img/" alt="" width="600" height="1304" loading="lazy">
             <span class="island"></span><span class="glass"></span>
           </div></div>
         </div>
@@ -492,7 +492,11 @@
     try { saved = localStorage.getItem("remako-lang"); } catch (e) {}
     function setLang(l) { root.lang = l; btn.textContent = l === "sl" ? "EN" : "SL"; try { localStorage.setItem("remako-lang", l); } catch (e) {} }
     setLang(saved || ((navigator.language || "sl").slice(0, 2) === "sl" ? "sl" : "en"));
-    btn.onclick = function () { setLang(root.lang === "sl" ? "en" : "sl"); };
+
+    // posnetki zaslona v jeziku strani
+    function shots() { document.querySelectorAll("img[data-shot]").forEach(function (im) { var n = im.dataset.shot, sl = document.documentElement.lang === "sl" && n !== "zaklenjen"; im.src = im.dataset.dir + "s-" + n + (sl ? "-sl" : "") + ".webp"; }); }
+    btn.onclick = function () { setLang(root.lang === "sl" ? "en" : "sl"); shots(); };
+    shots();
     document.getElementById("y").textContent = new Date().getFullYear();
 
     // Miška / prst

@@ -129,8 +129,8 @@
       <div class="ctas"><a class="pri" href="https://apps.apple.com/si/app/nakupko-shopping-list/id6818745132"><span data-sl>Prenesi v App Storu</span><span data-en>Download on the App Store</span></a><a class="sec" href="#funkcije"><span data-sl>Poglej funkcije</span><span data-en>See the features</span></a></div>
     </div>
     <div class="phones">
-      <div class="ph"><div><img src="../img/s-zaklenjen.webp" alt="Nakupko na zaklenjenem zaslonu" width="600" height="1304"></div></div>
-      <div class="ph"><div><img src="../img/s-v-trgovini.webp" alt="Nakupko v trgovini" width="600" height="1304"></div></div>
+      <div class="ph"><div><img src="../img/s-zaklenjen.webp" data-shot="zaklenjen" data-dir="../img/" alt="Nakupko na zaklenjenem zaslonu" width="600" height="1304"></div></div>
+      <div class="ph"><div><img src="../img/s-v-trgovini.webp" data-shot="v-trgovini" data-dir="../img/" alt="Nakupko v trgovini" width="600" height="1304"></div></div>
     </div>
   </div></section>
 
@@ -172,19 +172,19 @@
   <section id="funkcije"><div class="wrap">
     <p class="eyebrow"><span data-sl>Funkcije</span><span data-en>Features</span></p>
     <h2><span data-sl>Kaj Nakupko naredi zate.</span><span data-en>What Nakupko does for you.</span></h2>
-    <div class="feat"><div class="shot"><div class="ph"><div><img src="../img/s-v-trgovini.webp" alt="" loading="lazy" width="600" height="1304"></div></div></div>
+    <div class="feat"><div class="shot"><div class="ph"><div><img src="../img/s-v-trgovini.webp" data-shot="v-trgovini" data-dir="../img/" alt="" loading="lazy" width="600" height="1304"></div></div></div>
       <div><span class="num">01</span><h3><span data-sl>Samodejna zaznava trgovine</span><span data-en>Automatic store detection</span></h3>
         <p data-sl>Aplikacija v ozadju zazna, da si v trgovini, in odpre seznam za to trgovino. Deluje tudi, ko je aplikacija zaprta, in skoraj ne porabi baterije.</p>
         <p data-en>In the background the app detects that you are in a store and opens the list for it. It works even when the app is closed and barely uses battery.</p></div></div>
-    <div class="feat"><div class="shot"><div class="ph"><div><img src="../img/s-zaklenjen.webp" alt="" loading="lazy" width="600" height="1304"></div></div></div>
+    <div class="feat"><div class="shot"><div class="ph"><div><img src="../img/s-zaklenjen.webp" data-shot="zaklenjen" data-dir="../img/" alt="" loading="lazy" width="600" height="1304"></div></div></div>
       <div><span class="num">02</span><h3><span data-sl>Seznam na zaklenjenem zaslonu</span><span data-en>The list on the Lock Screen</span></h3>
         <p data-sl>Izdelke kljukaš brez odklepanja telefona (Live Activities). Seznam se pokaže tudi v avtu prek CarPlaya.</p>
         <p data-en>Tick items off without unlocking the phone (Live Activities). The list also appears in the car through CarPlay.</p></div></div>
-    <div class="feat"><div class="shot"><div class="ph"><div><img src="../img/s-trgovina.webp" alt="" loading="lazy" width="600" height="1304"></div></div></div>
+    <div class="feat"><div class="shot"><div class="ph"><div><img src="../img/s-trgovina.webp" data-shot="trgovina" data-dir="../img/" alt="" loading="lazy" width="600" height="1304"></div></div></div>
       <div><span class="num">03</span><h3><span data-sl>Kje je najceneje</span><span data-en>Where it is cheapest</span></h3>
         <p data-sl>Okvirne cene iz Hoferja, Spara, Tuša, Mercatorja in Lidla, osvežene vsak dan, ter pot do izbrane trgovine.</p>
         <p data-en>Indicative prices from Hofer, Spar, Tuš, Mercator and Lidl, refreshed daily, plus the route to the chosen store.</p></div></div>
-    <div class="feat"><div class="shot"><div class="ph"><div><img src="../img/s-skupen.webp" alt="" loading="lazy" width="600" height="1304"></div></div></div>
+    <div class="feat"><div class="shot"><div class="ph"><div><img src="../img/s-skupen.webp" data-shot="skupen" data-dir="../img/" alt="" loading="lazy" width="600" height="1304"></div></div></div>
       <div><span class="num">04</span><h3><span data-sl>Skupen seznam za gospodinjstvo</span><span data-en>One shared household list</span></h3>
         <p data-sl>Kar doda eden, takoj vidijo vsi. Ko je nekdo v trgovini, ga ostali lahko prosijo še za kaj.</p>
         <p data-en>What one person adds, everyone sees at once. When someone is at the store, the others can ask for one more thing.</p></div></div>
@@ -237,7 +237,11 @@
       try { saved = localStorage.getItem("remako-lang"); } catch (e) {}
       function set(l) { root.lang = l; btn.textContent = l === "sl" ? "EN" : "SL"; try { localStorage.setItem("remako-lang", l); } catch (e) {} }
       set(saved || ((navigator.language || "sl").slice(0, 2) === "sl" ? "sl" : "en"));
-      btn.onclick = function () { set(root.lang === "sl" ? "en" : "sl"); };
+
+    // posnetki zaslona v jeziku strani
+    function shots() { document.querySelectorAll("img[data-shot]").forEach(function (im) { var n = im.dataset.shot, sl = document.documentElement.lang === "sl" && n !== "zaklenjen"; im.src = im.dataset.dir + "s-" + n + (sl ? "-sl" : "") + ".webp"; }); }
+      btn.onclick = function () { set(root.lang === "sl" ? "en" : "sl"); shots(); };
+      shots();
       document.getElementById("y").textContent = new Date().getFullYear();
     })();
   </script>
