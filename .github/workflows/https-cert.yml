@@ -1,0 +1,21 @@
+name: https-cert
+on:
+  push:
+    branches: [claude/https-cert]
+permissions:
+  pages: write
+  contents: read
+jobs:
+  cert:
+    runs-on: ubuntu-latest
+    steps:
+      - shell: bash {0}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          R=repos/${{ github.repository }}/pages
+          echo "== before"; gh api $R
+          echo "== clear cname"; gh api -X PUT $R -f cname= -F source[branch]=main -F source[path]=/ 2>&1; sleep 20
+          echo "== set cname"; gh api -X PUT $R -f cname=remako.si -F source[branch]=main -F source[path]=/ 2>&1
+          for i in $(seq 1 24); do sleep 20; s=$(gh api $R --jq '.https_certificate.state // "none"'); echo "$i cert=$s"; [ "$s" = approved ] && break; done
+          echo "== after"; gh api $R
