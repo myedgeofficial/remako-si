@@ -5,115 +5,182 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Aplikacije · REMAKO d.o.o.</title>
   <meta name="description" content="Vse aplikacije podjetja REMAKO d.o.o. na enem mestu: Nakupko, Popravko in Manifest by Urška. Prenesi iz App Store ali Google Play.">
-  <meta name="theme-color" content="#05040a">
+  <meta name="theme-color" content="#07060b">
   <link rel="icon" href="../img/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@600;700;800;900&family=Archivo+Black&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700;800;900&family=Archivo+Black&display=swap" rel="stylesheet">
   <style>
-    :root { --bg: #05040a; --ink: #f4f1ff; --muted: #b4adc9; --dim: #7d7694; --line: rgba(255,255,255,.1); --p: #ec4899; }
+    :root { --bg: #07060b; --bgrgb: 7, 6, 11; --ink: #f4f1ff; --muted: #b4adc9; --dim: #7d7694; --line: rgba(255,255,255,.1); --v: #8b5cf6; --p: #ec4899; --a: #f59e0b; }
+    @property --ang { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
     * { box-sizing: border-box; }
     html { background: var(--bg); overflow-x: clip; }
-    body { margin: 0; background: var(--bg); color: var(--ink); font: 600 18px/1.55 "Inter Tight", system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: clip; min-height: 100vh; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font: 600 18px/1.55 "Inter Tight", system-ui, -apple-system, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: clip; min-height: 100vh; }
     a { color: var(--ink); }
-    .wrap { max-width: 1240px; margin: 0 auto; padding: 0 16px; position: relative; z-index: 2; }
+    .wrap { max-width: 1280px; margin: 0 auto; padding: 0 16px; position: relative; z-index: 2; }
+    .h { font-weight: 900; letter-spacing: -.035em; line-height: .96; margin: 0; }
+    .grad { background: linear-gradient(95deg, #a78bfa, var(--p) 55%, var(--a)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .eyebrow { display: flex; align-items: center; gap: 14px; font-size: 14px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; color: var(--dim); margin: 0 0 22px; }
+    .eyebrow b { color: var(--ink); font-weight: 800; }
+    .eyebrow::after { content: ""; flex: 0 0 64px; height: 1px; background: var(--line); }
 
-    /* Ozadje: zvezde in mreža tal */
-    #sky { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
-    .floor { position: fixed; left: -50%; right: -50%; bottom: -10vh; height: 60vh; z-index: 1; pointer-events: none;
-      background-image: linear-gradient(rgba(139,92,246,.22) 1px, transparent 1px), linear-gradient(90deg, rgba(139,92,246,.22) 1px, transparent 1px);
-      background-size: 64px 64px; transform: perspective(500px) rotateX(68deg); transform-origin: 50% 100%;
-      -webkit-mask-image: linear-gradient(to top, #000 10%, transparent 85%); mask-image: linear-gradient(to top, #000 10%, transparent 85%);
-      animation: floor 6s linear infinite; }
-    @keyframes floor { to { background-position: 0 64px, 0 0; } }
+    /* Ozadje: živi delci + mehki sij */
+    #field { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+    body.intro #field { z-index: 61; }
+    .glow { position: fixed; z-index: 0; pointer-events: none; width: 70vmax; aspect-ratio: 1; border-radius: 50%; filter: blur(20px); }
+    .glow.g1 { left: -25vmax; top: -20vmax; background: radial-gradient(circle, rgba(139,92,246,.2), transparent 62%); animation: drift1 18s ease-in-out infinite; }
+    .glow.g2 { right: -30vmax; top: 30vh; background: radial-gradient(circle, rgba(236,72,153,.13), transparent 62%); animation: drift2 22s ease-in-out infinite; }
+    @keyframes drift1 { 50% { transform: translate(14vmax, 10vmax); } }
+    @keyframes drift2 { 50% { transform: translate(-12vmax, -8vmax); } }
 
-    header { position: relative; z-index: 3; border-bottom: 1px solid var(--line); background: rgba(5,4,10,.6); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
-    header .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; }
-    .logo { font: 400 20px "Archivo Black", sans-serif; letter-spacing: .04em; text-decoration: none; }
-    .logo i { font-style: normal; color: var(--p); }
-    .hbtns { display: flex; gap: 10px; }
-    .lang, .replay { border: 1px solid rgba(255,255,255,.28); border-radius: 999px; padding: 6px 12px; background: none; font: 800 13px "Inter Tight", sans-serif; letter-spacing: .08em; cursor: pointer; color: var(--ink); }
+    /* Navigacija kot na remako.si */
+    .nav { position: sticky; top: 0; z-index: 50; background: rgba(var(--bgrgb), .74); backdrop-filter: blur(16px) saturate(140%); -webkit-backdrop-filter: blur(16px) saturate(140%); border-bottom: 1px solid var(--line); }
+    .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 70px; gap: 12px; }
+    .logo { display: flex; align-items: center; height: 40px; } .rlogo { display: block; }
+    .nav nav { display: flex; align-items: center; gap: 18px; }
+    .nav nav a { text-decoration: none; font-size: 16px; font-weight: 700; color: var(--muted); transition: color .2s; }
+    .nav nav a:hover { color: var(--ink); }
+    .nav nav a.nav-cta { color: var(--bg); background: var(--ink); padding: 8px 16px; border-radius: 999px; font-weight: 800; white-space: nowrap; }
+    .lang, .replay { border: 1px solid rgba(255,255,255,.28); border-radius: 999px; padding: 6px 14px; background: none; font: 800 14px "Inter Tight", sans-serif; letter-spacing: .08em; cursor: pointer; color: var(--ink); }
 
-    .top { text-align: center; padding: clamp(40px, 8vh, 90px) 0 10px; }
-    .eyebrow { font-size: 13px; font-weight: 800; letter-spacing: .3em; text-transform: uppercase; color: #8be9fd; margin: 0 0 14px; text-shadow: 0 0 12px rgba(139,233,253,.6); }
-    h1 { font-weight: 900; letter-spacing: -.035em; line-height: .98; font-size: clamp(42px, 7vw, 92px); margin: 0 0 16px;
-      background: linear-gradient(95deg, #a78bfa, #8be9fd 40%, var(--p) 75%, #f59e0b); -webkit-background-clip: text; background-clip: text; color: transparent; }
-    .lead { color: var(--muted); margin: 0 auto; max-width: 620px; font-size: clamp(17px, 1.8vw, 21px); }
+    /* Glava */
+    .top { padding-top: clamp(50px, 10vh, 120px); padding-bottom: clamp(20px, 4vh, 40px); }
+    .top h1 { font-size: clamp(54px, 9vw, 150px); margin-bottom: 22px; }
+    .rot { font-size: clamp(24px, 3vw, 46px); font-weight: 800; letter-spacing: -.025em; line-height: 1.1; margin: 0 0 22px; min-height: 1.2em; }
+    .rot .w { display: inline-block; animation: wordin .6s cubic-bezier(.2,.8,.2,1); }
+    @keyframes wordin { from { opacity: 0; transform: translateY(.4em); filter: blur(8px); } }
+    .lead { font-size: clamp(19px, 1.7vw, 25px); color: var(--muted); max-width: 760px; margin: 0; line-height: 1.45; }
+
+    .ticker { position: relative; z-index: 2; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); overflow: hidden; padding: 20px 0; background: rgba(var(--bgrgb), .5); }
+    .ticker .row { display: flex; gap: 56px; width: max-content; animation: run 40s linear infinite; font-weight: 800; font-size: clamp(18px, 1.8vw, 26px); white-space: nowrap; color: var(--muted); }
+    .ticker .row span::before { content: "◆"; color: var(--v); margin-right: 56px; font-size: .6em; vertical-align: middle; }
+    @keyframes run { to { transform: translateX(-50%); } }
 
     /* Hologrami */
-    .apps { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(18px, 3vw, 40px); padding: clamp(30px, 6vh, 70px) 0 90px; }
-    .holo { --c: 167,139,250; position: relative; text-align: center; perspective: 900px; opacity: 0; }
-    .ready .holo { animation: materialize 1.1s cubic-bezier(.2,.8,.2,1) forwards; animation-delay: calc(var(--i) * .22s); }
+    .apps { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(18px, 3vw, 40px); padding: clamp(40px, 8vh, 90px) 0 40px; }
+    .holo { --c: 167,139,250; position: relative; text-align: center; perspective: 1000px; opacity: 0; }
+    .ready .holo { animation: materialize 1.2s cubic-bezier(.2,.8,.2,1) forwards; animation-delay: calc(var(--i) * .2s); }
     @keyframes materialize {
-      0% { opacity: 0; filter: blur(14px) brightness(2); clip-path: inset(100% 0 0 0); }
-      60% { opacity: 1; filter: blur(2px) brightness(1.4); clip-path: inset(0 0 0 0); }
-      100% { opacity: 1; filter: none; clip-path: inset(0 0 0 0); } }
-    .stage { position: relative; height: 290px; transform-style: preserve-3d; transition: transform .25s ease-out; }
-    .proj { position: absolute; left: 50%; bottom: 0; width: 190px; height: 40px; transform: translateX(-50%); border-radius: 50%;
-      background: radial-gradient(ellipse, rgba(var(--c),.55), rgba(var(--c),.08) 60%, transparent 72%);
-      box-shadow: 0 0 40px rgba(var(--c),.35); }
-    .proj::before, .proj::after { content: ""; position: absolute; inset: 6px 22px; border-radius: 50%; border: 1px solid rgba(var(--c),.7); animation: ring 3s ease-out infinite; }
+      0% { opacity: 0; filter: blur(16px) brightness(2.2); clip-path: inset(100% 0 0 0); }
+      55% { opacity: 1; filter: blur(2px) brightness(1.5); clip-path: inset(0 0 0 0); }
+      100% { opacity: 1; filter: none; clip-path: none; } }
+    .stage { position: relative; display: block; height: 330px; transform-style: preserve-3d; transition: transform .3s ease-out; text-decoration: none; }
+    .proj { position: absolute; left: 50%; bottom: 0; width: 210px; height: 44px; transform: translateX(-50%); border-radius: 50%;
+      background: radial-gradient(ellipse, rgba(var(--c),.6), rgba(var(--c),.1) 60%, transparent 72%); box-shadow: 0 0 50px rgba(var(--c),.35); }
+    .proj::before, .proj::after { content: ""; position: absolute; inset: 6px 24px; border-radius: 50%; border: 1px solid rgba(var(--c),.8); animation: ring 3s ease-out infinite; }
     .proj::after { animation-delay: 1.5s; }
-    @keyframes ring { 0% { transform: scale(.6); opacity: 1; } 100% { transform: scale(1.35); opacity: 0; } }
-    .beam { position: absolute; left: 50%; bottom: 18px; width: 240px; height: 205px; transform: translateX(-50%);
-      clip-path: polygon(36% 100%, 64% 100%, 100% 0, 0 0);
-      background: linear-gradient(to top, rgba(var(--c),.42), rgba(var(--c),.05) 75%, transparent 92%);
-      animation: beam 4s ease-in-out infinite; pointer-events: none; }
+    @keyframes ring { 0% { transform: scale(.55); opacity: 1; } 100% { transform: scale(1.4); opacity: 0; } }
+    .beam { position: absolute; left: 50%; bottom: 20px; width: 260px; height: 240px; transform: translateX(-50%); clip-path: polygon(38% 100%, 62% 100%, 100% 0, 0 0);
+      background: linear-gradient(to top, rgba(var(--c),.45), rgba(var(--c),.06) 75%, transparent 94%); animation: beam 4s ease-in-out infinite; pointer-events: none; }
     .beam::after { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(90deg, transparent 0 9px, rgba(255,255,255,.05) 9px 10px); -webkit-mask-image: linear-gradient(to top, #000, transparent 75%); mask-image: linear-gradient(to top, #000, transparent 75%); }
-    @keyframes beam { 0%, 100% { opacity: .85; } 50% { opacity: .55; } 91% { opacity: .85; } 92% { opacity: .25; } 93% { opacity: .9; } }
-    .float { position: absolute; left: 50%; top: 22px; width: 150px; height: 150px; margin-left: -75px; animation: float 5s ease-in-out infinite; transform-style: preserve-3d; }
-    @keyframes float { 0%, 100% { transform: translateY(0) rotateY(-10deg); } 50% { transform: translateY(-14px) rotateY(10deg); } }
-    .icon { position: relative; width: 100%; height: 100%; border-radius: 34px; overflow: hidden; opacity: .84;
-      filter: drop-shadow(-3px 0 0 rgba(255,40,120,.55)) drop-shadow(3px 0 0 rgba(0,220,255,.55)) drop-shadow(0 0 26px rgba(var(--c),.8));
-      animation: glitch 7s steps(1) infinite; }
-    .icon img { width: 100%; height: 100%; display: block; }
-    .icon .glyph { width: 100%; height: 100%; display: grid; place-items: center; font-size: 84px; color: #fff3c4; background: radial-gradient(circle at 50% 40%, rgba(var(--c),.55), rgba(42,29,82,.9) 70%); }
-    .icon::before { content: ""; position: absolute; inset: 0; background: linear-gradient(160deg, rgba(var(--c),.6), rgba(139,233,253,.35)); mix-blend-mode: color; }
+    @keyframes beam { 0%, 100% { opacity: .9; } 50% { opacity: .6; } 91% { opacity: .9; } 92% { opacity: .25; } 93% { opacity: .95; } }
+    .motes { position: absolute; left: 50%; bottom: 24px; width: 120px; height: 230px; margin-left: -60px; pointer-events: none; }
+    .motes i { position: absolute; bottom: 0; width: 3px; height: 3px; border-radius: 50%; background: rgb(var(--c)); box-shadow: 0 0 8px 2px rgba(var(--c),.8); opacity: 0; animation: rise 3.2s linear infinite; }
+    .motes i:nth-child(1) { left: 44%; animation-delay: 0s; } .motes i:nth-child(2) { left: 56%; animation-delay: .5s; }
+    .motes i:nth-child(3) { left: 38%; animation-delay: 1.1s; } .motes i:nth-child(4) { left: 62%; animation-delay: 1.6s; }
+    .motes i:nth-child(5) { left: 50%; animation-delay: 2.1s; } .motes i:nth-child(6) { left: 30%; animation-delay: 2.6s; }
+    .motes i:nth-child(7) { left: 70%; animation-delay: .8s; } .motes i:nth-child(8) { left: 47%; animation-delay: 1.9s; }
+    @keyframes rise { 0% { transform: translateY(0); opacity: 0; } 15% { opacity: 1; } 100% { transform: translateY(-220px) translateX(var(--dx, 0)); opacity: 0; } }
+    .motes i:nth-child(odd) { --dx: -26px; } .motes i:nth-child(even) { --dx: 26px; }
+
+    .float { position: absolute; left: 50%; top: 34px; width: 150px; height: 150px; margin-left: -75px; animation: float 6s ease-in-out infinite; transform-style: preserve-3d; }
+    @keyframes float { 0%, 100% { transform: translateY(0) rotateY(-10deg); } 50% { transform: translateY(-16px) rotateY(10deg); } }
+    .lyr { position: absolute; inset: 0; border-radius: 34px; overflow: hidden; pointer-events: none; }
+    .lyr img, .icon img { width: 100%; height: 100%; display: block; }
+    .lyr.l2 { transform: translateZ(-14px); opacity: .35; filter: saturate(0) brightness(1.4) drop-shadow(0 0 10px rgba(var(--c),1)); }
+    .lyr.l3 { transform: translateZ(-28px); opacity: .18; filter: saturate(0) brightness(1.6) drop-shadow(0 0 16px rgba(var(--c),1)); }
+    .lyr.l2::after, .lyr.l3::after { content: ""; position: absolute; inset: 0; background: rgb(var(--c)); mix-blend-mode: multiply; }
+    .icon { position: absolute; inset: 0; border-radius: 34px; overflow: hidden; opacity: .9;
+      filter: drop-shadow(-3px 0 0 rgba(236,72,153,.6)) drop-shadow(3px 0 0 rgba(139,92,246,.7)) drop-shadow(0 0 28px rgba(var(--c),.85));
+      animation: glitch 8s steps(1) infinite; animation-delay: calc(var(--i) * 2.3s); }
+    .glyph { width: 100%; height: 100%; display: grid; place-items: center; font-size: 84px; color: #fff3c4; background: radial-gradient(circle at 50% 40%, rgba(var(--c),.6), rgba(42,29,82,.92) 70%); }
+    .icon::before { content: ""; position: absolute; inset: 0; background: linear-gradient(160deg, rgba(var(--c),.55), rgba(236,72,153,.25)); mix-blend-mode: color; }
     .icon::after { content: ""; position: absolute; inset: -40% 0; background: repeating-linear-gradient(0deg, rgba(255,255,255,.16) 0 2px, transparent 2px 5px); mix-blend-mode: overlay; animation: scan 2.4s linear infinite; }
     @keyframes scan { to { transform: translateY(20%); } }
-    @keyframes glitch { 0%, 89%, 100% { transform: none; opacity: .84; } 90% { transform: translateX(-6px) skewX(8deg); opacity: .6; } 91% { transform: translateX(5px); opacity: .95; } 92% { transform: none; opacity: .4; } 93% { opacity: .84; } }
-    .shine { position: absolute; inset: 0; border-radius: 34px; pointer-events: none; background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,.35) 48%, transparent 62%); background-size: 250% 100%; animation: shine 4.5s ease-in-out infinite; mix-blend-mode: screen; }
+    @keyframes glitch { 0%, 88%, 100% { transform: none; opacity: .9; } 89% { transform: translateX(-7px) skewX(9deg); opacity: .55; } 90% { transform: translateX(6px) scaleY(.96); opacity: 1; } 91% { transform: none; opacity: .35; } 92% { opacity: .9; } }
+    .shine { position: absolute; inset: 0; border-radius: 34px; pointer-events: none; background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,.4) 48%, transparent 62%); background-size: 250% 100%; animation: shine 4.5s ease-in-out infinite; mix-blend-mode: screen; }
     @keyframes shine { 0% { background-position: 130% 0; } 60%, 100% { background-position: -60% 0; } }
-    .reflect { position: absolute; left: 50%; bottom: -26px; width: 150px; height: 40px; margin-left: -75px; border-radius: 50%; background: radial-gradient(ellipse, rgba(var(--c),.3), transparent 70%); filter: blur(6px); }
+    .orbit { position: absolute; left: 50%; top: 50%; width: 240px; height: 240px; margin: -120px 0 0 -120px; border-radius: 50%; border: 1px solid rgba(var(--c),.45); transform: rotateX(76deg); animation: orb 8s linear infinite; pointer-events: none; }
+    .orbit::after { content: ""; position: absolute; left: 50%; top: -4px; width: 8px; height: 8px; margin-left: -4px; border-radius: 50%; background: #fff; box-shadow: 0 0 12px 3px rgba(var(--c),1); }
+    .orbit.o2 { width: 290px; height: 290px; margin: -145px 0 0 -145px; border-style: dashed; border-color: rgba(var(--c),.25); animation: orb2 14s linear infinite; }
+    .orbit.o2::after { width: 5px; height: 5px; margin-left: -2.5px; top: -3px; background: rgb(var(--c)); }
+    @keyframes orb { from { transform: rotateX(76deg) rotateZ(0); } to { transform: rotateX(76deg) rotateZ(360deg); } }
+    @keyframes orb2 { from { transform: rotateX(70deg) rotateY(12deg) rotateZ(360deg); } to { transform: rotateX(70deg) rotateY(12deg) rotateZ(0); } }
+    .tag { position: absolute; z-index: 3; width: max-content; max-width: 112px; line-height: 1.25; text-align: left; font-size: 12.5px; font-weight: 800; letter-spacing: .02em; color: var(--ink); padding: 6px 12px; border-radius: 999px;
+      background: rgba(var(--bgrgb), .62); border: 1px solid rgba(var(--c),.55); box-shadow: 0 0 18px rgba(var(--c),.3), inset 0 0 12px rgba(var(--c),.15);
+      backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); animation: bob 4s ease-in-out infinite, blink 9s steps(1) infinite; pointer-events: none; }
+    .tag::before { content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: rgb(var(--c)); box-shadow: 0 0 8px rgb(var(--c)); margin-right: 8px; vertical-align: middle; }
+    .tag.t1 { right: calc(100% + 8px); top: 8px; }
+    .tag.t2 { left: calc(100% + 8px); top: 50px; animation-delay: -1.3s, -3s; }
+    .tag.t3 { right: calc(100% + 2px); top: 104px; animation-delay: -2.6s, -6s; }
+    .tags { position: absolute; left: 50%; top: 34px; width: 150px; height: 150px; margin-left: -75px; pointer-events: none; z-index: 4; }
+    @keyframes bob { 50% { margin-top: -8px; } }
+    @keyframes blink { 0%, 96%, 100% { opacity: 1; } 97% { opacity: .2; } 98% { opacity: 1; } 99% { opacity: .4; } }
+    .reflect { position: absolute; left: 50%; bottom: -26px; width: 160px; height: 40px; margin-left: -80px; border-radius: 50%; background: radial-gradient(ellipse, rgba(var(--c),.35), transparent 70%); filter: blur(6px); }
 
-    .info { position: relative; margin-top: 30px; padding: 22px 20px 20px; border: 1px solid rgba(var(--c),.28); border-radius: 22px;
-      background: linear-gradient(180deg, rgba(var(--c),.1), rgba(10,8,18,.85)); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+    .info { position: relative; margin-top: 30px; padding: 24px 22px 20px; border-radius: 26px; border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(var(--c),.09), rgba(var(--bgrgb),.86)); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
     .info::before { content: ""; position: absolute; left: 20%; right: 20%; top: -1px; height: 1px; background: linear-gradient(90deg, transparent, rgba(var(--c),1), transparent); }
-    .info h2 { margin: 0 0 6px; font-size: 26px; font-weight: 900; letter-spacing: -.02em; text-shadow: 0 0 18px rgba(var(--c),.55); }
+    .info::after { content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 1px; pointer-events: none;
+      background: conic-gradient(from var(--ang), transparent 0 62%, rgba(var(--c),.9) 80%, rgba(236,72,153,.7) 88%, transparent 100%);
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; animation: spin 6s linear infinite; }
+    @keyframes spin { to { --ang: 360deg; } }
+    .live { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: #86efac; margin-bottom: 10px; }
+    .live i { width: 8px; height: 8px; border-radius: 50%; background: currentColor; box-shadow: 0 0 0 0 currentColor; animation: ping 1.8s ease-out infinite; }
+    .live.soon { color: #fcd38a; }
+    @keyframes ping { 0% { box-shadow: 0 0 0 0 currentColor; } 100% { box-shadow: 0 0 0 9px transparent; } }
+    .info h2 { margin: 0 0 6px; font-size: clamp(26px, 2.2vw, 34px); font-weight: 900; letter-spacing: -.02em; }
     .info p { margin: 0 0 6px; color: var(--muted); font-size: 16px; min-height: 3.1em; }
     .meta { font-size: 12px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: rgb(var(--c)); margin-bottom: 14px; min-height: 1.2em; }
     .get { display: grid; gap: 8px; }
-    .btn { display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; font-weight: 800; font-size: 15px; padding: 13px 18px; border-radius: 999px; background: var(--ink); color: #05040a; white-space: nowrap; box-shadow: 0 0 24px rgba(var(--c),.45); transition: transform .15s, box-shadow .15s; }
-    .btn:hover { transform: translateY(-1px); box-shadow: 0 0 34px rgba(var(--c),.7); }
+    .btn { display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; font-weight: 800; font-size: 16px; padding: 14px 18px; border-radius: 999px; background: var(--ink); color: var(--bg); white-space: nowrap; box-shadow: 0 0 26px rgba(var(--c),.45); transition: transform .15s, box-shadow .15s; position: relative; overflow: hidden; }
+    .btn::after { content: ""; position: absolute; inset: 0; background: linear-gradient(110deg, transparent 35%, rgba(139,92,246,.35) 50%, transparent 65%); background-size: 250% 100%; animation: shine 3.5s ease-in-out infinite; }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 0 40px rgba(var(--c),.75); }
     .btn svg { width: 18px; height: 18px; fill: currentColor; flex: none; }
     .btn.soon { background: none; color: var(--dim); border: 1px dashed rgba(var(--c),.35); box-shadow: none; cursor: default; }
-    .more { font-size: 14px; color: var(--dim); text-decoration: none; margin-top: 4px; display: inline-block; }
+    .btn.soon::after { display: none; }
+    .more { font-size: 15px; font-weight: 800; color: #c4b5fd; text-decoration: none; margin-top: 8px; display: inline-block; }
     .more:hover { color: var(--ink); }
 
-    footer { position: relative; z-index: 2; border-top: 1px solid var(--line); padding: 28px 0 44px; color: var(--dim); font-weight: 700; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+    .next { padding: clamp(60px, 12vh, 140px) 0; border-top: 1px solid var(--line); margin-top: 40px; }
+    .next h2 { font-size: clamp(40px, 6.4vw, 110px); margin-bottom: 30px; max-width: 1000px; }
+    .cta { display: inline-flex; gap: 10px; align-items: center; background: linear-gradient(95deg, #8b5cf6, var(--p)); color: #fff; text-decoration: none; padding: 16px 30px; border-radius: 999px; font-size: 18px; font-weight: 800; transition: transform .2s; box-shadow: 0 10px 40px rgba(236,72,153,.3); }
+    .cta:hover { transform: translateY(-2px); }
+
+    footer { padding: 36px 0 52px; color: var(--dim); font-weight: 700; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; border-top: 1px solid var(--line); }
     footer a { color: var(--dim); text-decoration: none; }
 
     /* Uvod */
-    #intro { position: fixed; inset: 0; z-index: 50; background: #05040a; display: grid; place-items: center; transition: opacity .8s ease, visibility .8s; }
+    #intro { position: fixed; inset: 0; z-index: 60; background: radial-gradient(ellipse at 50% 46%, #120f22 0%, var(--bg) 64%); transition: opacity .9s ease, visibility .9s; }
     #intro.out { opacity: 0; visibility: hidden; }
-    #intro canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
-    #intro .scanline { position: absolute; left: 0; right: 0; height: 2px; top: -4px; background: linear-gradient(90deg, transparent, #8be9fd, #fff, #8be9fd, transparent); box-shadow: 0 0 24px #8be9fd, 0 0 60px rgba(139,233,253,.6); opacity: 0; }
-    #intro.scan .scanline { animation: sweep 1s cubic-bezier(.6,0,.4,1) forwards; }
-    @keyframes sweep { 0% { top: -4px; opacity: 1; } 100% { top: 100%; opacity: 1; } }
-    #intro .skip { position: absolute; right: 16px; bottom: 20px; z-index: 2; border: 1px solid rgba(255,255,255,.25); border-radius: 999px; background: none; color: var(--muted); font: 800 13px "Inter Tight", sans-serif; letter-spacing: .08em; padding: 8px 14px; cursor: pointer; }
-    #intro .cap { position: absolute; bottom: 22%; left: 0; right: 0; text-align: center; font-size: 13px; font-weight: 800; letter-spacing: .4em; text-transform: uppercase; color: #8be9fd; opacity: 0; transition: opacity .6s; text-shadow: 0 0 12px rgba(139,233,253,.7); }
-    #intro.cap-on .cap { opacity: 1; }
+    #intro .ctrl { position: absolute; left: 16px; right: 16px; bottom: max(22px, env(safe-area-inset-bottom)); z-index: 62; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+    #intro .hud { font-size: 13px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; color: var(--dim); }
+    .meter { display: flex; gap: 6px; margin-top: 8px; }
+    .meter i { width: 30px; height: 3px; background: rgba(255,255,255,.14); position: relative; overflow: hidden; }
+    .meter i::after { content: ""; position: absolute; inset: 0; background: var(--ink); transform: scaleX(var(--f, 0)); transform-origin: left; }
+    .skip { background: none; border: 1px solid rgba(255,255,255,.3); color: var(--ink); border-radius: 999px; padding: 8px 16px; font: 800 13px "Inter Tight", sans-serif; letter-spacing: .14em; text-transform: uppercase; cursor: pointer; position: relative; z-index: 63; }
 
     [data-en] { display: none !important; }
     html[lang="en"] [data-sl] { display: none !important; }
     html[lang="en"] [data-en] { display: revert !important; }
-    @media (max-width: 900px) {
-      .apps { grid-template-columns: 1fr; max-width: 440px; margin: 0 auto; gap: 30px; }
-      .stage { height: 250px; }
-      .float { width: 130px; height: 130px; margin-left: -65px; }
-      .icon, .shine { border-radius: 30px; }
-      .info p { min-height: 0; }
-      .meta { min-height: 0; }
+    @media (max-width: 1000px) {
+      .apps { grid-template-columns: 1fr; max-width: 460px; margin: 0 auto; gap: 44px; }
+      .info p, .meta { min-height: 0; }
+    }
+    @media (max-width: 700px) {
+      :root { --muted: #cbc3e3; --dim: #9d94b8; --line: rgba(255,255,255,.13); }
+      .nav nav a.hide-m { display: none; }
+      .nav nav { gap: 10px; }
+      .stage { height: 300px; }
+      .float, .tags { width: 130px; height: 130px; margin-left: -65px; }
+      .icon, .shine, .lyr { border-radius: 30px; }
+      .orbit { width: 210px; height: 210px; margin: -105px 0 0 -105px; }
+      .orbit.o2 { width: 250px; height: 250px; margin: -125px 0 0 -125px; }
+      .tag { font-size: 12px; padding: 5px 10px; }
+      .tag { max-width: 104px; }
+      .tag::before { display: none; }
+      .tag.t1 { right: calc(100% + 6px); } .tag.t2 { left: calc(100% + 6px); } .tag.t3 { right: calc(100% + 6px); top: 92px; }
+      .nav nav a.nav-cta { display: none; }
     }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation: none !important; transition: none !important; }
@@ -123,34 +190,46 @@
   </style>
 </head>
 <body>
+  <div class="glow g1" aria-hidden="true"></div><div class="glow g2" aria-hidden="true"></div>
+  <canvas id="field" aria-hidden="true"></canvas>
+
   <div id="intro" aria-hidden="true">
-    <canvas id="introCv"></canvas>
-    <div class="scanline"></div>
-    <div class="cap"><span data-sl>Projekcija aplikacij</span><span data-en>Projecting apps</span></div>
-    <button class="skip" id="skip" type="button"><span data-sl>Preskoči ›</span><span data-en>Skip ›</span></button>
+    <div class="ctrl">
+      <div class="hud"><span data-sl>REMAKO · App Hub</span><span data-en>REMAKO · App Hub</span><div class="meter" id="meter"><i></i><i></i><i></i></div></div>
+      <button class="skip" id="skip" type="button"><span data-sl>Preskoči ›</span><span data-en>Skip ›</span></button>
+    </div>
   </div>
 
-  <canvas id="sky" aria-hidden="true"></canvas>
-  <div class="floor" aria-hidden="true"></div>
-
-  <header><div class="wrap">
-    <a class="logo" href="../">[R]EMAKO<i>.</i></a>
-    <div class="hbtns">
+  <header class="nav"><div class="wrap">
+    <a class="logo" href="../" aria-label="REMAKO"><canvas class="rlogo" data-h="26"></canvas></a>
+    <nav>
+      <a class="hide-m" href="../#portfelj"><span data-sl>Portfelj</span><span data-en>Portfolio</span></a>
+      <a class="nav-cta" href="../#ideja"><span data-sl>Pošlji idejo</span><span data-en>Send an idea</span></a>
       <button class="replay" id="replay" type="button" aria-label="Ponovi uvod">↺</button>
       <button class="lang" id="lang" type="button">EN</button>
-    </div>
+    </nav>
   </div></header>
 
-  <main class="wrap">
-    <div class="top">
-      <p class="eyebrow">REMAKO · App Hub</p>
-      <h1><span data-sl>Naše aplikacije</span><span data-en>Our apps</span></h1>
-      <p class="lead"><span data-sl>Tapni aplikacijo in odprla se bo v trgovini za tvoj telefon.</span><span data-en>Tap an app and it opens in the store for your phone.</span></p>
+  <main>
+    <div class="wrap top">
+      <p class="eyebrow"><b>01</b>App Hub</p>
+      <h1 class="h"><span data-sl>Naše <span class="grad">aplikacije</span>.</span><span data-en>Our <span class="grad">apps</span>.</span></h1>
+      <p class="rot" id="rot"></p>
+      <p class="lead"><span data-sl>Tapni hologram in aplikacija se odpre v trgovini za tvoj telefon: App Store na iPhonu, Google Play na Androidu.</span><span data-en>Tap a hologram and the app opens in the store for your phone: App Store on iPhone, Google Play on Android.</span></p>
     </div>
-    <div class="apps" id="apps"></div>
-  </main>
 
-  <div class="wrap"><footer><span>© <span id="y">2026</span> REMAKO d.o.o.</span><span><a href="mailto:support@remako.si">support@remako.si</a> · <a href="../">remako.si</a></span></footer></div>
+    <div class="ticker" aria-hidden="true"><div class="row" id="tick"></div></div>
+
+    <div class="wrap"><div class="apps" id="apps"></div></div>
+
+    <section class="wrap next">
+      <p class="eyebrow"><b>02</b><span data-sl>Tvoja ideja</span><span data-en>Your idea</span></p>
+      <h2 class="h"><span data-sl>Naslednja aplikacija je lahko <span class="grad">tvoja</span>.</span><span data-en>The next app could be <span class="grad">yours</span>.</span></h2>
+      <a class="cta" href="../#ideja"><span data-sl>Pošlji idejo →</span><span data-en>Send an idea →</span></a>
+    </section>
+
+    <div class="wrap"><footer><span style="display:flex;align-items:center;gap:16px"><canvas class="rlogo" data-h="20"></canvas>© <span id="y">2026</span> REMAKO d.o.o.</span><span><a href="mailto:support@remako.si">support@remako.si</a> · <a href="../">remako.si</a></span></footer></div>
+  </main>
 
   <script>
     // Ko aplikacija izide, vpiši povezavo v ios ali android. Prazno = »Kmalu«, null = platforme ni.
@@ -158,16 +237,29 @@
       { ime: "Nakupko", ikona: "../img/nakupko.png", vec: "../nakupko/", barva: "167,139,250",
         sl: "Nakupovalni seznam, ki se sam odpre, ko stopiš v trgovino. Skupen seznam za vso družino.",
         en: "A shopping list that opens by itself when you walk into a store. One shared list for the whole family.",
+        tags_sl: ["Zazna trgovino", "Skupen seznam", "Najcenejša trgovina"], tags_en: ["Detects the store", "Shared list", "Cheapest store"],
         ios: "https://apps.apple.com/si/app/nakupko-shopping-list/id6818745132", android: "" },
       { ime: "Popravko", ikona: "../popravko/logo.png", vec: "../popravko/", barva: "127,209,181",
         sl: "Slikaj, kaj je treba popraviti, in preverjeni mojstri v bližini se javijo s terminom.",
         en: "Snap what needs fixing and verified tradespeople nearby reply with a time.",
+        tags_sl: ["Slikaj okvaro", "Preverjeni mojstri", "Dogovor za termin"], tags_en: ["Snap the problem", "Verified pros", "Book a time"],
         meta_sl: "Samo v Sloveniji", meta_en: "Slovenia only", ios: "", android: "" },
       { ime: "Manifest by Urška", ikona: "", vec: "", barva: "252,211,138",
         sl: "Tri minute na dan: kartica z afirmacijo vsako jutro, vprašanje vsak večer in lunini rituali.",
         en: "Three minutes a day: an affirmation card every morning, a question every evening and moon rituals.",
+        tags_sl: ["Jutranja kartica", "Lunini rituali", "Večerno vprašanje"], tags_en: ["Morning card", "Moon rituals", "Evening question"],
         meta_sl: "Samo iPhone", meta_en: "iPhone only", ios: "", android: null }
     ];
+    var ROT = { sl: ["Za nakupovanje brez pozabljanja.", "Za popravila doma.", "Za tri minute zase.", "Narejeno v Sloveniji."],
+                en: ["For shopping without forgetting.", "For repairs at home.", "For three minutes for yourself.", "Made in Slovenia."] };
+    var TICK = { sl: ["Nakupko", "Popravko", "Manifest by Urška", "iPhone", "Android", "Narejeno v Sloveniji", "REMAKO d.o.o."],
+                 en: ["Nakupko", "Popravko", "Manifest by Urška", "iPhone", "Android", "Made in Slovenia", "REMAKO d.o.o."] };
+
+    var root = document.documentElement, body = document.body;
+    var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var DPR = Math.min(window.devicePixelRatio || 1, 2);
+    function rnd(a, b) { return a + Math.random() * (b - a); }
+    function $(id) { return document.getElementById(id); }
 
     var ua = navigator.userAgent || "";
     var naprava = /android/i.test(ua) ? "android" : (/iphone|ipad|ipod/i.test(ua) || (/macintosh/i.test(ua) && navigator.maxTouchPoints > 1)) ? "ios" : "oboje";
@@ -179,21 +271,26 @@
       if (url) return '<a class="btn" href="' + url + '">' + ikona + '<span data-sl>Prenesi · ' + ime + '</span><span data-en>Get it · ' + ime + '</span></a>';
       return '<span class="btn soon">' + ikona + '<span data-sl>Kmalu · ' + ime + '</span><span data-en>Coming soon · ' + ime + '</span></span>';
     }
+    function dvojezicno(sl, en) { return '<span data-sl>' + sl + '</span><span data-en>' + en + '</span>'; }
 
-    document.getElementById("apps").innerHTML = APPS.map(function (a, i) {
+    $("apps").innerHTML = APPS.map(function (a, i) {
       var trgi = naprava === "oboje" ? ["ios", "android"] : [naprava];
       trgi = trgi.filter(function (t) { return a[t] !== null; });
       if (!trgi.length) trgi = ["ios"];
       var cilj = trgi.map(function (t) { return a[t]; }).filter(Boolean)[0];
+      var naVoljo = [a.ios, a.android].some(Boolean);
       var slika = a.ikona ? '<img src="' + a.ikona + '" alt="">' : '<div class="glyph">✦</div>';
-      var holo = '<div class="stage"><div class="beam"></div><div class="proj"></div><div class="reflect"></div>' +
-        '<div class="float"><div class="icon">' + slika + '</div><div class="shine"></div></div></div>';
-      if (cilj) holo = '<a href="' + cilj + '" aria-label="' + a.ime + '" style="text-decoration:none;display:block">' + holo + '</a>';
-      var meta = '<div class="meta">' + (a.meta_sl ? '<span data-sl>' + a.meta_sl + '</span><span data-en>' + a.meta_en + '</span>' : '') + '</div>';
-      return '<article class="holo" style="--c:' + a.barva + ';--i:' + i + '">' + holo +
-        '<div class="info"><h2>' + a.ime + '</h2><p data-sl>' + a.sl + '</p><p data-en>' + a.en + '</p>' + meta +
+      var tags = a.tags_sl.map(function (t, k) { return '<span class="tag t' + (k + 1) + '">' + dvojezicno(t, a.tags_en[k]) + '</span>'; }).join("");
+      var notranje = '<span class="beam"></span><span class="motes"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="proj"></span><span class="reflect"></span>' +
+        '<span class="float"><span class="orbit o2"></span><span class="lyr l3">' + slika + '</span><span class="lyr l2">' + slika + '</span>' +
+        '<span class="icon">' + slika + '</span><span class="shine"></span><span class="orbit"></span></span>';
+      var holo = cilj ? '<a class="stage" href="' + cilj + '" aria-label="' + a.ime + '">' + notranje + '</a>' : '<div class="stage">' + notranje + '</div>';
+      var meta = '<div class="meta">' + (a.meta_sl ? dvojezicno(a.meta_sl, a.meta_en) : '') + '</div>';
+      var live = naVoljo ? '<span class="live"><i></i>' + dvojezicno("Na voljo", "Available") + '</span>' : '<span class="live soon"><i></i>' + dvojezicno("Kmalu", "Coming soon") + '</span>';
+      return '<article class="holo" style="--c:' + a.barva + ';--i:' + i + '">' + holo + '<span class="tags" aria-hidden="true">' + tags + '</span>' +
+        '<div class="info">' + live + '<h2>' + a.ime + '</h2><p data-sl>' + a.sl + '</p><p data-en>' + a.en + '</p>' + meta +
         '<div class="get">' + trgi.map(function (t) { return gumb(t, a[t]); }).join("") + '</div>' +
-        (a.vec ? '<a class="more" href="' + a.vec + '"><span data-sl>Več o aplikaciji →</span><span data-en>More about the app →</span></a>' : "") +
+        (a.vec ? '<a class="more" href="' + a.vec + '">' + dvojezicno("Več o aplikaciji →", "More about the app →") + '</a>' : "") +
         '</div></article>';
     }).join("");
 
@@ -202,69 +299,170 @@
       var st = h.querySelector(".stage");
       h.addEventListener("pointermove", function (e) {
         var r = st.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
-        st.style.transform = "rotateY(" + (x * 22) + "deg) rotateX(" + (-y * 14) + "deg)";
+        st.style.transform = "rotateY(" + (x * 26) + "deg) rotateX(" + (-y * 16) + "deg)";
       });
       h.addEventListener("pointerleave", function () { st.style.transform = ""; });
     });
 
-    // Zvezde v ozadju
-    var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+    // Jezik, menjajoče besede in trak
+    var rotI = 0;
+    function rot() { var l = root.lang === "en" ? "en" : "sl", w = ROT[l][rotI % ROT[l].length]; $("rot").innerHTML = '<span class="w grad">' + w + '</span>'; }
+    function tick() { var l = root.lang === "en" ? "en" : "sl", s = TICK[l].map(function (t) { return "<span>" + t + "</span>"; }).join(""); $("tick").innerHTML = s + s; }
     (function () {
-      var cv = document.getElementById("sky"), x = cv.getContext("2d"), st = [], w, h, dpr = Math.min(window.devicePixelRatio || 1, 2);
-      function size() { w = innerWidth; h = innerHeight; cv.width = w * dpr; cv.height = h * dpr; x.setTransform(dpr, 0, 0, dpr, 0, 0);
-        st = []; for (var i = 0; i < Math.round(w * h / 9000); i++) st.push({ x: Math.random() * w, y: Math.random() * h * .75, r: Math.random() * 1.2 + .2, t: Math.random() * 6 }); }
-      function draw(t) { x.clearRect(0, 0, w, h);
-        for (var i = 0; i < st.length; i++) { var s = st[i], a = .25 + .35 * Math.sin(t / 900 + s.t); x.fillStyle = "rgba(220,215,255," + a + ")"; x.beginPath(); x.arc(s.x, s.y, s.r, 0, 6.283); x.fill(); }
-        if (!reduce) requestAnimationFrame(draw); }
-      size(); addEventListener("resize", size); requestAnimationFrame(draw);
-    })();
-
-    // Uvod: delci se zberejo v napis, svetlobni pas ga prebere, nato se odpre hub
-    var intro = document.getElementById("intro"), body = document.body, tekoci = 0;
-    function pokazi() { intro.classList.add("out"); setTimeout(function () { body.classList.add("ready"); }, 250); tekoci++; }
-    function uvod() {
-      var moj = ++tekoci;
-      body.classList.remove("ready"); intro.classList.remove("out", "scan", "cap-on");
-      var cv = document.getElementById("introCv"), x = cv.getContext("2d"), dpr = Math.min(window.devicePixelRatio || 1, 2);
-      var w = innerWidth, h = innerHeight; cv.width = w * dpr; cv.height = h * dpr; x.setTransform(dpr, 0, 0, dpr, 0, 0);
-      // cilji iz besedila
-      var off = document.createElement("canvas"), o = off.getContext("2d"); off.width = w; off.height = h;
-      var fs = w < 600 ? w / 3.4 : Math.min(w / 5.2, 190); o.fillStyle = "#fff"; o.textAlign = "center"; o.textBaseline = "middle";
-      o.font = "900 " + fs + "px 'Inter Tight', system-ui, sans-serif"; o.fillText("APPS", w / 2, h / 2 - fs * .1);
-      o.font = "400 " + (fs * .26) + "px 'Archivo Black', sans-serif"; o.fillText("[R]EMAKO", w / 2, h / 2 + fs * .62);
-      var d = o.getImageData(0, 0, w, h).data, pts = [], step = w < 600 ? 3 : 5;
-      for (var yy = 0; yy < h; yy += step) for (var xx = 0; xx < w; xx += step) if (d[(yy * w + xx) * 4 + 3] > 128) pts.push([xx, yy]);
-      var cols = ["167,139,250", "139,233,253", "236,72,153", "245,158,11"];
-      var P = pts.map(function (p) { var a = Math.random() * 6.283, r = Math.max(w, h) * (.6 + Math.random() * .6);
-        return { tx: p[0], ty: p[1], x: w / 2 + Math.cos(a) * r, y: h / 2 + Math.sin(a) * r, c: cols[Math.floor(p[0] / w * 4) % 4], dl: Math.random() * .35 }; });
-      var t0 = performance.now();
-      function frame(now) {
-        if (moj !== tekoci) return;
-        var t = (now - t0) / 1000; x.fillStyle = "rgba(5,4,10,.32)"; x.fillRect(0, 0, w, h);
-        for (var i = 0; i < P.length; i++) { var p = P[i], k = Math.min(1, Math.max(0, (t - p.dl) / 1.4)); k = 1 - Math.pow(1 - k, 3);
-          var jx = t > 2 ? (Math.random() - .5) * 2 : 0, px = p.x + (p.tx - p.x) * k + jx, py = p.y + (p.ty - p.y) * k;
-          x.fillStyle = "rgba(" + p.c + "," + (.35 + .65 * k) + ")"; x.fillRect(px, py, step * .7, step * .7); }
-        if (t > 1.7 && !intro.classList.contains("scan")) { intro.classList.add("scan", "cap-on"); }
-        if (t > 3.0) { pokazi(); return; }
-        requestAnimationFrame(frame);
-      }
-      x.fillStyle = "#05040a"; x.fillRect(0, 0, w, h); requestAnimationFrame(frame);
-    }
-    document.getElementById("skip").onclick = pokazi;
-    intro.addEventListener("click", function (e) { if (e.target.id !== "skip") pokazi(); });
-    document.getElementById("replay").onclick = function () { if (!reduce) uvod(); };
-    var videl = false; try { videl = sessionStorage.getItem("remako-hub-intro") === "1"; sessionStorage.setItem("remako-hub-intro", "1"); } catch (e) {}
-    if (reduce || videl) { intro.classList.add("out"); body.classList.add("ready"); }
-    else { (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(uvod); setTimeout(function () { if (!tekoci) uvod(); }, 1200); }
-
-    (function () {
-      var root = document.documentElement, btn = document.getElementById("lang"), saved = null;
+      var btn = $("lang"), saved = null;
       try { saved = localStorage.getItem("remako-lang"); } catch (e) {}
-      function set(l) { root.lang = l; btn.textContent = l === "sl" ? "EN" : "SL"; try { localStorage.setItem("remako-lang", l); } catch (e) {} }
+      function set(l) { root.lang = l; btn.textContent = l === "sl" ? "EN" : "SL"; try { localStorage.setItem("remako-lang", l); } catch (e) {} rot(); tick(); }
       set(saved || ((navigator.language || "sl").slice(0, 2) === "sl" ? "sl" : "en"));
       btn.onclick = function () { set(root.lang === "sl" ? "en" : "sl"); };
-      document.getElementById("y").textContent = new Date().getFullYear();
+      $("y").textContent = new Date().getFullYear();
+      if (!reduce) setInterval(function () { rotI++; rot(); }, 2600);
     })();
+
+    // Šum za tok delcev
+    var PERM = new Uint8Array(512); (function () { var p = []; for (var i = 0; i < 256; i++) p[i] = i; for (i = 255; i > 0; i--) { var j = Math.random() * (i + 1) | 0, t = p[i]; p[i] = p[j]; p[j] = t; } for (i = 0; i < 512; i++) PERM[i] = p[i & 255]; })();
+    function noise3(x, y, z) {
+      var X = Math.floor(x), Y = Math.floor(y), Z = Math.floor(z), xf = x - X, yf = y - Y, zf = z - Z;
+      X &= 255; Y &= 255; Z &= 255;
+      var u = xf * xf * (3 - 2 * xf), v = yf * yf * (3 - 2 * yf), w = zf * zf * (3 - 2 * zf);
+      function h(a, b, c) { return PERM[PERM[PERM[a] + b] + c] / 255; }
+      var a1 = h(X, Y, Z) + (h(X + 1, Y, Z) - h(X, Y, Z)) * u, a2 = h(X, Y + 1, Z) + (h(X + 1, Y + 1, Z) - h(X, Y + 1, Z)) * u;
+      var b1 = h(X, Y, Z + 1) + (h(X + 1, Y, Z + 1) - h(X, Y, Z + 1)) * u, b2 = h(X, Y + 1, Z + 1) + (h(X + 1, Y + 1, Z + 1) - h(X, Y + 1, Z + 1)) * u;
+      var a = a1 + (a2 - a1) * v, b = b1 + (b2 - b1) * v; return a + (b - a) * w;
+    }
+    // Logotip [R]EMAKO (kot na remako.si)
+    function drawLogo(g, cx, cy, h, ink, accent) {
+      var F = "400 " + h + "px 'Archivo Black', 'Inter Tight', sans-serif"; g.save(); g.font = F; g.textBaseline = "alphabetic";
+      var rw = g.measureText("R").width, ew = g.measureText("EMAKO").width, cap = h * .74;
+      var bw = h * .22, t = h * .1, gap = h * .07, dot = h * .19, tot = bw + gap + rw + gap + bw + gap * .8 + ew + h * .05 + dot, x0 = cx - tot / 2, base = cy + cap / 2;
+      var bh = cap * 1.32, by = cy - bh / 2, slit = Math.max(1.5, h * .04), sh = h * .02;
+      g.fillStyle = accent;
+      g.fillRect(x0, by, t, bh); g.fillRect(x0, by, bw, t); g.fillRect(x0, by + bh - t, bw, t);
+      var xr = x0 + bw + gap, xb = xr + rw + gap;
+      g.fillRect(xb + bw - t, by, t, bh); g.fillRect(xb, by, bw, t); g.fillRect(xb, by + bh - t, bw, t);
+      var xe = xb + bw + gap * .8;
+      function letters(dx) { g.fillText("R", xr + dx, base); g.fillText("EMAKO", xe + dx, base); }
+      g.fillStyle = ink;
+      g.save(); g.beginPath(); g.rect(x0 - h, cy - h * 2, tot + h * 2, h * 2 - slit / 2); g.clip(); letters(-sh); g.restore();
+      g.save(); g.beginPath(); g.rect(x0 - h, cy + slit / 2, tot + h * 2, h * 2); g.clip(); letters(sh); g.restore();
+      g.fillStyle = accent; g.fillRect(xr - gap * .4, cy - slit / 2, xe + ew - xr + gap * .4 + sh, slit);
+      g.fillRect(xe + ew + sh + h * .05, base - dot, dot, dot);
+      g.restore(); return tot;
+    }
+    function paintLogos() {
+      document.querySelectorAll("canvas.rlogo").forEach(function (c) {
+        var h = +c.dataset.h, g = c.getContext("2d"); g.font = "400 " + h + "px 'Archivo Black'";
+        var w = Math.ceil((h * .22 * 2 + h * .07 * 2.8 + g.measureText("R").width + g.measureText("EMAKO").width) + h * .54), ht = Math.ceil(h * 1.25);
+        c.width = w * DPR; c.height = ht * DPR; c.style.width = w + "px"; c.style.height = ht + "px";
+        g.setTransform(DPR, 0, 0, DPR, 0, 0); drawLogo(g, w / 2, ht / 2, h, "#f4f1ff", "#ec4899");
+      });
+    }
+    function sprite(rgb) {
+      var c = document.createElement("canvas"); c.width = c.height = 64; var g = c.getContext("2d"), gr = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+      gr.addColorStop(0, "rgba(" + rgb + ",1)"); gr.addColorStop(.18, "rgba(" + rgb + ",.85)"); gr.addColorStop(.45, "rgba(" + rgb + ",.22)"); gr.addColorStop(1, "rgba(" + rgb + ",0)");
+      g.fillStyle = gr; g.fillRect(0, 0, 64, 64); return c;
+    }
+
+    // Delci: v uvodu sestavijo »APPS«, nato logotip [R]EMAKO, potem razpadejo v živo ozadje
+    var F = (function () {
+      var cv = $("field"), ctx = cv.getContext("2d"), W = 0, H = 0, small = false, P = [], N = 0, AMB = 0;
+      var COLS = ["244,241,255", "185,163,255", "232,121,249", "244,114,182", "252,211,138"], HEX = ["#f4f1ff", "#b9a3ff", "#e879f9", "#f472b6", "#fcd38a"], SPR = COLS.map(sprite);
+      var mode = "amb", t0 = 0, burst = false, M = { x: -1e4, y: -1e4 }, meter = document.querySelectorAll("#meter i");
+      var T_A = 1.9, T_B = 3.3, T_END = 3.5;
+      function size() { W = innerWidth; H = innerHeight; small = W < 700; cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR); ctx.setTransform(DPR, 0, 0, DPR, 0, 0); }
+      function sample(draw) {
+        var o = document.createElement("canvas").getContext("2d", { willReadFrequently: true }); o.canvas.width = W; o.canvas.height = H;
+        o.fillStyle = "#fff"; draw(o); var d = o.getImageData(0, 0, W, H).data, pts = [], st = small ? 3 : 4;
+        for (var y = 0; y < H; y += st) for (var x = 0; x < W; x += st) if (d[(y * W + x) * 4 + 3] > 128) pts.push(x, y);
+        return pts;
+      }
+      function make() {
+        N = small ? 1500 : 2800; AMB = small ? 120 : 230; P = [];
+        for (var i = 0; i < N; i++) { var r = Math.random(); P.push({ x: rnd(0, W), y: rnd(0, H), vx: 0, vy: 0, z: rnd(.35, 1), c: r < .45 ? 0 : r < .7 ? 1 : r < .85 ? 2 : r < .95 ? 3 : 4, a: i < AMB ? 1 : 0, dl: 0, ph: rnd(0, 6.28) }); }
+      }
+      function targets() {
+        var cy = H * .46;
+        var A = sample(function (o) { var fs = Math.min(W * .27, H * .34, 280); o.font = "900 " + fs + "px 'Inter Tight', system-ui, sans-serif"; o.textAlign = "center"; o.textBaseline = "middle"; o.fillText("APPS", W / 2, cy); });
+        var B = sample(function (o) { var tot = drawLogo(o, -9999, -9999, 100, "#fff", "#fff"), lh = Math.min(150, W * .82 / tot * 100); drawLogo(o, W / 2, cy, lh, "#fff", "#fff"); });
+        var nA = A.length / 2, nB = B.length / 2;
+        P.forEach(function (p) { var ka = (Math.random() * nA | 0) * 2, kb = (Math.random() * nB | 0) * 2; p.ax = A[ka] || W / 2; p.ay = A[ka + 1] || cy; p.bx = B[kb] || W / 2; p.by = B[kb + 1] || cy; });
+      }
+      function startIntro() {
+        targets(); mode = "intro"; burst = false; t0 = performance.now();
+        P.forEach(function (p) { var an = rnd(0, 6.283), r = Math.max(W, H) * rnd(.55, 1.1); p.x = W / 2 + Math.cos(an) * r; p.y = H / 2 + Math.sin(an) * r; p.vx = p.vy = 0; p.a = 1; p.dl = rnd(0, .55); });
+      }
+      function doBurst() {
+        burst = true; mode = "amb";
+        P.forEach(function (p, i) { var dx = p.x - W / 2, dy = p.y - H * .46, d = Math.sqrt(dx * dx + dy * dy) + 1, f = rnd(6, 18); p.vx += dx / d * f; p.vy += dy / d * f; if (i >= AMB) p.a = .9; });
+        if (F.onEnd) F.onEnd();
+      }
+      function frame(now) {
+        var T = now / 1000, t = (now - t0) / 1000;
+        ctx.clearRect(0, 0, W, H); ctx.globalCompositeOperation = "lighter";
+        if (mode === "intro") {
+          meter.forEach(function (m, i) { m.style.setProperty("--f", Math.max(0, Math.min(1, t / T_END * 3 - i))); });
+          if (t >= T_END) doBurst();
+        }
+        var core = small ? 1.7 : 2.2;
+        for (var i = 0; i < N; i++) {
+          var p = P[i];
+          if (mode === "intro") {
+            var morph = t > T_A, tx = morph ? p.bx : p.ax, ty = morph ? p.by : p.ay, k = morph ? .055 : .07;
+            if (t > p.dl + (morph ? (i % 7) * .02 : 0)) { p.vx += (tx - p.x) * k; p.vy += (ty - p.y) * k; }
+            if (morph && t < T_A + .5) { var sx = p.x - W / 2, sy = p.y - H * .46; p.vx += -sy * .012; p.vy += sx * .012; }
+            if (t > T_B) { p.vx += rnd(-.6, .6); p.vy += rnd(-.6, .6); }
+            p.vx *= .8; p.vy *= .8; p.x += p.vx; p.y += p.vy;
+            ctx.globalAlpha = 1; ctx.fillStyle = HEX[p.c]; ctx.fillRect(p.x - core / 2, p.y - core / 2, core, core);
+            if (i % 6 === 0) { ctx.globalAlpha = .5; ctx.drawImage(SPR[p.c], p.x - 6, p.y - 6, 12, 12); }
+            continue;
+          }
+          if (p.a <= 0) continue;
+          if (i < AMB) {
+            var an = noise3(p.x * .0016, p.y * .0016, T * .07) * 12.566;
+            p.vx += Math.cos(an) * .05 * p.z; p.vy += Math.sin(an) * .05 * p.z - .006;
+            var dx = p.x - M.x, dy = p.y - M.y, d2 = dx * dx + dy * dy;
+            if (d2 < 19600) { var d = Math.sqrt(d2) + 1, f = (1 - d / 140) * 1.4; p.vx += dx / d * f; p.vy += dy / d * f; }
+            p.vx *= .955; p.vy *= .955; p.x += p.vx; p.y += p.vy;
+            if (p.x < -30) p.x = W + 30; else if (p.x > W + 30) p.x = -30;
+            if (p.y < -30) p.y = H + 30; else if (p.y > H + 30) p.y = -30;
+            var tw = .55 + .45 * Math.sin(T * 1.4 + p.ph), s = (small ? 5 : 7) + p.z * (small ? 10 : 15);
+            ctx.globalAlpha = .45 * p.z * tw; ctx.drawImage(SPR[p.c], p.x - s / 2, p.y - s / 2, s, s);
+            ctx.globalAlpha = .9 * p.z; ctx.fillStyle = HEX[p.c]; ctx.fillRect(p.x - .8, p.y - .8, 1.6, 1.6);
+          } else {
+            p.vx *= .965; p.vy *= .965; p.x += p.vx; p.y += p.vy; p.a -= .012;
+            ctx.globalAlpha = Math.max(0, p.a); ctx.fillStyle = HEX[p.c]; ctx.fillRect(p.x - 1, p.y - 1, 2, 2);
+          }
+        }
+        ctx.globalAlpha = 1; ctx.globalCompositeOperation = "source-over";
+        if (!reduce) requestAnimationFrame(frame);
+      }
+      addEventListener("pointermove", function (e) { M.x = e.clientX; M.y = e.clientY; }, { passive: true });
+      document.addEventListener("pointerleave", function () { M.x = M.y = -1e4; });
+      addEventListener("touchend", function () { setTimeout(function () { M.x = M.y = -1e4; }, 300); }, { passive: true });
+      addEventListener("resize", function () { var oW = W; size(); if (mode === "amb" && oW) P.forEach(function (p) { if (p.x > W) p.x = rnd(0, W); if (p.y > H) p.y = rnd(0, H); }); });
+      return {
+        init: function (withIntro) { size(); make(); if (withIntro) startIntro(); requestAnimationFrame(frame); },
+        intro: startIntro, skip: function () { if (mode === "intro") doBurst(); }, onEnd: null
+      };
+    })();
+
+    // Uvod: enkrat na obisk, preskok s klikom, ↺ ga ponovi
+    var intro = $("intro");
+    function konec() { intro.classList.add("out"); body.classList.remove("intro"); setTimeout(function () { body.classList.add("ready"); }, 200); }
+    F.onEnd = konec;
+    function zacni() { body.classList.remove("ready"); body.classList.add("intro"); intro.classList.remove("out"); scrollTo(0, 0); F.intro(); }
+    $("skip").onclick = function () { F.skip(); };
+    intro.addEventListener("click", function () { F.skip(); });
+    $("replay").onclick = function () { if (!reduce) zacni(); };
+    var videl = false; try { videl = sessionStorage.getItem("remako-hub-intro") === "1"; sessionStorage.setItem("remako-hub-intro", "1"); } catch (e) {}
+    var fontsOk = document.fonts && document.fonts.load ? Promise.all([document.fonts.load("900 80px 'Inter Tight'"), document.fonts.load("400 80px 'Archivo Black'")]) : Promise.resolve();
+    var zagnan = false;
+    function zazeni() {
+      if (zagnan) return; zagnan = true; paintLogos();
+      if (reduce || videl) { intro.classList.add("out"); body.classList.add("ready"); F.init(false); }
+      else { body.classList.add("intro"); F.init(true); }
+    }
+    if (!reduce && !videl) body.classList.add("intro");
+    fontsOk.then(zazeni, zazeni); setTimeout(zazeni, 1500);
   </script>
 </body>
 </html>
