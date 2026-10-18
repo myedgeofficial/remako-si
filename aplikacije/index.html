@@ -51,13 +51,30 @@
     @keyframes wordin { from { opacity: 0; transform: translateY(.4em); filter: blur(8px); } }
     .lead { font-size: clamp(19px, 1.7vw, 25px); color: var(--muted); max-width: 760px; margin: 0; line-height: 1.45; }
 
+    .top > * { opacity: 0; transform: translateY(34px); filter: blur(8px); }
+    .ready .top > * { opacity: 1; transform: none; filter: none; transition: opacity .9s, transform 1s cubic-bezier(.2,.8,.2,1), filter .9s; }
+    .ready .top > :nth-child(2) { transition-delay: .12s; } .ready .top > :nth-child(3) { transition-delay: .26s; } .ready .top > :nth-child(4) { transition-delay: .4s; }
     .ticker { position: relative; z-index: 2; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); overflow: hidden; padding: 20px 0; background: rgba(var(--bgrgb), .5); }
     .ticker .row { display: flex; gap: 56px; width: max-content; animation: run 40s linear infinite; font-weight: 800; font-size: clamp(18px, 1.8vw, 26px); white-space: nowrap; color: var(--muted); }
     .ticker .row span::before { content: "◆"; color: var(--v); margin-right: 56px; font-size: .6em; vertical-align: middle; }
     @keyframes run { to { transform: translateX(-50%); } }
 
     /* Hologrami */
-    .apps { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(18px, 3vw, 40px); padding: clamp(40px, 8vh, 90px) 0 40px; }
+    .apps { position: relative; padding: clamp(40px, 8vh, 90px) 0 10px; perspective: 1500px; touch-action: pan-y; }
+    .track { position: relative; height: var(--h, 760px); transform-style: preserve-3d; transition: height .5s; }
+    .slot { --w: min(420px, 86vw); position: absolute; left: 50%; top: 0; width: var(--w); margin-left: calc(var(--w) / -2); transition: transform 1s cubic-bezier(.2,.8,.2,1), opacity 1s, filter 1s; will-change: transform; }
+    .slot.s0 { transform: none; z-index: 3; }
+    .slot.s1 { transform: translateX(118%) translateZ(-380px) rotateY(-34deg); opacity: .42; filter: saturate(.6) blur(1px); z-index: 2; cursor: pointer; }
+    .slot.s-1 { transform: translateX(-118%) translateZ(-380px) rotateY(34deg); opacity: .42; filter: saturate(.6) blur(1px); z-index: 2; cursor: pointer; }
+    .slot:not(.s0) .holo { pointer-events: none; }
+    .slot:not(.s0):hover { opacity: .65; }
+    .cnav { display: flex; justify-content: center; align-items: center; gap: 16px; margin: 6px 0 40px; position: relative; z-index: 4; }
+    .arr { width: 48px; height: 48px; border-radius: 50%; border: 1px solid rgba(255,255,255,.28); background: rgba(var(--bgrgb), .6); color: var(--ink); font: 800 20px "Inter Tight", sans-serif; cursor: pointer; transition: background .2s; }
+    .arr:hover { background: rgba(255,255,255,.1); }
+    .dots { display: flex; gap: 8px; }
+    .dots button { width: 9px; height: 9px; padding: 0; border: 0; border-radius: 99px; background: rgba(255,255,255,.25); cursor: pointer; transition: width .4s, background .4s; }
+    .dots button.on { width: 34px; background: linear-gradient(95deg, #a78bfa, var(--p), var(--a)); }
+    .cname { min-width: 150px; text-align: center; font-size: 13px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; color: var(--dim); }
     .holo { --c: 167,139,250; position: relative; text-align: center; perspective: 1000px; opacity: 0; }
     .ready .holo { animation: materialize 1.2s cubic-bezier(.2,.8,.2,1) forwards; animation-delay: calc(var(--i) * .2s); }
     @keyframes materialize {
@@ -142,7 +159,7 @@
     .more { font-size: 15px; font-weight: 800; color: #c4b5fd; text-decoration: none; margin-top: 8px; display: inline-block; }
     .more:hover { color: var(--ink); }
 
-    .next { padding: clamp(60px, 12vh, 140px) 0; border-top: 1px solid var(--line); margin-top: 40px; }
+    .next { padding-top: clamp(60px, 12vh, 140px); padding-bottom: clamp(60px, 12vh, 140px); border-top: 1px solid var(--line); margin-top: 40px; }
     .next h2 { font-size: clamp(40px, 6.4vw, 110px); margin-bottom: 30px; max-width: 1000px; }
     .cta { display: inline-flex; gap: 10px; align-items: center; background: linear-gradient(95deg, #8b5cf6, var(--p)); color: #fff; text-decoration: none; padding: 16px 30px; border-radius: 999px; font-size: 18px; font-weight: 800; transition: transform .2s; box-shadow: 0 10px 40px rgba(236,72,153,.3); }
     .cta:hover { transform: translateY(-2px); }
@@ -164,7 +181,9 @@
     html[lang="en"] [data-sl] { display: none !important; }
     html[lang="en"] [data-en] { display: revert !important; }
     @media (max-width: 1000px) {
-      .apps { grid-template-columns: 1fr; max-width: 460px; margin: 0 auto; gap: 44px; }
+      .slot.s1 { transform: translateX(96%) translateZ(-420px) rotateY(-30deg); }
+      .slot.s-1 { transform: translateX(-96%) translateZ(-420px) rotateY(30deg); }
+      .cname { display: none; }
       .info p, .meta { min-height: 0; }
     }
     @media (max-width: 700px) {
@@ -184,7 +203,7 @@
     }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation: none !important; transition: none !important; }
-      .holo { opacity: 1; }
+      .holo, .top > * { opacity: 1; transform: none; filter: none; }
       #intro { display: none; }
     }
   </style>
@@ -195,7 +214,7 @@
 
   <div id="intro" aria-hidden="true">
     <div class="ctrl">
-      <div class="hud"><span data-sl>REMAKO · App Hub</span><span data-en>REMAKO · App Hub</span><div class="meter" id="meter"><i></i><i></i><i></i></div></div>
+      <div class="hud"><span data-sl>REMAKO · App Hub</span><span data-en>REMAKO · App Hub</span><div class="meter" id="meter"><i></i><i></i><i></i><i></i></div></div>
       <button class="skip" id="skip" type="button"><span data-sl>Preskoči ›</span><span data-en>Skip ›</span></button>
     </div>
   </div>
@@ -218,15 +237,17 @@
       <p class="lead"><span data-sl>Tapni hologram in aplikacija se odpre v trgovini za tvoj telefon: App Store na iPhonu, Google Play na Androidu.</span><span data-en>Tap a hologram and the app opens in the store for your phone: App Store on iPhone, Google Play on Android.</span></p>
     </div>
 
-    <div class="ticker" aria-hidden="true"><div class="row" id="tick"></div></div>
-
-    <div class="wrap"><div class="apps" id="apps"></div></div>
+    <div class="wrap"><div class="apps" id="apps"><div class="track" id="track"></div></div>
+      <div class="cnav"><button class="arr" id="prev" type="button" aria-label="Prejšnja">‹</button><div class="dots" id="dots"></div><span class="cname" id="cname"></span><button class="arr" id="next" type="button" aria-label="Naslednja">›</button></div>
+    </div>
 
     <section class="wrap next">
       <p class="eyebrow"><b>02</b><span data-sl>Tvoja ideja</span><span data-en>Your idea</span></p>
       <h2 class="h"><span data-sl>Naslednja aplikacija je lahko <span class="grad">tvoja</span>.</span><span data-en>The next app could be <span class="grad">yours</span>.</span></h2>
       <a class="cta" href="../#ideja"><span data-sl>Pošlji idejo →</span><span data-en>Send an idea →</span></a>
     </section>
+
+    <div class="ticker" aria-hidden="true"><div class="row" id="tick"></div></div>
 
     <div class="wrap"><footer><span style="display:flex;align-items:center;gap:16px"><canvas class="rlogo" data-h="20"></canvas>© <span id="y">2026</span> REMAKO d.o.o.</span><span><a href="mailto:support@remako.si">support@remako.si</a> · <a href="../">remako.si</a></span></footer></div>
   </main>
@@ -273,7 +294,7 @@
     }
     function dvojezicno(sl, en) { return '<span data-sl>' + sl + '</span><span data-en>' + en + '</span>'; }
 
-    $("apps").innerHTML = APPS.map(function (a, i) {
+    $("track").innerHTML = APPS.map(function (a, i) {
       var trgi = naprava === "oboje" ? ["ios", "android"] : [naprava];
       trgi = trgi.filter(function (t) { return a[t] !== null; });
       if (!trgi.length) trgi = ["ios"];
@@ -287,11 +308,11 @@
       var holo = cilj ? '<a class="stage" href="' + cilj + '" aria-label="' + a.ime + '">' + notranje + '</a>' : '<div class="stage">' + notranje + '</div>';
       var meta = '<div class="meta">' + (a.meta_sl ? dvojezicno(a.meta_sl, a.meta_en) : '') + '</div>';
       var live = naVoljo ? '<span class="live"><i></i>' + dvojezicno("Na voljo", "Available") + '</span>' : '<span class="live soon"><i></i>' + dvojezicno("Kmalu", "Coming soon") + '</span>';
-      return '<article class="holo" style="--c:' + a.barva + ';--i:' + i + '">' + holo + '<span class="tags" aria-hidden="true">' + tags + '</span>' +
+      return '<div class="slot" data-i="' + i + '"><article class="holo" style="--c:' + a.barva + ';--i:' + i + '">' + holo + '<span class="tags" aria-hidden="true">' + tags + '</span>' +
         '<div class="info">' + live + '<h2>' + a.ime + '</h2><p data-sl>' + a.sl + '</p><p data-en>' + a.en + '</p>' + meta +
         '<div class="get">' + trgi.map(function (t) { return gumb(t, a[t]); }).join("") + '</div>' +
         (a.vec ? '<a class="more" href="' + a.vec + '">' + dvojezicno("Več o aplikaciji →", "More about the app →") + '</a>' : "") +
-        '</div></article>';
+        '</div></article></div>';
     }).join("");
 
     // Nagib holograma za miško ali prst
@@ -304,6 +325,35 @@
       h.addEventListener("pointerleave", function () { st.style.transform = ""; });
     });
 
+    // Vrtiljak: ena aplikacija spredaj, ostali dve ob straneh; samodejno se menja
+    var V = (function () {
+      var track = $("track"), slots = [].slice.call(track.children), n = slots.length, cur = 0, pavza = 0;
+      $("dots").innerHTML = APPS.map(function (a, i) { return '<button type="button" aria-label="' + a.ime + '"></button>'; }).join("");
+      var dots = [].slice.call($("dots").children);
+      function visina() { var m = 0; slots.forEach(function (s) { m = Math.max(m, s.offsetHeight); }); track.style.setProperty("--h", m + "px"); }
+      function postavi() {
+        slots.forEach(function (s, i) { var d = ((i - cur) % n + n) % n; if (d > n / 2) d -= n; s.className = "slot s" + d; s.setAttribute("aria-hidden", d !== 0 ? "true" : "false"); });
+        dots.forEach(function (b, i) { b.classList.toggle("on", i === cur); });
+        $("cname").textContent = APPS[cur].ime;
+      }
+      function pojdi(k, rocno) { cur = (k + n) % n; postavi(); if (rocno) pavza = Date.now() + 12000; }
+      slots.forEach(function (s, i) { s.addEventListener("click", function (e) { if (!s.classList.contains("s0")) { e.preventDefault(); e.stopPropagation(); pojdi(i, true); } }, true); });
+      dots.forEach(function (b, i) { b.onclick = function () { pojdi(i, true); }; });
+      $("prev").onclick = function () { pojdi(cur - 1, true); };
+      $("next").onclick = function () { pojdi(cur + 1, true); };
+      addEventListener("keydown", function (e) { if (e.key === "ArrowLeft") pojdi(cur - 1, true); if (e.key === "ArrowRight") pojdi(cur + 1, true); });
+      // poteg s prstom ali miško
+      var x0 = null, potegnil = false, box = $("apps");
+      box.addEventListener("pointerdown", function (e) { x0 = e.clientX; potegnil = false; });
+      box.addEventListener("pointerup", function (e) { if (x0 === null) return; var dx = e.clientX - x0; x0 = null; if (Math.abs(dx) > 45) { potegnil = true; pojdi(cur + (dx < 0 ? 1 : -1), true); } });
+      box.addEventListener("click", function (e) { if (potegnil) { e.preventDefault(); e.stopPropagation(); potegnil = false; } }, true);
+      box.addEventListener("pointerenter", function (e) { if (e.pointerType === "mouse") pavza = Infinity; });
+      box.addEventListener("pointerleave", function (e) { if (e.pointerType === "mouse") pavza = Date.now() + 2000; });
+      if (!reduce) setInterval(function () { if (Date.now() > pavza && document.visibilityState === "visible" && body.classList.contains("ready")) pojdi(cur + 1); }, 5000);
+      postavi(); visina(); addEventListener("resize", visina); addEventListener("load", visina);
+      return { visina: visina };
+    })();
+
     // Jezik, menjajoče besede in trak
     var rotI = 0;
     function rot() { var l = root.lang === "en" ? "en" : "sl", w = ROT[l][rotI % ROT[l].length]; $("rot").innerHTML = '<span class="w grad">' + w + '</span>'; }
@@ -311,7 +361,7 @@
     (function () {
       var btn = $("lang"), saved = null;
       try { saved = localStorage.getItem("remako-lang"); } catch (e) {}
-      function set(l) { root.lang = l; btn.textContent = l === "sl" ? "EN" : "SL"; try { localStorage.setItem("remako-lang", l); } catch (e) {} rot(); tick(); }
+      function set(l) { root.lang = l; btn.textContent = l === "sl" ? "EN" : "SL"; try { localStorage.setItem("remako-lang", l); } catch (e) {} rot(); tick(); if (window.V) V.visina(); }
       set(saved || ((navigator.language || "sl").slice(0, 2) === "sl" ? "sl" : "en"));
       btn.onclick = function () { set(root.lang === "sl" ? "en" : "sl"); };
       $("y").textContent = new Date().getFullYear();
@@ -362,12 +412,12 @@
       g.fillStyle = gr; g.fillRect(0, 0, 64, 64); return c;
     }
 
-    // Delci: v uvodu sestavijo »APPS«, nato logotip [R]EMAKO, potem razpadejo v živo ozadje
+    // Delci: v uvodu vrtinec, »APPS«, telefon in logotip [R]EMAKO, potem razpadejo v živo ozadje
     var F = (function () {
       var cv = $("field"), ctx = cv.getContext("2d"), W = 0, H = 0, small = false, P = [], N = 0, AMB = 0;
       var COLS = ["244,241,255", "185,163,255", "232,121,249", "244,114,182", "252,211,138"], HEX = ["#f4f1ff", "#b9a3ff", "#e879f9", "#f472b6", "#fcd38a"], SPR = COLS.map(sprite);
       var mode = "amb", t0 = 0, burst = false, M = { x: -1e4, y: -1e4 }, meter = document.querySelectorAll("#meter i");
-      var T_A = 1.9, T_B = 3.3, T_END = 3.5;
+      var ST = [1.1, 2.45, 3.8], T_END = 5.1, TG = [], waves = [], flashT = -1, lastSt = -1;
       function size() { W = innerWidth; H = innerHeight; small = W < 700; cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR); ctx.setTransform(DPR, 0, 0, DPR, 0, 0); }
       function sample(draw) {
         var o = document.createElement("canvas").getContext("2d", { willReadFrequently: true }); o.canvas.width = W; o.canvas.height = H;
@@ -382,35 +432,55 @@
       function targets() {
         var cy = H * .46;
         var A = sample(function (o) { var fs = Math.min(W * .27, H * .34, 280); o.font = "900 " + fs + "px 'Inter Tight', system-ui, sans-serif"; o.textAlign = "center"; o.textBaseline = "middle"; o.fillText("APPS", W / 2, cy); });
-        var B = sample(function (o) { var tot = drawLogo(o, -9999, -9999, 100, "#fff", "#fff"), lh = Math.min(150, W * .82 / tot * 100); drawLogo(o, W / 2, cy, lh, "#fff", "#fff"); });
-        var nA = A.length / 2, nB = B.length / 2;
-        P.forEach(function (p) { var ka = (Math.random() * nA | 0) * 2, kb = (Math.random() * nB | 0) * 2; p.ax = A[ka] || W / 2; p.ay = A[ka + 1] || cy; p.bx = B[kb] || W / 2; p.by = B[kb + 1] || cy; });
+        var B = sample(function (o) {
+          var ph = Math.min(H * .52, W * 1.05), pw = ph * .47, x = (W - pw) / 2, y = cy - ph / 2;
+          o.strokeStyle = "#fff"; o.lineWidth = Math.max(5, pw * .05); o.beginPath(); o.roundRect(x, y, pw, ph, pw * .17); o.stroke();
+          o.beginPath(); o.roundRect(x + pw * .36, y + ph * .035, pw * .28, ph * .032, 99); o.fill();
+          var cols = 4, gap = pw * .07, sz = (pw - gap * (cols + 1)) / cols;
+          for (var r = 0; r < 5; r++) for (var c = 0; c < cols; c++) { o.beginPath(); o.roundRect(x + gap + c * (sz + gap), y + ph * .13 + r * (sz + gap * 1.2), sz, sz, sz * .26); o.fill(); }
+          o.beginPath(); o.roundRect(x + gap, y + ph * .86, pw - gap * 2, sz * 1.05, sz * .3); o.fill();
+        });
+        var C = sample(function (o) { var tot = drawLogo(o, -9999, -9999, 100, "#fff", "#fff"), lh = Math.min(150, W * .82 / tot * 100); drawLogo(o, W / 2, cy, lh, "#fff", "#fff"); });
+        TG = [A, B, C];
+        P.forEach(function (p) { p.k = TG.map(function (g) { return (Math.random() * g.length / 2 | 0) * 2; }); p.ra = rnd(0, 6.283); });
       }
       function startIntro() {
-        targets(); mode = "intro"; burst = false; t0 = performance.now();
-        P.forEach(function (p) { var an = rnd(0, 6.283), r = Math.max(W, H) * rnd(.55, 1.1); p.x = W / 2 + Math.cos(an) * r; p.y = H / 2 + Math.sin(an) * r; p.vx = p.vy = 0; p.a = 1; p.dl = rnd(0, .55); });
+        targets(); mode = "intro"; burst = false; t0 = performance.now(); waves = []; lastSt = -1; flashT = -1;
+        P.forEach(function (p) { var an = rnd(0, 6.283), r = Math.max(W, H) * rnd(.6, 1.2); p.x = W / 2 + Math.cos(an) * r; p.y = H * .46 + Math.sin(an) * r; var f = rnd(10, 22); p.vx = -Math.sin(an) * f; p.vy = Math.cos(an) * f; p.a = 1; p.dl = rnd(0, .3); });
       }
       function doBurst() {
         burst = true; mode = "amb";
-        P.forEach(function (p, i) { var dx = p.x - W / 2, dy = p.y - H * .46, d = Math.sqrt(dx * dx + dy * dy) + 1, f = rnd(6, 18); p.vx += dx / d * f; p.vy += dy / d * f; if (i >= AMB) p.a = .9; });
+        flashT = performance.now(); waves.push(flashT);
+        P.forEach(function (p, i) { var dx = p.x - W / 2, dy = p.y - H * .46, d = Math.sqrt(dx * dx + dy * dy) + 1, f = rnd(8, 24); p.vx += dx / d * f; p.vy += dy / d * f; if (i >= AMB) p.a = .9; });
         if (F.onEnd) F.onEnd();
       }
       function frame(now) {
         var T = now / 1000, t = (now - t0) / 1000;
-        ctx.clearRect(0, 0, W, H); ctx.globalCompositeOperation = "lighter";
+        if (mode === "intro") { ctx.globalCompositeOperation = "destination-out"; ctx.fillStyle = "rgba(0,0,0,.34)"; ctx.fillRect(0, 0, W, H); }
+        else ctx.clearRect(0, 0, W, H);
+        ctx.globalCompositeOperation = "lighter";
+        var st = -1, cy0 = H * .46, R0 = Math.min(W, H) * .24;
         if (mode === "intro") {
-          meter.forEach(function (m, i) { m.style.setProperty("--f", Math.max(0, Math.min(1, t / T_END * 3 - i))); });
+          for (var q = 0; q < ST.length; q++) if (t >= ST[q]) st = q;
+          if (st !== lastSt && st >= 0) { waves.push(now); lastSt = st; }
+          meter.forEach(function (m, i) { m.style.setProperty("--f", Math.max(0, Math.min(1, t / T_END * 4 - i))); });
           if (t >= T_END) doBurst();
         }
+        // udarni valovi ob vsaki spremembi oblike
+        waves = waves.filter(function (w0) { return now - w0 < 900; });
+        waves.forEach(function (w0) { var e = (now - w0) / 900, r = 30 + e * Math.max(W, H) * .75; ctx.globalAlpha = (1 - e) * .7; ctx.lineWidth = 2 + (1 - e) * 6; ctx.strokeStyle = "rgba(236,72,153,1)"; ctx.beginPath(); ctx.arc(W / 2, cy0, r, 0, 6.283); ctx.stroke(); ctx.lineWidth = 1.5; ctx.strokeStyle = "rgba(185,163,255,1)"; ctx.beginPath(); ctx.arc(W / 2, cy0, r * .82, 0, 6.283); ctx.stroke(); });
+        if (flashT > 0 && now - flashT < 700) { var fe = (now - flashT) / 700, gr = ctx.createRadialGradient(W / 2, cy0, 0, W / 2, cy0, Math.max(W, H) * .7); gr.addColorStop(0, "rgba(255,240,255," + (.55 * (1 - fe)) + ")"); gr.addColorStop(1, "rgba(236,72,153,0)"); ctx.globalAlpha = 1; ctx.fillStyle = gr; ctx.fillRect(0, 0, W, H); }
         var core = small ? 1.7 : 2.2;
         for (var i = 0; i < N; i++) {
           var p = P[i];
           if (mode === "intro") {
-            var morph = t > T_A, tx = morph ? p.bx : p.ax, ty = morph ? p.by : p.ay, k = morph ? .055 : .07;
-            if (t > p.dl + (morph ? (i % 7) * .02 : 0)) { p.vx += (tx - p.x) * k; p.vy += (ty - p.y) * k; }
-            if (morph && t < T_A + .5) { var sx = p.x - W / 2, sy = p.y - H * .46; p.vx += -sy * .012; p.vy += sx * .012; }
-            if (t > T_B) { p.vx += rnd(-.6, .6); p.vy += rnd(-.6, .6); }
-            p.vx *= .8; p.vy *= .8; p.x += p.vx; p.y += p.vy;
+            var tx, ty, k;
+            if (st < 0) { var ang = p.ra + t * 2.2, rr = R0 * (1 + .12 * Math.sin(p.ra * 6 + t * 3)); tx = W / 2 + Math.cos(ang) * rr; ty = cy0 + Math.sin(ang) * rr * .92; k = .03; }
+            else { var g = TG[st]; tx = g[p.k[st]] || W / 2; ty = g[p.k[st] + 1] || cy0; k = .06; }
+            if (t > p.dl) { p.vx += (tx - p.x) * k; p.vy += (ty - p.y) * k; }
+            if (st >= 0 && t < ST[st] + .45) { var sx = p.x - W / 2, sy = p.y - cy0; p.vx += -sy * .014; p.vy += sx * .014; }
+            if (t > T_END - .3) { p.vx += rnd(-.9, .9); p.vy += rnd(-.9, .9); }
+            p.vx *= st < 0 ? .9 : .8; p.vy *= st < 0 ? .9 : .8; p.x += p.vx; p.y += p.vy;
             ctx.globalAlpha = 1; ctx.fillStyle = HEX[p.c]; ctx.fillRect(p.x - core / 2, p.y - core / 2, core, core);
             if (i % 6 === 0) { ctx.globalAlpha = .5; ctx.drawImage(SPR[p.c], p.x - 6, p.y - 6, 12, 12); }
             continue;
