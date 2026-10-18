@@ -62,7 +62,7 @@
     /* Hologrami */
     .apps { position: relative; padding: clamp(40px, 8vh, 90px) 0 10px; perspective: 1500px; touch-action: pan-y; }
     .track { position: relative; height: var(--h, 760px); transform-style: preserve-3d; transition: height .5s; }
-    .slot { --w: min(420px, 86vw); position: absolute; left: 50%; top: 0; width: var(--w); margin-left: calc(var(--w) / -2); transition: transform 1s cubic-bezier(.2,.8,.2,1), opacity 1s, filter 1s; will-change: transform; }
+    .slot { --w: min(420px, 86vw); position: absolute; left: 50%; top: 0; width: var(--w); margin-left: calc(var(--w) / -2); transition: transform 2.4s cubic-bezier(.45,0,.2,1), opacity 2.4s ease, filter 2.4s ease; will-change: transform; }
     .slot.s0 { transform: none; z-index: 3; }
     .slot.s1 { transform: translateX(118%) translateZ(-380px) rotateY(-34deg); opacity: .42; filter: saturate(.6) blur(1px); z-index: 2; cursor: pointer; }
     .slot.s-1 { transform: translateX(-118%) translateZ(-380px) rotateY(34deg); opacity: .42; filter: saturate(.6) blur(1px); z-index: 2; cursor: pointer; }
@@ -336,7 +336,7 @@
         dots.forEach(function (b, i) { b.classList.toggle("on", i === cur); });
         $("cname").textContent = APPS[cur].ime;
       }
-      function pojdi(k, rocno) { cur = (k + n) % n; postavi(); if (rocno) pavza = Date.now() + 12000; }
+      function pojdi(k, rocno) { cur = (k + n) % n; postavi(); if (rocno) pavza = Date.now() + 8000; }
       slots.forEach(function (s, i) { s.addEventListener("click", function (e) { if (!s.classList.contains("s0")) { e.preventDefault(); e.stopPropagation(); pojdi(i, true); } }, true); });
       dots.forEach(function (b, i) { b.onclick = function () { pojdi(i, true); }; });
       $("prev").onclick = function () { pojdi(cur - 1, true); };
@@ -347,9 +347,7 @@
       box.addEventListener("pointerdown", function (e) { x0 = e.clientX; potegnil = false; });
       box.addEventListener("pointerup", function (e) { if (x0 === null) return; var dx = e.clientX - x0; x0 = null; if (Math.abs(dx) > 45) { potegnil = true; pojdi(cur + (dx < 0 ? 1 : -1), true); } });
       box.addEventListener("click", function (e) { if (potegnil) { e.preventDefault(); e.stopPropagation(); potegnil = false; } }, true);
-      box.addEventListener("pointerenter", function (e) { if (e.pointerType === "mouse") pavza = Infinity; });
-      box.addEventListener("pointerleave", function (e) { if (e.pointerType === "mouse") pavza = Date.now() + 2000; });
-      if (!reduce) setInterval(function () { if (Date.now() > pavza && document.visibilityState === "visible" && body.classList.contains("ready")) pojdi(cur + 1); }, 5000);
+      if (!reduce) setInterval(function () { if (Date.now() > pavza && document.visibilityState === "visible" && body.classList.contains("ready")) pojdi(cur + 1); }, 6500);
       postavi(); visina(); addEventListener("resize", visina); addEventListener("load", visina);
       return { visina: visina };
     })();
