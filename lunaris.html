@@ -18,7 +18,8 @@
     a { color: var(--ink); }
     .wrap { max-width: 1500px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 72px); }
     header .wrap { display: flex; align-items: center; justify-content: space-between; height: 76px; border-bottom: 1px solid var(--line); }
-    .brand { font-family: "Cormorant Garamond", serif; font-weight: 600; font-size: 26px; letter-spacing: .32em; text-decoration: none; }
+    .brand { display: flex; align-items: center; gap: 12px; font-family: "Cormorant Garamond", serif; font-weight: 600; font-size: 26px; letter-spacing: .32em; text-decoration: none; }
+    .brand img { width: 40px; height: 40px; }
     .nav { display: flex; gap: 22px; align-items: center; }
     .nav a { text-decoration: none; color: var(--muted); font-weight: 600; font-size: 15px; letter-spacing: .04em; }
     .lang { border: 1px solid rgba(255,255,255,.25); border-radius: 999px; padding: 5px 12px; background: none; font: 700 13px "Inter Tight", sans-serif; letter-spacing: .1em; cursor: pointer; color: var(--ink); }
@@ -29,7 +30,10 @@
     .status { display: inline-flex; align-items: center; gap: 10px; margin-top: 36px; padding: 10px 18px; border: 1px solid rgba(201,169,110,.45); border-radius: 999px; color: var(--gold); font-weight: 700; font-size: 14px; letter-spacing: .12em; text-transform: uppercase; }
     .status::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 12px var(--gold); }
     .moon { position: relative; display: grid; place-items: center; }
-    .moon img { width: min(640px, 90%); height: auto; filter: drop-shadow(0 0 80px rgba(242,240,236,.08)); animation: drift 9s ease-in-out infinite; }
+    .moon::before { content: ""; position: absolute; width: min(700px, 96%); aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, rgba(201,169,110,.16), transparent 62%); animation: pulse 7s ease-in-out infinite; }
+    @keyframes pulse { 50% { transform: scale(1.06); opacity: .7; } }
+    .moon img { position: relative; width: min(600px, 86%); height: auto; filter: drop-shadow(0 0 60px rgba(201,169,110,.22)); animation: drift 9s ease-in-out infinite; }
+    .sub { display: block; font-family: "Cormorant Garamond", serif; font-weight: 500; font-size: .3em; letter-spacing: .5em; color: var(--gold); margin-top: 18px; }
     @keyframes drift { 50% { transform: translateY(-14px); } }
     section { padding: clamp(60px, 12vh, 140px) 0; border-top: 1px solid var(--line); }
     h2 { font-family: "Cormorant Garamond", serif; font-weight: 500; font-size: clamp(38px, 4.6vw, 76px); line-height: 1.02; margin: 0 0 26px; }
@@ -43,25 +47,25 @@
     [data-en] { display: none !important; }
     html[lang="en"] [data-sl] { display: none !important; }
     html[lang="en"] [data-en] { display: revert !important; }
-    @media (max-width: 900px) { .hero, .three { grid-template-columns: 1fr; } .hero { padding: 40px 0; } .moon { order: -1; } .moon img { width: 70%; } .nav a.hide { display: none; } }
+    @media (max-width: 900px) { .hero, .three { grid-template-columns: 1fr; } .hero { padding-top: 40px; padding-bottom: 40px; } .moon { order: -1; } .moon img { width: 70%; } .nav a.hide { display: none; } }
     @media (prefers-reduced-motion: reduce) { .moon img { animation: none; } }
   </style>
 </head>
 <body>
   <header><div class="wrap">
-    <a class="brand" href="lunaris.html">LUNARIS</a>
+    <a class="brand" href="lunaris.html"><img src="img/lunaris-znak-s.webp" alt="" width="40" height="40">LUNARIS</a>
     <nav class="nav"><a class="hide" href="#nacela"><span data-sl>Načela</span><span data-en>Principles</span></a><a href="./"><span data-sl>REMAKO</span><span data-en>REMAKO</span></a><button class="lang" id="lang" type="button">EN</button></nav>
   </div></header>
 
   <main>
     <div class="wrap hero">
       <div>
-        <p class="eyebrow"><span data-sl>Skupina REMAKO · Investicije</span><span data-en>REMAKO Group · Investments</span></p>
-        <h1>LUNARIS</h1>
-        <p class="lead"><span data-sl>Investicijska dejavnost skupine REMAKO. Gradimo jo počasi, premišljeno in v skladu z veljavno zakonodajo.</span><span data-en>The investment arm of the REMAKO Group. We are building it slowly, deliberately and in line with applicable regulation.</span></p>
+        <p class="eyebrow"><span data-sl>Skupina REMAKO · Investicijsko podjetje</span><span data-en>REMAKO Group · Investment firm</span></p>
+        <h1>LUNARIS<span class="sub">INVESTMENTS</span></h1>
+        <p class="lead"><span data-sl>Gradimo investicijsko podjetje skupine REMAKO. Počasi, premišljeno in v skladu z veljavno zakonodajo.</span><span data-en>We are building the investment firm of the REMAKO Group. Slowly, deliberately and in line with applicable regulation.</span></p>
         <span class="status"><span data-sl>V pripravi</span><span data-en>In preparation</span></span>
       </div>
-      <div class="moon"><img src="img/lunaris-luna.webp" alt="" width="1400" height="1400"></div>
+      <div class="moon"><img src="img/lunaris-znak.webp" alt="Lunaris Investments" width="1200" height="1200"></div>
     </div>
 
     <section id="nacela"><div class="wrap">

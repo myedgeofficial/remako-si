@@ -225,6 +225,9 @@
     .unit .u-k { font-size: 14px; font-weight: 800; letter-spacing: .18em; color: var(--dim); }
     .unit i { position: absolute; right: 30px; top: 26px; font-style: normal; font-size: 28px; color: var(--muted); }
     .unit.lun { background: radial-gradient(ellipse at 85% 20%, rgba(201,169,110,.12), transparent 60%), rgba(255,255,255,.02); }
+    .unit.lun .lun-mark { position: absolute; right: clamp(22px, 3vw, 48px); bottom: clamp(22px, 3vw, 44px); width: clamp(96px, 10vw, 150px); height: auto; filter: drop-shadow(0 0 26px rgba(201,169,110,.3)); transition: transform .6s; }
+    .unit.lun > span:not(.u-k) { max-width: calc(100% - clamp(110px, 11vw, 170px)); }
+    .unit.lun:hover .lun-mark { transform: rotate(-8deg) scale(1.05); }
     .unit.lun b { font-family: "Cormorant Garamond", Georgia, serif; font-weight: 600; letter-spacing: .2em; }
 
     /* Kontakt */
@@ -479,7 +482,7 @@
       <h2 class="h reveal"><span data-sl>Dve dejavnosti, <span class="grad">ena ekipa</span>.</span><span data-en>Two businesses, <span class="grad">one team</span>.</span></h2>
       <div class="group">
         <a class="unit reveal" href="#nakupko"><span class="u-k">01</span><b>REMAKO Apps</b><span data-sl>Razvoj aplikacij za iPhone in Android: Nakupko, Manifest by Urška in Popravko.</span><span data-en>iPhone and Android app development: Nakupko, Manifest by Urška and Popravko.</span><i>→</i></a>
-        <a class="unit lun reveal" href="lunaris.html"><span class="u-k">02</span><b>Lunaris</b><span data-sl>Investicijska dejavnost skupine. V pripravi.</span><span data-en>The group's investment arm. In preparation.</span><i>→</i></a>
+        <a class="unit lun reveal" href="lunaris.html"><span class="u-k">02</span><b>Lunaris</b><span data-sl>Gradimo investicijsko podjetje skupine. V pripravi.</span><span data-en>We are building the group's investment firm. In preparation.</span><i>→</i><img class="lun-mark" src="img/lunaris-znak-s.webp" alt="" width="150" height="150"></a>
       </div>
     </div>
   </section>
