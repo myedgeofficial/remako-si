@@ -3,36 +3,88 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>REMAKO – zasebnost</title>
+  <title>Zasebnost · REMAKO d.o.o.</title>
+  <meta name="description" content="Politika zasebnosti spletne strani remako.si (REMAKO d.o.o.).">
+  <meta name="theme-color" content="#07060b">
+  <link rel="icon" href="img/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@600;700;800;900&family=Archivo+Black&display=swap" rel="stylesheet">
   <style>
-    body { margin: 0 auto; max-width: 680px; padding: calc(20px + env(safe-area-inset-top)) 20px 40px; font: 16px/1.55 -apple-system, system-ui, sans-serif; color: #1b1b1f; background: #fff; }
-    h1 { font-size: 26px; margin: 0 0 12px; }
-    h2 { font-size: 17px; margin: 24px 0 6px; }
-    a { color: #8A3FFC; }
-    .muted { color: #6b6b76; font-size: 14px; }
-    hr { border: 0; border-top: 1px solid #e4e4ea; margin: 36px 0; }
+    :root { --bg: #07060b; --ink: #f4f1ff; --muted: #b4adc9; --dim: #7d7694; --line: rgba(255,255,255,.1); --p: #ec4899; }
+    * { box-sizing: border-box; }
+    html { background: var(--bg); overflow-x: clip; }
+    body { margin: 0; background: radial-gradient(ellipse at 20% 0%, #15102a 0%, var(--bg) 60%); color: var(--ink); font: 600 19px/1.6 "Inter Tight", system-ui, sans-serif; min-height: 100vh; -webkit-font-smoothing: antialiased; }
+    a { color: var(--ink); }
+    .wrap { max-width: 2300px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 72px); }
+    header .wrap { display: flex; align-items: center; justify-content: space-between; height: 72px; }
+    .logo { font: 400 22px "Archivo Black", sans-serif; letter-spacing: .04em; text-decoration: none; }
+    .logo i { font-style: normal; color: var(--p); }
+    .back { text-decoration: none; font-weight: 800; color: var(--muted); font-size: 16px; }
+    .lang { border: 1px solid rgba(255,255,255,.28); border-radius: 999px; padding: 6px 14px; background: none; font: 800 14px "Inter Tight", sans-serif; letter-spacing: .08em; cursor: pointer; color: var(--ink); margin-left: 18px; }
+    main { padding: clamp(40px, 8vh, 110px) 0; }
+    .eyebrow { font-size: 14px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; color: var(--dim); margin: 0 0 20px; }
+    h1 { font-size: clamp(48px, 7vw, 132px); font-weight: 900; letter-spacing: -.035em; line-height: .95; margin: 0 0 24px; }
+    .grad { background: linear-gradient(95deg, #a78bfa, var(--p) 55%, #f59e0b); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .lead { font-size: clamp(19px, 1.7vw, 25px); color: var(--muted); margin: 0; max-width: 900px; line-height: 1.5; }
+    .meta { color: var(--dim); font-size: 15px; font-weight: 700; margin: 18px 0 0; }
+    .meta a { color: var(--muted); }
+    .cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin-top: clamp(40px, 7vh, 80px); }
+    .card { border: 1px solid var(--line); border-radius: 24px; padding: clamp(22px, 2.4vw, 36px); background: rgba(255,255,255,.025); }
+    .card .n { font: 400 15px "Archivo Black", sans-serif; color: var(--p); letter-spacing: .08em; }
+    .card h2 { font-size: clamp(22px, 2vw, 30px); font-weight: 900; letter-spacing: -.02em; margin: 10px 0 10px; line-height: 1.15; }
+    .card p { margin: 0; color: var(--muted); font-size: clamp(17px, 1.3vw, 19px); }
+    .card p + p { margin-top: 10px; }
+    .card a { color: #c4b5fd; }
+    footer { padding: 40px 0 56px; color: var(--dim); font-weight: 700; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; border-top: 1px solid var(--line); margin-top: 60px; }
+    [data-en] { display: none !important; }
+    html[lang="en"] [data-sl] { display: none !important; }
+    html[lang="en"] [data-en] { display: revert !important; }
+    @media (max-width: 900px) { .cards { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
-  <p><a href="./">← remako.si</a></p>
-  <h1>Zasebnost</h1>
-  <p class="muted">Velja za spletno stran remako.si. Zadnja sprememba: 23. 10. 2026. Za aplikacije glej <a href="https://nakupko.com/zasebnost.html">Nakupko</a> in <a href="popravko/zasebnost.html">Popravko</a>.</p>
+  <header><div class="wrap">
+    <a class="logo" href="/">[R]EMAKO<i>.</i></a>
+    <div><a class="back" href="/"><span data-sl>← Nazaj na prvo stran</span><span data-en>← Back to home</span></a><button class="lang" id="lang" type="button">EN</button></div>
+  </div></header>
+  <main><div class="wrap">
+    <p class="eyebrow"><span data-sl>Pravno</span><span data-en>Legal</span></p>
+    <h1><span data-sl>Tvoja <span class="grad">zasebnost</span></span><span data-en>Your <span class="grad">privacy</span></span></h1>
+    <p class="lead"><span data-sl>Spletna stran remako.si nima računov ne obrazcev. Sami ne zbiramo osebnih podatkov in jih nikoli ne prodajamo.</span><span data-en>remako.si has no accounts and no forms. We do not collect personal data ourselves and never sell it.</span></p>
+    <p class="meta"><span data-sl>Zadnja sprememba: 23. 10. 2026 · Za aplikacije glej <a href="https://nakupko.com/zasebnost.html">Nakupko</a> in <a href="popravko/zasebnost.html">Popravko</a>.</span><span data-en>Last updated: 23 October 2026 · For our apps see <a href="https://nakupko.com/privacy.html">Nakupko</a> and <a href="popravko/zasebnost.html">Popravko</a>.</span></p>
 
-  <h2>Katere podatke zbiramo</h2>
-  <p>Stran nima uporabniških računov in obrazcev. Sami ne zbiramo osebnih podatkov in jih ne prodajamo.</p>
-
-  <h2>Reklame in piškotki</h2>
-  <p>Stran prikazuje reklame Google AdSense. Google in njegovi partnerji pri tem uporabljajo piškotke in podobne tehnologije, IP naslov in podatke o brskalniku za prikaz in merjenje reklam. Ob prvem obisku iz EU te stran vpraša za privolitev, ki jo lahko kadar koli spremeniš. Več: <a href="https://policies.google.com/technologies/ads">Googlova pravila o oglasih</a>.</p>
-
-  <h2>Upravljavec</h2>
-  <p>REMAKO d.o.o., Ljubljanska cesta 63, 2327 Rače, Slovenija<br>ID za DDV: SI45736901</p>
-
-  <h2>Kontakt</h2>
-  <p><a href="mailto:support@remako.si">support@remako.si</a></p>
-
-  <hr>
-  <h1 lang="en">Privacy</h1>
-  <p class="muted" lang="en">Applies to the website remako.si. Last updated: 23 October 2026.</p>
-  <p lang="en">The site has no accounts or forms. We do not collect or sell personal data ourselves. The site shows Google AdSense ads; Google and its partners use cookies, IP address and browser data to show and measure ads. On your first visit from the EU the site asks for your consent, which you can change at any time. Controller: REMAKO d.o.o., Ljubljanska cesta 63, 2327 Rače, Slovenia. Contact: <a href="mailto:support@remako.si">support@remako.si</a>.</p>
+    <div class="cards">
+      <div class="card"><div class="n">01</div>
+        <h2><span data-sl>Katere podatke zbiramo</span><span data-en>What we collect</span></h2>
+        <p><span data-sl>Nobenih. Stran ne zahteva prijave, nima obrazcev in ne shranjuje tvojih podatkov na naših strežnikih.</span><span data-en>Nothing. The site needs no sign-in, has no forms and stores none of your data on our servers.</span></p>
+      </div>
+      <div class="card"><div class="n">02</div>
+        <h2><span data-sl>Reklame in piškotki</span><span data-en>Ads and cookies</span></h2>
+        <p><span data-sl>Stran prikazuje reklame Google AdSense. Google in njegovi partnerji pri tem uporabljajo piškotke, IP naslov in podatke o brskalniku za prikaz in merjenje reklam.</span><span data-en>The site shows Google AdSense ads. Google and its partners use cookies, IP address and browser data to show and measure ads.</span></p>
+        <p><a href="https://policies.google.com/technologies/ads"><span data-sl>Googlova pravila o oglasih →</span><span data-en>Google's advertising policies →</span></a></p>
+      </div>
+      <div class="card"><div class="n">03</div>
+        <h2><span data-sl>Tvoja privolitev</span><span data-en>Your consent</span></h2>
+        <p><span data-sl>Ob prvem obisku iz EU te stran vpraša, ali dovoliš osebno prilagojene reklame. Odločitev lahko kadar koli spremeniš.</span><span data-en>On your first visit from the EU the site asks whether you allow personalised ads. You can change your choice at any time.</span></p>
+      </div>
+      <div class="card"><div class="n">04</div>
+        <h2><span data-sl>Upravljavec in kontakt</span><span data-en>Controller and contact</span></h2>
+        <p>REMAKO d.o.o., Ljubljanska cesta 63, 2327 Rače, <span data-sl>Slovenija</span><span data-en>Slovenia</span><br><span data-sl>ID za DDV</span><span data-en>VAT ID</span>: SI45736901</p>
+        <p><a href="mailto:support@remako.si">support@remako.si</a></p>
+      </div>
+    </div>
+  </div>
+  <div class="wrap"><footer><span>© <span id="y">2026</span> REMAKO d.o.o. · Ljubljanska cesta 63, 2327 Rače</span><span>SI45736901</span></footer></div></main>
+  <script>
+    (function () {
+      var root = document.documentElement, btn = document.getElementById("lang"), saved = null;
+      try { saved = localStorage.getItem("remako-lang"); } catch (e) {}
+      function set(l) { root.lang = l; btn.textContent = l === "sl" ? "EN" : "SL"; try { localStorage.setItem("remako-lang", l); } catch (e) {} }
+      set(saved || ((navigator.language || "sl").slice(0, 2) === "sl" ? "sl" : "en"));
+      btn.onclick = function () { set(root.lang === "sl" ? "en" : "sl"); };
+      document.getElementById("y").textContent = new Date().getFullYear();
+    })();
+  </script>
 </body>
 </html>
