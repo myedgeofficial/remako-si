@@ -1,0 +1,21 @@
+name: Preveri stran
+on:
+  push:
+    branches: [claude/project-thread-8f8pkn]
+permissions:
+  pages: read
+  contents: read
+jobs:
+  preveri:
+    runs-on: ubuntu-latest
+    steps:
+      - env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          echo "== Pages API"; gh api repos/${{ github.repository }}/pages || true
+          echo "== DNS"; dig +short remako.si A; dig +short www.remako.si CNAME
+          for p in / /nakupko/zasebnost.html /app-ads.txt /ads.txt /aplikacije/; do
+            echo "https://remako.si$p -> $(curl -s -o /dev/null -w '%{http_code} %{ssl_verify_result}' https://remako.si$p)"
+          done
+          echo "www -> $(curl -s -o /dev/null -w '%{http_code} %{redirect_url}' https://www.remako.si/)"
+          echo "http -> $(curl -s -o /dev/null -w '%{http_code} %{redirect_url}' http://remako.si/)"
