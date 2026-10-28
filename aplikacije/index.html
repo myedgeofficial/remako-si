@@ -280,8 +280,9 @@
         tags_sl: ["Jutranja kartica", "Lunini rituali", "Večerno vprašanje"], tags_en: ["Morning card", "Moon rituals", "Evening question"],
         meta_sl: "Samo iPhone", meta_en: "iPhone only", ios: "", android: null }
     ];
-    var ROT = { sl: ["Za nakupovanje brez pozabljanja.", "Za popravila doma.", "Za tri minute zase.", "Narejeno v Sloveniji."],
-                en: ["For shopping without forgetting.", "For repairs at home.", "For three minutes for yourself.", "Made in Slovenia."] };
+    // En stavek na aplikacijo, v istem vrstnem redu kot APPS; menja se skupaj z vrtiljakom.
+    var ROT = { sl: ["Za nakupovanje brez pozabljanja.", "Za popravila doma.", "Za tri minute zase."],
+                en: ["For shopping without forgetting.", "For repairs at home.", "For three minutes for yourself."] };
     var TICK = { sl: ["Nakupko", "Popravko", "Manifest by Urška", "iPhone", "Android", "Narejeno v Sloveniji", "REMAKO d.o.o."],
                  en: ["Nakupko", "Popravko", "Manifest by Urška", "iPhone", "Android", "Made in Slovenia", "REMAKO d.o.o."] };
 
@@ -344,6 +345,7 @@
         slots.forEach(function (s, i) { var d = ((i - cur) % n + n) % n; if (d > n / 2) d -= n; s.className = "slot s" + d; s.setAttribute("aria-hidden", d !== 0 ? "true" : "false"); });
         dots.forEach(function (b, i) { b.classList.toggle("on", i === cur); });
         $("cname").textContent = APPS[cur].ime;
+        rotI = cur; rot();
       }
       function pojdi(k, rocno) { cur = (k + n) % n; postavi(); if (rocno) pavza = Date.now() + 8000; }
       slots.forEach(function (s, i) { s.addEventListener("click", function (e) { if (!s.classList.contains("s0")) { e.preventDefault(); e.stopPropagation(); pojdi(i, true); } }, true); });
@@ -372,7 +374,6 @@
       set(saved || ((navigator.language || "sl").slice(0, 2) === "sl" ? "sl" : "en"));
       btn.onclick = function () { set(root.lang === "sl" ? "en" : "sl"); };
       $("y").textContent = new Date().getFullYear();
-      if (!reduce) setInterval(function () { rotI++; rot(); }, 2600);
     })();
 
     // Šum za tok delcev
