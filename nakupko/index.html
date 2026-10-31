@@ -239,7 +239,7 @@
       set(saved || ((navigator.language || "sl").slice(0, 2) === "sl" ? "sl" : "en"));
 
     // posnetki zaslona v jeziku strani
-    function shots() { document.querySelectorAll("img[data-shot]").forEach(function (im) { var n = im.dataset.shot, sl = document.documentElement.lang === "sl" && n !== "zaklenjen"; im.src = im.dataset.dir + "s-" + n + (sl ? "-sl" : "") + ".webp"; }); }
+    function shots() { document.querySelectorAll("img[data-shot]").forEach(function (im) { var n = im.dataset.shot, sl = document.documentElement.lang === "sl"; im.src = im.dataset.dir + "s-" + n + (sl ? "-sl" : "") + ".webp"; }); }
       btn.onclick = function () { set(root.lang === "sl" ? "en" : "sl"); shots(); };
       shots();
       document.getElementById("y").textContent = new Date().getFullYear();
